@@ -1,0 +1,15 @@
+시작은 example.ipynb파일에서 시작
+
+1번째 코드블럭: 코드에 필요한 라이브러리 임포트
+
+2번째 코드블럭: 
+dataset_path: 현재 파이썬 파일이 있는 경로(os라이브러리의 getcwd함수 사용) +  CMM데이터 텍스트 파일들이 있는 경로
+-제 컴퓨터의 경우 
+-C:\\gitFolder\\CMM_DeepLearning_Module\\references\\천세진 교수님 멘토링 자료\\CMM_analysis + \\datasets
+data_list: os라이브러리의 listdir함수를 이용하여 데이터셋이 있는 폴더의 모든 파일의 이름을 리스트화 해서 data_list에 저장
+
+3번째 코드블럭:
+맨 처음 파일을 열어 그 내용들을 전부 data에 저장
+
+4번째 코드블럭:
+
