@@ -92,7 +92,7 @@ def extract_dataframe_from_file(file_path):
 
                     row = [header_info['품명'],header_info['품번'],header_info['측정시간'],
                            header_info['측정자'],header_info['검사형태'],header_info['검사시간대'],
-                           header_info['종믈검사'],number, shape,
+                           header_info['종믈검사'], number, shape,
                            item, measured_value, standard_value,
                            upper_tolerance, lower_tolerance, deviation,
                            judgement,header_info['품질상태']]
