@@ -6,11 +6,11 @@ import re
 from preProcess2 import extract_data_from_file
 
 #dataset_path = os.getcwd() + "\\datasets"
-#dataset_path = os.getcwd() + "\\april_week1\\small_data"
-dataset_path = os.getcwd() + "\\april_week1\\large_data"
+dataset_path = os.getcwd() + "\\small_data"
+#dataset_path = os.getcwd() + "\\april_week1\\large_data"
 #output_path = os.getcwd() + "\\output_test\\"
-#output_path = os.getcwd() + "\\april_week1\\output_test_sd\\"
-output_path = os.getcwd() + "\\april_week1\\output_test_ld\\"
+output_path = os.getcwd() + "\\output_test_sd\\"
+#output_path = os.getcwd() + "\\april_week1\\output_test_ld\\"
 data_list = os.listdir(dataset_path)
 #print(data_list)
 
