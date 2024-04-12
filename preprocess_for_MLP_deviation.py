@@ -19,6 +19,10 @@ def preProcess(datas):
 
 def preProcess2(datas):
     quality = datas['품질상태'][0]
+    if(quality == 'OK'):
+        quality = 1
+    else:
+        quality = 0
     name = datas['품명'][0]
     datas['도형'] = '편차_' + datas['도형'] + "_" + datas['항목']
     datas = datas.set_index('도형')
@@ -59,6 +63,6 @@ if __name__ == '__main__':
     else:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + data_list[0][:-4] + "_test.csv", encoding='cp949')
+    dataFrame.to_csv(path_or_buf=output_path + '\\' + "test_sd.csv", encoding='cp949')
 
     
