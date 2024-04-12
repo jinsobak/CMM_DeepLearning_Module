@@ -45,8 +45,8 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', None)
     pd.set_option('mode.chained_assignment',  None)
 
-    #dataset_path = os.getcwd() + "\\output_test_ld"
-    dataset_path = os.getcwd() + "\\output_test_sd"
+    dataset_path = os.getcwd() + "\\output_test_ld"
+    #dataset_path = os.getcwd() + "\\output_test_sd"
     data_list = os.listdir(dataset_path)
 
     dataFrame = pd.DataFrame()
@@ -63,6 +63,6 @@ if __name__ == '__main__':
     else:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "test_sd.csv", encoding='cp949')
+    dataFrame.to_csv(path_or_buf=output_path + '\\' + "test_ld.csv", encoding='cp949')
 
     
