@@ -34,7 +34,7 @@ def build_model(input_dim):
     return model
 
 # 데이터 파일 경로
-csv_files = 'C:\\Users\\pc\\Desktop\\SW_project\\CMM_analysis\\test_sd.csv'
+csv_files = 'C:\\Users\\pc\\Desktop\\4학년1학기\\SW_project\\CMM_analysis\\test_ld.csv'
 
 # 데이터 전처리 및 준비
 X_train, X_test, y_train, y_test = prepare_data(csv_files)
@@ -44,7 +44,7 @@ input_dim = X_train.shape[1]
 model = build_model(input_dim)
 
 # 모델 학습
-model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_train, y_train))
+model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_train, y_train))
 
 # 모델 평가
 test_loss, test_accuracy = model.evaluate(X_test, y_test)
@@ -52,3 +52,11 @@ print("Test Accuracy:", test_accuracy)
 
 prd = model.predict(X_test)
 print(prd)
+
+# 학습된 모델을 .h5 파일로 저장하는 함수
+def save_model(model, file_path):
+    model.save(file_path)
+    print(f"모델이 {file_path}에 저장되었습니다.")
+
+# 모델 저장
+save_model(model, 'trained_model.h5')
