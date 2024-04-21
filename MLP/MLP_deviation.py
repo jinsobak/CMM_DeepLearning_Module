@@ -26,7 +26,7 @@ def prepare_data(csv_files):
     return X_train, X_test, y_train, y_test
 
 class testClassifier:
-    def __init__(self, input_dim, output_dim):
+    def __init__(self, input_dim=None, output_dim=1):
         self.input_dim = input_dim
         self.output_dim = output_dim
         self.classifier = None
@@ -40,7 +40,7 @@ class testClassifier:
 
     # 모델 구축
     def build_model(self):
-        input_layer = tf.keras.layers.Input(shape=[self.input_dim,])
+        input_layer = tf.keras.layers.Input(shape=self.input_dim)
 
         activation_func_relu = tf.keras.activations.relu
         hidden_layer1 = tf.keras.layers.Dense(units = 32, activation=activation_func_relu)(input_layer)
@@ -61,7 +61,7 @@ class testClassifier:
 
 if __name__ == "__main__":
     # 데이터 파일 경로
-    csv_files = os.getcwd() + '\\test\\test_ld.csv'
+    csv_files = os.getcwd() + '\\MLP\\test\\test_ld.csv'
 
     # 데이터 전처리 및 준비
     X_train, X_test, y_train, y_test = prepare_data(csv_files)
@@ -70,11 +70,10 @@ if __name__ == "__main__":
     # 모델 구축
     input_dim = X_train.shape[1]
     print(input_dim)
-    classifier = testClassifier(input_dim, 1)
+    classifier = testClassifier(input_dim=(input_dim, ), output_dim=1)
     classifier.build_model()
 
     # 모델 학습
-    #model.fit(X_train, y_train, epochs=100, batch_size=1)
     classifier.fit(X_train, y_train, num_epochs=30, batch_size=8)
 
     # 모델 평가
