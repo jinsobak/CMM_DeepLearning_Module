@@ -79,6 +79,7 @@ if __name__ == "__main__":
     # 모델 평가
     test_loss, test_accuracy = classifier.classifier.evaluate(X_test, y_test)
     print("Test Accuracy:", test_accuracy)
+    print("Test Loss: ", test_loss)
 
     prd = classifier.classifier.predict(X_test)
     zipped = zip(y_test, prd)
