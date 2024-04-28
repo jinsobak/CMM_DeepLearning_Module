@@ -16,6 +16,9 @@ def prepare_data(csv_files):
     X = all_data.drop(columns=['품질상태', '품명'])  # 입력 데이터
     y = all_data['품질상태']  # 출력 데이터
 
+    t_count = y.count()
+    print(t_count)
+
     # 테스트 데이터와 트레이닝 데이터로 분할
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -65,7 +68,6 @@ if __name__ == "__main__":
 
     # 데이터 전처리 및 준비
     X_train, X_test, y_train, y_test = prepare_data(csv_files)
-
 
     # 모델 구축
     input_dim = X_train.shape[1]
