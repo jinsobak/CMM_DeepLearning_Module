@@ -38,7 +38,7 @@ X_train, X_test, y_train, y_test = prepare_data(csv_files)                      
 input_dim = X_train.shape[1]                                                                                    # 모델 구축
 model = build_model(input_dim)
 
-model.fit(X_train, y_train, epochs=100, batch_size=1, validation_data=(X_train, y_train))                      # 모델 학습
+model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_train, y_train))                      # 모델 학습
 
 test_loss, test_accuracy = model.evaluate(X_test, y_test)                                                       # 모델 평가
 print("Test Accuracy:", test_accuracy)
