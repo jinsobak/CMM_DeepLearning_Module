@@ -16,17 +16,20 @@ def prepare_data(csv_files):
     X = all_data.drop(columns=['품질상태', '품명'])  # 입력 데이터
     y = all_data['품질상태']  # 출력 데이터
 
-    t_count = y.count()
+    t_count = y.value_counts()
     print(t_count)
 
     # 테스트 데이터와 트레이닝 데이터로 분할
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
+    X_train_full, X_test, y_train_full, y_test = train_test_split(X, y, test_size=0.1)
+    X_train, X_val, y_train, y_val = train_test_split(X_train_full, y_train_full, test_size= 0.2) 
+    
+    
     scalar = pre.StandardScaler()
     X_train = scalar.fit_transform(X_train)
     X_test = scalar.transform(X_test)
+    X_val = scalar.transform(X_val)
 
-    return X_train, X_test, y_train, y_test
+    return X_train, X_val, X_test, y_train, y_val, y_test
 
 class testClassifier:
     def __init__(self, input_dim=None, output_dim=1):
@@ -34,8 +37,9 @@ class testClassifier:
         self.output_dim = output_dim
         self.classifier = None
 
-    def fit(self, train_data, train_label, num_epochs, batch_size = 1):
-        self.classifier.fit(train_data, train_label, epochs=num_epochs, batch_size=batch_size)
+    def fit(self, train_data, train_label, num_epochs, batch_size = 1, validation_data = None):
+        history = self.classifier.fit(train_data, train_label, epochs=num_epochs, batch_size=batch_size, validation_data = validation_data)
+        return history
 
     def predict(self, test_data):
         predictions = self.classifier.predict(test_data)
@@ -46,12 +50,12 @@ class testClassifier:
         input_layer = tf.keras.layers.Input(shape=self.input_dim)
 
         activation_func_relu = tf.keras.activations.relu
-        hidden_layer1 = tf.keras.layers.Dense(units = 32, activation=activation_func_relu)(input_layer)
-        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(hidden_layer1)
-        hidden_layer3 = tf.keras.layers.Dense(units = 8, activation=activation_func_relu)(hidden_layer2)
+        hidden_layer1 = tf.keras.layers.Dense(units = 4, activation=activation_func_relu)(input_layer)
+        hidden_layer2 = tf.keras.layers.Dense(units = 4, activation=activation_func_relu)(hidden_layer1)
+        #hidden_layer3 = tf.keras.layers.Dense(units = 4, activation=activation_func_relu)(hidden_layer2)
 
         activation_func_sig = tf.keras.activations.sigmoid
-        output_layer = tf.keras.layers.Dense(units=1, activation=activation_func_sig)(hidden_layer3)
+        output_layer = tf.keras.layers.Dense(units=1, activation=activation_func_sig)(hidden_layer2)
         classifier_model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
 
         print(classifier_model.summary())
@@ -67,7 +71,7 @@ if __name__ == "__main__":
     csv_files = os.getcwd() + '\\MLP\\test\\test_ld.csv'
 
     # 데이터 전처리 및 준비
-    X_train, X_test, y_train, y_test = prepare_data(csv_files)
+    X_train, X_val, X_test, y_train, y_val, y_test = prepare_data(csv_files)
 
     # 모델 구축
     input_dim = X_train.shape[1]
@@ -76,17 +80,22 @@ if __name__ == "__main__":
     classifier.build_model()
 
     # 모델 학습
-    classifier.fit(X_train, y_train, num_epochs=30, batch_size=8)
+    history = classifier.fit(X_train, y_train, num_epochs=40, batch_size=8, validation_data=(X_val, y_val))
+
+    pd.DataFrame(history.history).plot(figsize=(8, 5))
+    plt.grid(True)
+    plt.gca().set_ylim(0, 1)
+    plt.show()
 
     # 모델 평가
-    test_loss, test_accuracy = classifier.classifier.evaluate(X_test, y_test)
-    print("Test Accuracy:", test_accuracy)
-    print("Test Loss: ", test_loss)
+    # test_loss, test_accuracy = classifier.classifier.evaluate(X_test, y_test)
+    # print("Test Accuracy:", test_accuracy)
+    # print("Test Loss: ", test_loss)
 
-    prd = classifier.classifier.predict(X_test)
-    zipped = zip(y_test, prd)
-    for y, predict in zipped:
-        if predict > 0.5:
-            print("%.3f => 1 y => %d" %(predict, y))
-        else:
-            print("%.3f => 0 y => %d" %(predict, y))
+    # prd = classifier.classifier.predict(X_test)
+    # zipped = zip(y_test, prd)
+    # for y, predict in zipped:
+    #     if predict > 0.5:
+    #         print("%.3f => 1 y => %d" %(predict, y))
+    #     else:
+    #         print("%.3f => 0 y => %d" %(predict, y))
