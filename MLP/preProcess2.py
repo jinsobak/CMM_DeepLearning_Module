@@ -3,7 +3,7 @@ import os
 
 def extract_data_from_file(file_path):
     with open(file_path, 'r', encoding="cp949") as f:
-        lines = f.readlines();
+        lines = f.readlines()
         
     header_info = {
             "품명": lines[1].split("품    명:")[1].split("품    번:")[0].strip(),
@@ -15,8 +15,10 @@ def extract_data_from_file(file_path):
             "검사시간대": lines[3].split("_")[2].strip()+"간",
             "종믈검사": lines[3].split("_")[3].strip()+"물",
             "품질상태": ""
-        }
+    }
     feature = lines[3]
+    print(feature)
+    print(header_info['품번'])
     if(len(feature.split('_')) < 6):
         header_info["품질상태"] = ''
     else:
@@ -26,7 +28,8 @@ def extract_data_from_file(file_path):
         header_info["품질상태"] = "NTC"
         
     print(header_info["품질상태"])
-        
+    print(len(lines))
+
     data = []
     
     i = 0
@@ -63,7 +66,7 @@ def extract_data_from_file(file_path):
                         lower_tolerance = parts[4]
                         deviation = parts[-1]
                         judgement = '-'
-                    elif item == "원통도" or item == "동심도":
+                    elif item == "원통도" or item == "동심도" or item == "진원도":
                         measured_value = parts[1]
                         standard_value = parts[2]
                         upper_tolerance = '-'
@@ -91,6 +94,13 @@ def extract_data_from_file(file_path):
                     #     lower_tolerance = '-'
                     #     deviation = '-'
                     #     judgement = parts[-1]
+                    elif item == "위치도":
+                        measured_value = parts[1]
+                        standard_value = parts[2]
+                        upper_tolerance = '-'
+                        lower_tolerance = parts[3]
+                        deviation = '-'
+                        judgement = '-'
                     else:
                         measured_value = parts[1]
                         standard_value = parts[2]
@@ -109,7 +119,7 @@ def extract_data_from_file(file_path):
                 i += 1
         else: #번호 도형으로 이루어진 행이 아니라면
             i += 1
-    
+
     df = pd.DataFrame(data, columns=[
         "품명", "품번", "측정시간", "측정자",
         "검사형태", "검사시간대", "종물검사", 
@@ -117,7 +127,9 @@ def extract_data_from_file(file_path):
         "기준값", "상한공차", "하한공차", "편차",
         "판정", "품질상태"
     ])
-    
+
+    #print(df.head)
+
     return df
 
 if __name__ == "__main__":

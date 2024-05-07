@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib as plt
 import os
 import csv
+import fill_null_values_dv_mv_sv as fn
 
 def devch(datas):
     if datas['편차'] == '-' and datas['판정'] != '-':
@@ -34,16 +35,12 @@ def change_data_form(datas):
         new_data = pd.concat([new_data, pd.DataFrame({shape1 : [row['측정값']]})], axis=1)
         new_data = pd.concat([new_data, pd.DataFrame({shape2 : [row['기준값']]})], axis=1)
         new_data = pd.concat([new_data, pd.DataFrame({shape3 : [row['편차']]})], axis=1)
-        # new_data[shape1] = row['측정값']
-        # new_data[shape2] = row['기준값']
-        # new_data[shape3] = row['편차']
     new_data.drop(columns=['a'], inplace=True)
+
+    new_data = new_data.astype(dtype='float64')
 
     new_data = new_data.assign(품질상태=quality)
     new_data.insert(loc=0, column='품명', value=name)
-
-    new_data = new_data.set_index('품명')
-    new_data.index_name = '품명'
 
     return new_data
 
@@ -52,21 +49,34 @@ if __name__=="__main__":
     pd.set_option('display.max_rows', None)
     pd.set_option('mode.chained_assignment',  None)
 
-    datasetPath = os.getcwd() + "\\output_test_ld\\45926-4G100"
-    datalist = os.listdir(datasetPath)
+    #dataset_path = os.getcwd() + "\\output_test_ld\\45926-4G100"
+    #dataset_path = os.getcwd() + "\\output_test_sd\\45926-4G100"
+    dataset_path = os.getcwd() + "\\dataset_csv\\45926-4G100"
+    datalist = os.listdir(dataset_path)
 
     dataFrame = pd.DataFrame()
     for file in datalist:
-        data = pd.read_csv(datasetPath + "\\" + file, encoding='cp949')
+        data = pd.read_csv(dataset_path + "\\" + file, encoding='cp949')
         datas = pd.DataFrame(data)
         datas = fill_or_drop_devation(datas)
         datas = change_data_form(datas)
         dataFrame = pd.concat([dataFrame, datas], ignore_index=False)
 
-    output_path = os.getcwd() + "\\MLP\\test"
+    for col in dataFrame.columns:
+        nanRatio = dataFrame[col].isnull().sum() / dataFrame[col].shape[0]
+        #print(col + " " + str(nanRatio))
+        if(nanRatio >= 0.5):
+            dataFrame.drop(columns=[col], inplace=True)
+
+    dataFrame = fn.fill_null_value(dataFrame)
+    print(dataFrame.isnull().sum())
+
+    dataFrame = dataFrame.set_index('품명')
+    dataFrame.index_name = '품명'
+    output_path = os.getcwd() + "\\MLP\\datas"
     if os.path.exists(output_path) == True:
         pass
     else:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_mv,sv,dv_ld.csv", encoding='cp949')
+    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_mv,sv,dv_hd.csv", encoding='cp949')
