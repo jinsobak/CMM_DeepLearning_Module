@@ -3,6 +3,14 @@ import matplotlib as plt
 import csv
 import os
 
+def makeFile(output_pah):
+    if os.path.exists(output_path) == True:
+        pass
+    else:
+        os.mkdir(output_path)
+    
+    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_analysis.csv", encoding='cp949')
+
 if __name__=="__main__":
     datasetPath = os.getcwd() + "\\output_test_ld\\45926-4G100"
     datalist = os.listdir(datasetPath)
@@ -19,13 +27,15 @@ if __name__=="__main__":
         else:
             quality = 0
         dataFrame = pd.concat([dataFrame, pd.DataFrame({"fileName": [file], "NG_Count": [count_NG], "품질": [quality] })], ignore_index=False)
-    
-
+    dataFrame = dataFrame.reset_index()
+    dataFrame.drop(columns=['index'], inplace=True)
 
     output_path = os.getcwd() + "\\MLP\\test"
-    if os.path.exists(output_path) == True:
-        pass
-    else:
-        os.mkdir(output_path)
+    #makeFile(output_path)
+    labels = dataFrame['품질'].value_counts()
+    print(labels)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_analysis.csv", encoding='cp949')
+    NGs = dataFrame['NG_Count'].value_counts()
+    print(NGs)
+    
+    print(dataFrame['NG_Count'].describe())

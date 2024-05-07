@@ -45,24 +45,33 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', None)
     pd.set_option('mode.chained_assignment',  None)
 
-    dataset_path = os.getcwd() + "\\output_test_ld\\45926-4G100"
-    #dataset_path2 = os.getcwd() + "\\output_test_sd\\45926-4G100"
+    #dataset_path = os.getcwd() + "\\output_test_ld\\45926-4G100"
+    #dataset_path = os.getcwd() + "\\output_test_sd\\45926-4G100"
+    dataset_path = os.getcwd() + "\\dataset_csv\\45926-4G100"
     data_list = os.listdir(dataset_path)
 
     dataFrame = pd.DataFrame()
     for file in data_list:
         data = pd.read_csv(dataset_path + "\\" + file, encoding='cp949')
-        datas = pd.DataFrame(data)    
+        datas = pd.DataFrame(data)  
         datas = preProcess(datas)
         datas = preProcess2(datas)
         dataFrame = pd.concat([dataFrame, datas], ignore_index=False)
 
-    output_path = os.getcwd() + "\\MLP\\test"
+    for col in dataFrame.columns:
+        nanRatio = dataFrame[col].isnull().sum() / dataFrame[col].shape[0]
+        print(col + " " + str(nanRatio))
+        if(nanRatio >= 0.5):
+            dataFrame.drop(columns=[col], inplace=True)
+
+    dataFrame.fillna(value=0, inplace=True)
+
+    output_path = os.getcwd() + "\\MLP\\datas"
     if os.path.exists(output_path) == True:
         pass
     else:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "test_ld.csv", encoding='cp949')
+    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_dv_hd.csv", encoding='cp949')
 
     

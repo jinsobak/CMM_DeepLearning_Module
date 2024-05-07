@@ -7,10 +7,12 @@ from preProcess2 import extract_data_from_file
 
 #dataset_path = os.getcwd() + "\\datasets"
 #dataset_path = os.getcwd() + "\\small_data"
-dataset_path = os.getcwd() + "\\large_data"
+#dataset_path = os.getcwd() + "\\large_data"
+dataset_path = os.getcwd() + "\\dataset"
 #output_path = os.getcwd() + "\\output_test\\"
 #output_path = os.getcwd() + "\\output_test_sd\\"
-output_path = os.getcwd() + "\\output_test_ld\\"
+#output_path = os.getcwd() + "\\output_test_ld\\"
+output_path = os.getcwd() + "\\dataset_csv\\"
 data_list = os.listdir(dataset_path)
 
 print(os.path.exists(output_path))
