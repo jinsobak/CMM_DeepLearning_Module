@@ -15,7 +15,8 @@ def prepare_data(csv_file):
     y = all_data['품질상태'].values  # 출력 데이터
 
     # 테스트 데이터와 트레이닝 데이터로 분할
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42)
 
     # 데이터 스케일링
     scalar = StandardScaler()
@@ -26,18 +27,22 @@ def prepare_data(csv_file):
 
 
 # CSV 파일 경로
-csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\test_ld.csv"
+# or C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\test_ld.csv
+# C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\test_sd.csv
+csv_file = "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\data_mv,sv,dv_hd.csv"
 
 # 데이터 전처리
 X_train, X_test, y_train, y_test = prepare_data(csv_file)
 
 # 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
-train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)
+train_dataset = tf.data.Dataset.from_tensor_slices(
+    (X_train, y_train)).shuffle(len(X_train)).batch(32)
 test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)
 
 # 딥러닝 모델 구성
 model = models.Sequential([
-    layers.Dense(64, activation='relu', input_shape=(X_train.shape[1],)),  # 입력층
+    layers.Dense(64, activation='relu',
+                 input_shape=(X_train.shape[1],)),  # 입력층
     layers.Dense(64, activation='relu'),  # 은닉층
     layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
 ])
@@ -48,7 +53,7 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 
 # 모델 학습
-model.fit(train_dataset, epochs=50)
+model.fit(train_dataset, epochs=100)
 
 # 모델 평가
 loss, accuracy = model.evaluate(test_dataset)
