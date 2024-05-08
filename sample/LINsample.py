@@ -1,20 +1,16 @@
 import pandas as pd
 import numpy as np
-import tensorflow as tf
-from tensorflow.keras import layers, models
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
 
 # 데이터 전처리 및 준비
 def prepare_data(csv_file):
     # CSV 파일을 읽어들여 DataFrame으로 변환
     all_data = pd.read_csv(csv_file, encoding='cp949')
 
-    # 특징 선택 (불필요한 열 제거 등)
-    selected_features = all_data.drop(columns=['품질상태', '품명'])  # 품질상태와 품명을 제외한 특징 선택
-
     # 딥러닝의 입력 데이터와 정답 데이터 생성
-    X = selected_features.values  # 입력 데이터
+    X = all_data.drop(columns=['품질상태', '품명']).values  # 입력 데이터
     y = all_data['품질상태'].values  # 출력 데이터
 
     # 테스트 데이터와 트레이닝 데이터로 분할
@@ -34,30 +30,17 @@ csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_dv_hd.csv"
 # 데이터 전처리
 X_train, X_test, y_train, y_test, scalar = prepare_data(csv_file)
 
-# 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
-train_dataset = tf.data.Dataset.from_tensor_slices(
-    (X_train, y_train)).shuffle(len(X_train)).batch(32)  # 배치 크기 조정
-test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)  # 배치 크기 조정
-
-# 딥러닝 모델 구성
-model = models.Sequential([
-    layers.Dense(64, activation='relu', input_shape=(X_train.shape[1],)),  # 입력층
-    layers.Dense(32, activation='relu'),  # 은닉층
-    layers.Dense(16, activation='relu'),  # 은닉층 추가
-    layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
-])
-
-# 모델 컴파일
-model.compile(optimizer='adam',
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
+# 선형 회귀 모델 구성
+model = LinearRegression()
 
 # 모델 학습
-model.fit(train_dataset, epochs=10)
+model.fit(X_train, y_train)
 
 # 모델 평가
-loss, accuracy = model.evaluate(test_dataset)
-print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
+train_score = model.score(X_train, y_train)
+test_score = model.score(X_test, y_test)
+print(f'Training Score: {train_score}')
+print(f'Test Score: {test_score}')
 
 # 불량 판별
 # 새로운 데이터를 모델에 입력하여 불량 여부를 판별합니다.
