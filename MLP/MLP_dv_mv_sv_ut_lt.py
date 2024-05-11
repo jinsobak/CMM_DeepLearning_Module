@@ -49,14 +49,14 @@ class testClassifier:
         input_layer = tf.keras.layers.Input(shape=self.input_dim)
 
         activation_func_relu = tf.keras.activations.relu
-        hidden_layer1 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(input_layer)
-        dropout1 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer1)
-        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout1)
-        dropout2 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer2)
-        hidden_layer3 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout2)
-        dropout3 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer3)
-        hidden_layer4 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout3)
-        dropout4 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer4)
+        hidden_layer1 = tf.keras.layers.Dense(units = 32, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.025))(input_layer)
+        dropout1 = tf.keras.layers.Dropout(rate=0.2)(hidden_layer1)
+        hidden_layer2 = tf.keras.layers.Dense(units = 32, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.025))(dropout1)
+        dropout2 = tf.keras.layers.Dropout(rate=0.2)(hidden_layer2)
+        hidden_layer3 = tf.keras.layers.Dense(units = 32, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.025))(dropout2)
+        dropout3 = tf.keras.layers.Dropout(rate=0.2)(hidden_layer3)
+        hidden_layer4 = tf.keras.layers.Dense(units = 32, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.025))(dropout3)
+        dropout4 = tf.keras.layers.Dropout(rate=0.2)(hidden_layer4)
 
         activation_func_sig = tf.keras.activations.sigmoid
         output_layer = tf.keras.layers.Dense(units=1, activation=activation_func_sig)(dropout4)
@@ -72,7 +72,7 @@ class testClassifier:
 
 if __name__ == "__main__":
     # 데이터 파일 경로
-    csv_files = os.getcwd() + '\\MLP\\datas\\data_dv_hd.csv'
+    csv_files = os.getcwd() + '\\MLP\\datas\\data_mv_sv_dv_ut_lt_hd.csv'
     # 데이터 전처리 및 준비
     X_train, X_val, X_test, y_train, y_val, y_test = prepare_data(csv_files)
 
@@ -83,14 +83,14 @@ if __name__ == "__main__":
     classifier.build_model()
 
     # 모델 학습
-    history = classifier.fit(X_train, y_train, num_epochs=100, batch_size=32, validation_data=(X_val, y_val))
+    history = classifier.fit(X_train, y_train, num_epochs=100, batch_size=64, validation_data=(X_val, y_val))
 
     pd.DataFrame(history.history).plot(figsize=(8, 5))
     plt.grid(True)
     plt.gca().set_ylim(0, 1)
     plt.show()
 
-    #모델 평가
+    # 모델 평가
     test_loss, test_accuracy = classifier.classifier.evaluate(X_test, y_test)
     print("Test Accuracy:", test_accuracy)
     print("Test Loss: ", test_loss)

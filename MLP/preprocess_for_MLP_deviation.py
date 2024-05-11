@@ -5,7 +5,7 @@ import matplotlib.pyplot as mat
 
 def devch(datas):
     if datas['편차'] == '-' and datas['판정'] != '-':
-        datas['편차'] = float(datas['기준값']) - float(datas['측정값'])
+        datas['편차'] = abs(float(datas['측정값'])) - abs(float(datas['기준값']))
     return datas['편차']
 
 def preProcess(datas):
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     for col in dataFrame.columns:
         nanRatio = dataFrame[col].isnull().sum() / dataFrame[col].shape[0]
-        print(col + " " + str(nanRatio))
+        #print(col + " " + str(nanRatio))
         if(nanRatio >= 0.5):
             dataFrame.drop(columns=[col], inplace=True)
 
