@@ -49,17 +49,17 @@ class testClassifier:
         input_layer = tf.keras.layers.Input(shape=self.input_dim)
 
         activation_func_relu = tf.keras.activations.relu
-        hidden_layer1 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(input_layer)
-        dropout1 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer1)
-        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout1)
-        dropout2 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer2)
-        hidden_layer3 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout2)
-        dropout3 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer3)
-        hidden_layer4 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout3)
-        dropout4 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer4)
+        hidden_layer1 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.015))(input_layer)
+        dropout1 = tf.keras.layers.Dropout(rate=0.2)(hidden_layer1)
+        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.015))(dropout1)
+        dropout2 = tf.keras.layers.Dropout(rate=0.2)(hidden_layer2)
+        hidden_layer3 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.015))(dropout2)
+        dropout3 = tf.keras.layers.Dropout(rate=0.2)(hidden_layer3)
+        hidden_layer4 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.015))(dropout3)
+
 
         activation_func_sig = tf.keras.activations.sigmoid
-        output_layer = tf.keras.layers.Dense(units=1, activation=activation_func_sig)(dropout4)
+        output_layer = tf.keras.layers.Dense(units=1, activation=activation_func_sig)(hidden_layer4)
         classifier_model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
 
         print(classifier_model.summary())
@@ -72,7 +72,7 @@ class testClassifier:
 
 if __name__ == "__main__":
     # 데이터 파일 경로
-    csv_files = os.getcwd() + '\\MLP\\datas\\data_dv_hd.csv'
+    csv_files = os.getcwd() + '\\MLP\\datas\\data_mv,sv,dv_hd.csv'
     # 데이터 전처리 및 준비
     X_train, X_val, X_test, y_train, y_val, y_test = prepare_data(csv_files)
 
@@ -90,26 +90,15 @@ if __name__ == "__main__":
     plt.gca().set_ylim(0, 1)
     plt.show()
 
-    #모델 평가
-    test_loss, test_accuracy = classifier.classifier.evaluate(X_test, y_test)
-    print("Test Accuracy:", test_accuracy)
-    print("Test Loss: ", test_loss)
+    # 모델 평가
+    # test_loss, test_accuracy = classifier.classifier.evaluate(X_test, y_test)
+    # print("Test Accuracy:", test_accuracy)
+    # print("Test Loss: ", test_loss)
 
-    prd = classifier.classifier.predict(X_test)
-    zipped = zip(y_test, prd)
-    prd_ok = 0
-    prd_ng = 0
-    for y, predict in zipped:
-        if predict > 0.5:
-            prd = 1
-            print("%.3f => 1 y => %d" %(predict, y))
-        else:
-            prd = 0
-            print("%.3f => 0 y => %d" %(predict, y))
-        if(prd == y):
-            prd_ok += 1
-        else:
-            prd_ng += 1
-
-    print(prd_ok)
-    print(prd_ng)
+    # prd = classifier.classifier.predict(X_test)
+    # zipped = zip(y_test, prd)
+    # for y, predict in zipped:
+    #     if predict > 0.5:
+    #         print("%.3f => 1 y => %d" %(predict, y))
+    #     else:
+    #         print("%.3f => 0 y => %d" %(predict, y))

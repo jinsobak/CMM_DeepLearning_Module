@@ -12,7 +12,8 @@ def makeFile(output_pah):
     dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_analysis.csv", encoding='cp949')
 
 if __name__=="__main__":
-    datasetPath = os.getcwd() + "\\output_test_ld\\45926-4G100"
+    datasetPath = os.getcwd() + "\\dataset_csv\\45926-4G100"
+    #datasetPath = os.getcwd() + "\\output_test_ld\\45926-4G100"
     datalist = os.listdir(datasetPath)
 
     dataFrame = pd.DataFrame(columns=['fileName', 'NG_Count', '품질'])
@@ -24,8 +25,10 @@ if __name__=="__main__":
         quality = datas['품질상태'][0]
         if(quality == 'OK'):
             quality = 1
-        else:
+        elif(quality == 'NG'):
             quality = 0
+        else:
+            quality = 2
         dataFrame = pd.concat([dataFrame, pd.DataFrame({"fileName": [file], "NG_Count": [count_NG], "품질": [quality] })], ignore_index=False)
     dataFrame = dataFrame.reset_index()
     dataFrame.drop(columns=['index'], inplace=True)
@@ -39,3 +42,8 @@ if __name__=="__main__":
     print(NGs)
     
     print(dataFrame['NG_Count'].describe())
+
+    print(dataFrame['NG_Count'][dataFrame['품질'] == 1].value_counts())
+    print(dataFrame['NG_Count'][dataFrame['품질'] == 0].value_counts())
+    print(dataFrame['NG_Count'][dataFrame['품질'] == 2].value_counts())
+    print(dataFrame[(dataFrame['품질'] == 0) & (dataFrame['NG_Count'] == 3)])
