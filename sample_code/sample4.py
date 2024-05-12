@@ -8,10 +8,10 @@ def augment_or_reduce_data(df, target_size=1000):
         return df
     elif current_size < target_size:
         additional_rows_needed = target_size - current_size
-        additional_rows = df.sample(n=additional_rows_needed, replace=True)  # replace=True allows for sampling the same row more than once.
+        additional_rows = df.sample(n=additional_rows_needed, replace=True)  
         augmented_df = pd.concat([df, additional_rows], ignore_index=True)
         return augmented_df
-    else:  # current_size > target_size
+    else:
         reduced_df = df.sample(n=target_size)
         return reduced_df
 

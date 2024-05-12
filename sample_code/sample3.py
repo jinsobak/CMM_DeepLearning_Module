@@ -23,19 +23,18 @@ def augment_data(df, target_size=1000):
 
 def process_and_save_files(datasetPath, outputPath):
     datalist = os.listdir(datasetPath)
-    combined_df = pd.DataFrame()  # 모든 제품 데이터를 합칠 데이터프레임 초기화
+    combined_df = pd.DataFrame() 
 
     for file in datalist:
-        product_name = file.split('_')[0]  # 파일명에서 제품명 식별, 이 부분은 실제 파일명 형식에 맞게 조정해야 함
+        product_name = file.split('_')[0]  
         data = pd.read_csv(os.path.join(datasetPath, file), encoding='cp949')
         datas = fill_or_drop_deviation(data)
-        combined_df = pd.concat([combined_df, datas], ignore_index=True)  # 각 파일의 데이터를 합침
+        combined_df = pd.concat([combined_df, datas], ignore_index=True) 
 
     os.makedirs(outputPath, exist_ok=True)
 
-    # 모든 제품 데이터가 합쳐진 combined_df를 사용하여 데이터 증강
+
     augmented_df = augment_data(combined_df, 1000)
-    # 최종적으로 합쳐진 데이터 프레임을 하나의 파일로 저장
     augmented_df.to_csv(path_or_buf=os.path.join(outputPath, "sampling3.csv"), encoding='cp949')
 
 if __name__=="__main__":

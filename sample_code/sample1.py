@@ -12,7 +12,7 @@ def fill_or_drop_deviation(datas):
 def augment_data(df, target_size=1000):
     current_size = len(df)
     if current_size >= target_size:
-        return df.sample(n=target_size)  # 데이터가 충분히 많으면 샘플링하여 반환
+        return df.sample(n=target_size)  
     else:
         augmented_df = df
         while len(augmented_df) < target_size:
@@ -36,10 +36,9 @@ if __name__=="__main__":
         datas = fill_or_drop_deviation(datas)
         dataFrame = pd.concat([dataFrame, datas], ignore_index=True)
 
-    # 데이터 증강
     dataFrame = augment_data(dataFrame, 1000)
 
     output_path = os.getcwd() + "\\MLP\\test"
-    os.makedirs(output_path, exist_ok=True)  # 이미 존재하면 넘어감
+    os.makedirs(output_path, exist_ok=True)  
     
     dataFrame.to_csv(path_or_buf=os.path.join(output_path, "data_mv,sv,dv_ld.csv"), encoding='cp949')
