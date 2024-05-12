@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import time
 from sklearn.model_selection import train_test_split
 import sklearn.preprocessing as pre
 import tensorflow as tf
@@ -36,8 +37,8 @@ class testClassifier:
         self.output_dim = output_dim
         self.classifier = None
 
-    def fit(self, train_data, train_label, num_epochs, batch_size = 1, validation_data = None):
-        history = self.classifier.fit(train_data, train_label, epochs=num_epochs, batch_size=batch_size, validation_data = validation_data)
+    def fit(self, train_data, train_label, num_epochs, batch_size = 1, validation_data = None, callbacks=None):
+        history = self.classifier.fit(train_data, train_label, epochs=num_epochs, batch_size=batch_size, validation_data = validation_data, callbacks=callbacks)
         return history
 
     def predict(self, test_data):
@@ -59,7 +60,7 @@ class testClassifier:
         dropout4 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer4)
 
         activation_func_sig = tf.keras.activations.sigmoid
-        output_layer = tf.keras.layers.Dense(units=1, activation=activation_func_sig)(dropout4)
+        output_layer = tf.keras.layers.Dense(units=self.output_dim, activation=activation_func_sig)(dropout4)
         classifier_model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
 
         print(classifier_model.summary())
@@ -72,8 +73,12 @@ class testClassifier:
 
 if __name__ == "__main__":
     # 데이터 파일 경로
-    csv_files = os.getcwd() + '\\MLP\\datas\\data_dv_hd.csv'
-    # 데이터 전처리 및 준비
+    dataName = 'data_dv_hd.csv'
+    dataName = 'data_mv,sv,dv_hd.csv'
+    dataName = 'data_mv_sv_dv_ut_lt_hd.csv'
+    
+    csv_files = os.getcwd() + "\\MLP\\datas\\" + dataName
+    # 데이터 전처리 및 훈련, 검증, 시험 데이터 분리
     X_train, X_val, X_test, y_train, y_val, y_test = prepare_data(csv_files)
 
     # 모델 구축
@@ -82,13 +87,20 @@ if __name__ == "__main__":
     classifier = testClassifier(input_dim=(input_dim, ), output_dim=1)
     classifier.build_model()
 
-    # 모델 학습
-    history = classifier.fit(X_train, y_train, num_epochs=100, batch_size=32, validation_data=(X_val, y_val))
+    #모델 로그 저장 경로 설정
+    cur_time = time.strftime("run_%Y_%m_%d-%H_%M_%S")
+    model_name = dataName + "_" + cur_time
+    log_dir = os.getcwd() + "\\MLP\\log\\" + model_name
 
-    pd.DataFrame(history.history).plot(figsize=(8, 5))
-    plt.grid(True)
-    plt.gca().set_ylim(0, 1)
-    plt.show()
+    # 모델 학습 및 콜백 함수 설정
+    early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True)
+    tensorboard_cb = tf.keras.callbacks.TensorBoard(log_dir)
+    history = classifier.fit(X_train, y_train, num_epochs=100, batch_size=32, validation_data=(X_val, y_val), callbacks=[early_stopping_cb, tensorboard_cb])
+
+    # pd.DataFrame(history.history).plot(figsize=(8, 5))
+    # plt.grid(True)
+    # plt.gca().set_ylim(0, 1)
+    # plt.show()
 
     #모델 평가
     test_loss, test_accuracy = classifier.classifier.evaluate(X_test, y_test)
