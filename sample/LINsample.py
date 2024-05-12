@@ -5,6 +5,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 
 # 데이터 전처리 및 준비
+
+
 def prepare_data(csv_file):
     # CSV 파일을 읽어들여 DataFrame으로 변환
     all_data = pd.read_csv(csv_file, encoding='cp949')
@@ -24,8 +26,9 @@ def prepare_data(csv_file):
 
     return X_train_scaled, X_test_scaled, y_train, y_test, scalar
 
+
 # CSV 파일 경로
-csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_dv_hd.csv"
+csv_file = "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\data_dv_ld.csv"
 
 # 데이터 전처리
 X_train, X_test, y_train, y_test, scalar = prepare_data(csv_file)
