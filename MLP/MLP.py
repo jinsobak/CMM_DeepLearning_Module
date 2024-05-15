@@ -50,17 +50,15 @@ class testClassifier:
         input_layer = tf.keras.layers.Input(shape=self.input_dim)
 
         activation_func_relu = tf.keras.activations.relu
-        hidden_layer1 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(input_layer)
+        hidden_layer1 = tf.keras.layers.Dense(units = 32, activation=activation_func_relu)(input_layer)
         dropout1 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer1)
-        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout1)
+        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(dropout1)
         dropout2 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer2)
-        hidden_layer3 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout2)
+        hidden_layer3 = tf.keras.layers.Dense(units = 8, activation=activation_func_relu)(dropout2)
         dropout3 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer3)
-        hidden_layer4 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu, kernel_regularizer=tf.keras.regularizers.l2(0.01))(dropout3)
-        dropout4 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer4)
 
         activation_func_sig = tf.keras.activations.sigmoid
-        output_layer = tf.keras.layers.Dense(units=self.output_dim, activation=activation_func_sig)(dropout4)
+        output_layer = tf.keras.layers.Dense(units=self.output_dim, activation=activation_func_sig)(dropout3)
         classifier_model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
 
         print(classifier_model.summary())
@@ -73,9 +71,10 @@ class testClassifier:
 
 if __name__ == "__main__":
     # 데이터 파일 경로
-    dataName = 'data_dv_hd.csv'
-    dataName = 'data_mv,sv,dv_hd.csv'
+    #dataName = 'data_dv_hd.csv'
+    #dataName = 'data_mv,sv,dv_hd.csv'
     dataName = 'data_mv_sv_dv_ut_lt_hd.csv'
+    #dataName = 'data_jd_2_hd.csv'
     
     csv_files = os.getcwd() + "\\MLP\\datas\\" + dataName
     # 데이터 전처리 및 훈련, 검증, 시험 데이터 분리
@@ -91,16 +90,17 @@ if __name__ == "__main__":
     cur_time = time.strftime("run_%Y_%m_%d-%H_%M_%S")
     model_name = dataName + "_" + cur_time
     log_dir = os.getcwd() + "\\MLP\\log\\" + model_name
+    #tensorboard --logdir=./MLP/log --port=6006
 
     # 모델 학습 및 콜백 함수 설정
     early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True)
     tensorboard_cb = tf.keras.callbacks.TensorBoard(log_dir)
     history = classifier.fit(X_train, y_train, num_epochs=100, batch_size=32, validation_data=(X_val, y_val), callbacks=[early_stopping_cb, tensorboard_cb])
 
-    # pd.DataFrame(history.history).plot(figsize=(8, 5))
-    # plt.grid(True)
-    # plt.gca().set_ylim(0, 1)
-    # plt.show()
+    pd.DataFrame(history.history).plot(figsize=(8, 5))
+    plt.grid(True)
+    plt.gca().set_ylim(0, 1)
+    plt.show()
 
     #모델 평가
     test_loss, test_accuracy = classifier.classifier.evaluate(X_test, y_test)

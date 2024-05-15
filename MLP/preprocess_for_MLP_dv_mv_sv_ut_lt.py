@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib as plt
 import os
-import fill_null_values_dv_mv_sv as fn
+import fill_null_values as fn
 
 def devch(datas):
     if datas['편차'] == '-' and datas['판정'] != '-':

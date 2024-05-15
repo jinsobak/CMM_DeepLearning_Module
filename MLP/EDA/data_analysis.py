@@ -3,7 +3,7 @@ import matplotlib as plt
 import csv
 import os
 
-def makeFile(output_pah):
+def makeFile(output_path):
     if os.path.exists(output_path) == True:
         pass
     else:
