@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib as plt
 import os
 import csv
-import fill_null_values_dv_mv_sv as fn
+import fill_null_values as fn
 
 def devch(datas):
     if datas['편차'] == '-' and datas['판정'] != '-':
@@ -18,13 +18,26 @@ def fill_or_drop_devation(datas):
 
     return datas
 
-def change_data_form(datas):
+def modify_quality_1(datas):
     quality = datas["품질상태"][0]
     if(quality == "OK"):
         quality = 1
     else:
         quality = 0
-    
+    return quality
+
+def modify_quality_2(datas):
+    quality = datas["품질상태"][0]
+    if(quality == "OK"):
+        quality = 1
+    elif(quality == "NG"):
+        quality = 0
+    else:
+        quality = 2
+    return quality
+
+def change_data_form(datas):
+    quality = modify_quality_1(datas)
     name = datas["품명"][0]
 
     new_data = pd.DataFrame({'a' : [0]})
