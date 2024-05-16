@@ -33,14 +33,25 @@ def fill_ut_lt(datas):
 
     return datas
 
-def change_data_form(datas):
+def modify_quality(datas, mode):
     quality = datas["품질상태"][0]
-    if(quality == "OK"):
-        quality = 1
-    else:
-        quality = 0
-    
-    name = datas["품명"][0]
+    if mode == 1:
+        if(quality == "OK"):
+            quality = 1
+        else:
+            quality = 0
+    elif mode == 2:
+        if(quality == "OK"):
+            quality = 1
+        elif(quality == "NG"):
+            quality = 0
+        else:
+            quality = 2
+
+    return quality
+
+def change_data_form(datas, mode, fileName):
+    quality = modify_quality(datas, mode)
 
     new_data = pd.DataFrame({'a' : [0]})
     for index, row in datas.iterrows():
@@ -60,7 +71,7 @@ def change_data_form(datas):
     new_data = new_data.astype(dtype='float64')
 
     new_data = new_data.assign(품질상태=quality)
-    new_data.insert(loc=0, column='품명', value=name)
+    new_data.insert(loc=0, column='파일명', value=fileName)
 
     return new_data
 
@@ -69,6 +80,7 @@ if __name__=="__main__":
     pd.set_option('display.max_rows', None)
     pd.set_option('mode.chained_assignment',  None)
 
+    mode = 1
     #dataset_path = os.getcwd() + "\\output_test_ld\\45926-4G100"
     #dataset_path = os.getcwd() + "\\output_test_sd\\45926-4G100"
     dataset_path = os.getcwd() + "\\dataset_csv\\45926-4G100"
@@ -80,7 +92,7 @@ if __name__=="__main__":
         datas = pd.DataFrame(data)
         datas = fill_or_drop_devation(datas)
         datas = fill_ut_lt(datas)
-        datas = change_data_form(datas)
+        datas = change_data_form(datas, mode, fileName=file)
         dataFrame = pd.concat([dataFrame, datas], ignore_index=False)
 
     for col in dataFrame.columns:
@@ -94,12 +106,15 @@ if __name__=="__main__":
 
     print(dataFrame['품질상태'].value_counts())
 
-    dataFrame = dataFrame.set_index('품명')
-    dataFrame.index_name = '품명'
+    dataFrame = dataFrame.set_index('파일명')
+    dataFrame.index_name = '파일명'
     output_path = os.getcwd() + "\\MLP\\datas"
     if os.path.exists(output_path) == True:
         pass
     else:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_mv_sv_dv_ut_lt_hd.csv", encoding='cp949')
+    if mode == 1:
+        dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_mv_sv_dv_ut_lt_hd.csv", encoding='cp949')
+    elif mode == 2:
+        dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_mv_sv_dv_ut_lt_hd_with_NTC.csv", encoding='cp949')
