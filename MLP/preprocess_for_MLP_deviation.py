@@ -17,13 +17,27 @@ def preProcess(datas):
 
     return datas
 
-def preProcess2(datas):
-    quality = datas['품질상태'][0]
-    if(quality == 'OK'):
-        quality = 1
-    else:
-        quality = 0
+def modify_quality(datas, mode):
+    quality = datas["품질상태"][0]
+    if mode == 1:
+        if(quality == "OK"):
+            quality = 1
+        else:
+            quality = 0
+    elif mode == 2:
+        if(quality == "OK"):
+            quality = 1
+        elif(quality == "NG"):
+            quality = 0
+        else:
+            quality = 2
+
+    return quality
+
+def preProcess2(datas, mode, fileName):
+    quality = modify_quality(datas, mode)
     name = datas['품명'][0]
+
     datas['도형'] = '편차_' + datas['도형'] + "_" + datas['항목']
     datas = datas.set_index('도형')
     datas = datas[['편차']]
@@ -32,11 +46,11 @@ def preProcess2(datas):
     datas_tp = datas_tp.reset_index()
     datas_tp = datas_tp.drop('index', axis=1)
 
-    datas_tp.insert(0, '품명', name)
+    datas_tp.insert(loc=0, column='파일명', value=fileName)
     datas_tp = datas_tp.assign(품질상태 = quality)
 
-    datas_tp = datas_tp.set_index('품명')
-    datas_tp.index.name = '품명'
+    datas_tp = datas_tp.set_index('파일명')
+    datas_tp.index.name = '파일명'
 
     return datas_tp
 
@@ -45,6 +59,7 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', None)
     pd.set_option('mode.chained_assignment',  None)
 
+    mode = 2
     #dataset_path = os.getcwd() + "\\output_test_ld\\45926-4G100"
     #dataset_path = os.getcwd() + "\\output_test_sd\\45926-4G100"
     dataset_path = os.getcwd() + "\\dataset_csv\\45926-4G100"
@@ -55,7 +70,7 @@ if __name__ == '__main__':
         data = pd.read_csv(dataset_path + "\\" + file, encoding='cp949')
         datas = pd.DataFrame(data)  
         datas = preProcess(datas)
-        datas = preProcess2(datas)
+        datas = preProcess2(datas, mode, fileName=file)
         dataFrame = pd.concat([dataFrame, datas], ignore_index=False)
 
     for col in dataFrame.columns:
@@ -72,6 +87,9 @@ if __name__ == '__main__':
     else:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_dv_hd.csv", encoding='cp949')
+    if mode == 1:
+        dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_dv_hd.csv", encoding='cp949')
+    elif mode == 2:
+        dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_dv_hd_with_NTC.csv", encoding='cp949')
 
     
