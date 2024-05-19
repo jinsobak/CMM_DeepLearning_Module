@@ -10,8 +10,8 @@ def makeFile(output_path, dataFrame, fileName):
     
     dataFrame.to_csv(path_or_buf=output_path + '\\' + fileName, encoding='cp949')
 
-def mv_describe(dataFrame):
-    dataFrame = dataFrame.iloc[:, 1 : dataFrame.shape[0] : 5]
+def mv_describe(dataFrame, num):
+    dataFrame = dataFrame.iloc[:, 1 : dataFrame.shape[num] : 5]
     print(dataFrame.head())
 
     return dataFrame
@@ -26,11 +26,12 @@ if __name__=="__main__":
     dataFrame = pd.read_csv(dataPath, encoding='cp949')
     print(dataFrame.head())
 
-    dataFrame2 = mv_describe(dataFrame=dataFrame)
+    dataFrame2 = mv_describe(dataFrame=dataFrame, num=0)
+    dataFrame3 = mv_describe(dataFrame=dataFrame, num=1)
     
     #측정값을 describe한 데이터프레임 csv 파일 생성
-    dataFrameDescribe = dataFrame2.describe()
-    makeFile(outputPath, dataFrameDescribe, "측정값_describe.csv")
+    mvDescribe = dataFrame2.describe()
+    makeFile(outputPath, mvDescribe, "측정값_describe.csv")
 
     shape = dataFrame2.shape[1]
     print(shape)
@@ -39,7 +40,12 @@ if __name__=="__main__":
     repeat_count = int(shape / 8) + addition_count
     print(repeat_count)
     for i in range(0, shape, repeat_count):
-        dataFrame2.iloc[:, i: i+8].hist(figsize=(15, 10), histtype='bar')
+        fig, axes = plt.subplots(1, 8, figsize=(15,8))
+        for j in range(0, 8):
+            if(i + j < shape):
+                axes[j].hist(dataFrame2.iloc[:, i+j], alpha=0.75)
+                if(i + j < shape -1):
+                    axes[j].axvline(x=dataFrame3.iloc[0, i+j], color='r', label='a')
         plt.show()
 
     print(dataFrame2[dataFrame2.iloc[:, 5] == 0])

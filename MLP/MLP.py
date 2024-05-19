@@ -13,7 +13,7 @@ def prepare_data(csv_files):
     all_data = pd.DataFrame(all_data)
 
     # 딥러닝의 입력 데이터와 정답 데이터 생성
-    X = all_data.drop(columns=['품질상태', '품명'])  # 입력 데이터
+    X = all_data.drop(columns=['품질상태', '파일명'])  # 입력 데이터
     y = all_data['품질상태']  # 출력 데이터
 
     print(y.value_counts())
@@ -49,12 +49,13 @@ class testClassifier:
     def build_model(self):
         input_layer = tf.keras.layers.Input(shape=self.input_dim)
 
+        regularizer = tf.keras.regularizers.L2(0.01)
         activation_func_relu = tf.keras.activations.relu
-        hidden_layer1 = tf.keras.layers.Dense(units = 32, activation=activation_func_relu)(input_layer)
+        hidden_layer1 = tf.keras.layers.Dense(units = 200, activation=activation_func_relu)(input_layer)
         dropout1 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer1)
-        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(dropout1)
+        hidden_layer2 = tf.keras.layers.Dense(units = 100, activation=activation_func_relu)(dropout1)
         dropout2 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer2)
-        hidden_layer3 = tf.keras.layers.Dense(units = 8, activation=activation_func_relu)(dropout2)
+        hidden_layer3 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(dropout2)
         dropout3 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer3)
 
         activation_func_sig = tf.keras.activations.sigmoid
