@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from tensorflow.keras.callbacks import EarlyStopping
 
 # 데이터 전처리 및 준비
@@ -21,6 +21,10 @@ def prepare_data(csv_file):
     X = selected_features.values  # 입력 데이터
     y = all_data['품질상태'].values  # 출력 데이터
 
+    # 원-핫 인코딩
+    encoder = OneHotEncoder(sparse_output=False)
+    y = encoder.fit_transform(y.reshape(-1, 1))
+
     # 테스트 데이터와 트레이닝 데이터로 분할
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42)
@@ -30,14 +34,18 @@ def prepare_data(csv_file):
     X_train_scaled = scalar.fit_transform(X_train)
     X_test_scaled = scalar.transform(X_test)
 
-    return X_train_scaled, X_test_scaled, y_train, y_test, scalar
+    return X_train_scaled, X_test_scaled, y_train, y_test, scalar, encoder
 
 
 # CSV 파일 경로
-csv_file = "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\data_dv_ld.csv"
+csv_file = "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\data_dv_hd.csv"
 
 # 데이터 전처리
-X_train, X_test, y_train, y_test, scalar = prepare_data(csv_file)
+X_train, X_test, y_train, y_test, scalar, encoder = prepare_data(csv_file)
+
+# 클래스 수 확인
+num_classes = y_train.shape[1]
+print(f"Number of classes: {num_classes}")
 
 # 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
 train_dataset = tf.data.Dataset.from_tensor_slices(
@@ -54,15 +62,23 @@ early_stopping = EarlyStopping(
 
 # 딥러닝 모델 구성
 model = models.Sequential([
-    layers.Dense(64, activation='relu',
-                 input_shape=(X_train.shape[1],)),  # 입력층
-    layers.Dense(32, activation='relu'),  # 은닉층
-    layers.Dense(16, activation='relu'),  # 은닉층 추가
-    layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
+    # input / encoder
+    layers.Dense(128, activation='relu', input_shape=(X_train.shape[1],)),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(32, activation='relu'),
+    layers.Dense(16, activation='relu'),
+    layers.Dense(8, activation='relu'),
+
+    # Decoder
+    layers.Dense(16, activation='relu'),
+    layers.Dense(32, activation='relu'),
+    layers.Dense(64, activation='relu'),
+    # 활성화 함수를 softmax로 변경하고 클래스 수에 맞춰 출력 레이어 수정
+    layers.Dense(num_classes, activation='softmax')
 ])
 
 # 모델 컴파일
-model.compile(optimizer='adam', loss='binary_crossentropy',
+model.compile(optimizer='adam', loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 # 모델 학습
@@ -85,7 +101,8 @@ else:
     new_data_scaled = scalar.transform(new_data)  # 새로운 데이터 전처리
     predictions = model.predict(new_data_scaled)
     for i, pred in enumerate(predictions):
-        if pred >= 0.5:
+        predicted_class = np.argmax(pred)
+        if predicted_class == 1:  # 예를 들어, 클래스 1이 불량이라고 가정
             print(f'데이터 {i + 1}은(는) 불량입니다.')
         else:
             print(f'데이터 {i + 1}은(는) 정상입니다.')
