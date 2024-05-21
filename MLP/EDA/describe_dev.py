@@ -1,33 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-
-def makeFile(output_path, dataFrame, fileName, label_input):
-    if os.path.exists(output_path) == True:
-        pass
-    else:
-        os.mkdir(output_path)
-    if label_input == 0:
-        label_input = "NG"
-    elif label_input == 1:
-        label_input = "OK"
-    elif label_input == 2:
-        label_input = "NTC"
-    elif label_input == 'a':
-        label_input = "ALL"
-    
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + fileName.split('.')[0] + f"_{label_input}_." + fileName.split('.')[1], encoding='cp949')
-
-def mv_describe(dataFrame, num, label_input):
-    if label_input == '0' or label_input == '1' or label_input == '2':
-        label_input = int(label_input)
-        dataFrame = dataFrame.loc[dataFrame['품질상태'] == label_input]
-        dataFrame = dataFrame.iloc[:, num : dataFrame.shape[1] : 5]
-    elif label_input == 'a':
-        dataFrame = dataFrame.iloc[:, num : dataFrame.shape[1] : 5]
-    print(dataFrame.head())
-
-    return dataFrame
+import describe_mv as des
 
 if __name__=="__main__":
     plt.rcParams['font.family'] ='Malgun Gothic'
@@ -44,14 +18,15 @@ if __name__=="__main__":
     print(dataFrame.shape)
     print(dataFrame.head())
 
-    dataFrame2 = mv_describe(dataFrame=dataFrame, num=1, label_input=label_input)
-    dataFrame3 = mv_describe(dataFrame=dataFrame, num=2, label_input='a')
+    dataFrame2 = des.mv_describe(dataFrame=dataFrame, num=5, label_input=label_input)
+    dataFrame3 = des.mv_describe(dataFrame=dataFrame, num=3, label_input='a')
+    dataFrame4 = des.mv_describe(dataFrame=dataFrame, num=4, label_input='a')
     
     #측정값을 describe한 데이터프레임 csv 파일 생성
     makeFileInput = input("csv파일을 생성하시겠습니까?(y, n): ")
     if makeFileInput == 'y':
         mvDescribe = dataFrame2.describe()
-        makeFile(outputPath, mvDescribe, "측정값_describe_with_NTC.csv", label_input)
+        des.makeFile(outputPath, mvDescribe, "편차_describe_with_NTC.csv", label_input)
 
     shape = dataFrame2.shape[1]
     print(shape)
@@ -67,12 +42,10 @@ if __name__=="__main__":
             for k in range(0, 4):
                 if i+(j*4)+k < shape:
                     axes[j, k].set_title(f"{dataFrame2.columns[i+(j*4)+k]}")
-                    axes[j, k].hist(dataFrame2.iloc[:, i+(j*4)+k], alpha=0.75, bins=30)
+                    axes[j, k].hist(dataFrame2.iloc[:, i+(j*4)+k], alpha=0.75, bins=20)
                     # if(i + j < shape -1):
-                    #     axes[j].axvline(x=dataFrame3.iloc[0, i+j], color='r', label='a')
+                    #     axes[j, k].axvline(x=dataFrame3.iloc[0, i+j], color='r', label='a')
+                    #     axes[j, k].axvline(x=dataFrame4.iloc[0, i+j], color='r', label='a')
         fig.canvas.manager.set_window_title(f"측정값 히스토그램 {count}")
         plt.show()
         count += 1
-
-    print(dataFrame2[dataFrame2.iloc[:, 5] == 0])
-    
