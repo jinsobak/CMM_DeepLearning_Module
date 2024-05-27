@@ -22,6 +22,7 @@ def mv_describe(dataFrame, num, label_input):
     if label_input == '0' or label_input == '1' or label_input == '2':
         label_input = int(label_input)
         dataFrame = dataFrame.loc[dataFrame['품질상태'] == label_input]
+        print(dataFrame['품질상태'].head())
         dataFrame = dataFrame.iloc[:, num : dataFrame.shape[1] : 5]
     elif label_input == 'a':
         dataFrame = dataFrame.iloc[:, num : dataFrame.shape[1] : 5]

@@ -46,6 +46,6 @@ if __name__=="__main__":
                     # if(i + j < shape -1):
                     #     axes[j, k].axvline(x=dataFrame3.iloc[0, i+j], color='r', label='a')
                     #     axes[j, k].axvline(x=dataFrame4.iloc[0, i+j], color='r', label='a')
-        fig.canvas.manager.set_window_title(f"측정값 히스토그램 {count}")
+        fig.canvas.manager.set_window_title(f"편차 히스토그램 {count}")
         plt.show()
         count += 1
