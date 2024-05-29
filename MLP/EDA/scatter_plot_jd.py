@@ -24,28 +24,26 @@ if __name__=="__main__":
     dataFrame3 = dataFrame3.iloc[:, 1:]
     dataFrame4 = dataFrame4.iloc[:, 1:]
 
-    ylim_under = -0.3
-    ylim_over = 0.3
+    ylim_under = -1
+    ylim_over = 1
 
-    plt.figure("판정 선그래프 NG", figsize=(15, 8))
+    plt.figure("판정 산점도 NG", figsize=(15, 8))
     for i in range(0, dataFrame2.shape[0]):
-        plt.plot(dataFrame2.iloc[i, :])
+        plt.scatter(dataFrame2.columns, dataFrame2.iloc[i, :])
     plt.ylim(ylim_under, ylim_over)
-    plt.title(f"판정 선그래프 NG")
+    plt.title(f"판정 산점도 NG")
     plt.show()
 
-    plt.figure("판정 선그래프 OK", figsize=(15, 8))
+    plt.figure("판정 산점도 OK", figsize=(15, 8))
     for i in range(0, dataFrame3.shape[0]):
-        plt.plot(dataFrame3.iloc[i, :])
-    plt.xticks(ticks=range(dataFrame3.shape[1]))
+        plt.scatter(dataFrame3.columns, dataFrame3.iloc[i, :])
     plt.ylim(ylim_under, ylim_over)
-    plt.title(f"판정 선그래프 OK")
+    plt.title(f"판정 산점도 OK")
     plt.show()
 
-    plt.figure("판정 선그래프 NTC", figsize=(15, 8))
+    plt.figure("판정 산점도 NTC", figsize=(15, 8))
     for i in range(0, dataFrame4.shape[0]):
-        plt.plot(dataFrame4.iloc[i, :])
-    plt.xticks(ticks=range(dataFrame4.shape[1]))
+        plt.scatter(dataFrame4.columns, dataFrame4.iloc[i, :])
     plt.ylim(ylim_under, ylim_over)
-    plt.title(f"판정 선그래프 NTC")
+    plt.title(f"판정 산점도 NTC")
     plt.show()
