@@ -23,7 +23,7 @@ def prepare_data(csv_file):
 
     # 특징 선택 (불필요한 열 제거 등)
     selected_features = all_data.drop(
-        columns=['품질상태', '품명'])  # 품질상태와 품명을 제외한 특징 선택
+        columns=['품질상태'])  # 품질상태와 품명을 제외한 특징 선택
 
     # 딥러닝의 입력 데이터와 정답 데이터 생성
     X = selected_features.values  # 입력 데이터
@@ -42,7 +42,7 @@ def prepare_data(csv_file):
 
 
 # CSV 파일 경로
-csv_file = "C:\\Users\\ddc4k\\Onedrive\\Desktop\\빅브라더\\sample\\data_dv_ld.csv"
+csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_dv_hd_with_NTC.csv"
 
 # 데이터 전처리
 X_train, X_test, y_train, y_test, scalar = prepare_data(csv_file)
