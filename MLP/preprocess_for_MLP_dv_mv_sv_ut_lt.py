@@ -80,7 +80,7 @@ if __name__=="__main__":
     pd.set_option('display.max_rows', None)
     pd.set_option('mode.chained_assignment',  None)
 
-    mode = 1
+    mode = 2
     #dataset_path = os.getcwd() + "\\output_test_ld\\45926-4G100"
     #dataset_path = os.getcwd() + "\\output_test_sd\\45926-4G100"
     dataset_path = os.getcwd() + "\\dataset_csv\\45926-4G100"
@@ -93,7 +93,8 @@ if __name__=="__main__":
         datas = fill_or_drop_devation(datas)
         datas = fill_ut_lt(datas)
         datas = change_data_form(datas, mode, fileName=file)
-        dataFrame = pd.concat([dataFrame, datas], ignore_index=False)
+        if datas['품질상태'][0] != 2:
+            dataFrame = pd.concat([dataFrame, datas], ignore_index=False)
 
     for col in dataFrame.columns:
         nanRatio = dataFrame[col].isnull().sum() / dataFrame[col].shape[0]
@@ -117,4 +118,4 @@ if __name__=="__main__":
     if mode == 1:
         dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_mv_sv_dv_ut_lt_hd.csv", encoding='cp949')
     elif mode == 2:
-        dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_mv_sv_dv_ut_lt_hd_with_NTC.csv", encoding='cp949')
+        dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_mv_sv_dv_ut_lt_hd_no_NTC.csv", encoding='cp949')
