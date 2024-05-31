@@ -1,0 +1,28 @@
+2024-05-30 17:53:06,382 INFO    MainThread:10016 [wandb_setup.py:_flush():76] Current SDK version is 0.17.0
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_setup.py:_flush():76] Configure stats pid to 10016
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_setup.py:_flush():76] Loading settings from C:\Users\ddc4k\.config\wandb\settings
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_setup.py:_flush():76] Loading settings from C:\Users\ddc4k\OneDrive\Desktop\빅브라더\wandb\settings
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'sample\\sample2.py', 'program_abspath': 'c:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\sample2.py', 'program': 'c:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\sample2.py'}
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_init.py:_log_setup():520] Logging user logs to C:\Users\ddc4k\OneDrive\Desktop\빅브라더\wandb\run-20240530_175306-emzpreag\logs\debug.log
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_init.py:_log_setup():521] Logging internal logs to C:\Users\ddc4k\OneDrive\Desktop\빅브라더\wandb\run-20240530_175306-emzpreag\logs\debug-internal.log
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_init.py:init():560] calling init triggers
+2024-05-30 17:53:06,383 INFO    MainThread:10016 [wandb_init.py:init():567] wandb.init called with sweep_config: {}
+config: {}
+2024-05-30 17:53:06,384 INFO    MainThread:10016 [wandb_init.py:init():610] starting backend
+2024-05-30 17:53:06,384 INFO    MainThread:10016 [wandb_init.py:init():614] setting up manager
+2024-05-30 17:53:06,386 INFO    MainThread:10016 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn, using: spawn
+2024-05-30 17:53:06,388 INFO    MainThread:10016 [wandb_init.py:init():622] backend started and connected
+2024-05-30 17:53:06,392 INFO    MainThread:10016 [wandb_init.py:init():711] updated telemetry
+2024-05-30 17:53:06,433 INFO    MainThread:10016 [wandb_init.py:init():744] communicating run to backend with 90.0 second timeout
+2024-05-30 17:53:06,942 INFO    MainThread:10016 [wandb_run.py:_on_init():2396] communicating current version
+2024-05-30 17:53:07,012 INFO    MainThread:10016 [wandb_run.py:_on_init():2405] got version response 
+2024-05-30 17:53:07,013 INFO    MainThread:10016 [wandb_init.py:init():795] starting run threads in backend
+2024-05-30 17:53:07,284 INFO    MainThread:10016 [wandb_run.py:_console_start():2374] atexit reg
+2024-05-30 17:53:07,284 INFO    MainThread:10016 [wandb_run.py:_redirect():2229] redirect: wrap_raw
+2024-05-30 17:53:07,284 INFO    MainThread:10016 [wandb_run.py:_redirect():2294] Wrapping output streams.
+2024-05-30 17:53:07,285 INFO    MainThread:10016 [wandb_run.py:_redirect():2319] Redirects installed.
+2024-05-30 17:53:07,286 INFO    MainThread:10016 [wandb_init.py:init():838] run started, returning control to user process
+2024-05-30 17:53:16,300 WARNING MsgRouterThr:10016 [router.py:message_loop():77] message_loop has been closed

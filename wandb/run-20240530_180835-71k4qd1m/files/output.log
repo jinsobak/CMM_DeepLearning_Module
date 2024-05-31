@@ -1,0 +1,7 @@
+wandb: WARNING Calling wandb.run.save without any arguments is deprecated.Changes to attributes are automatically persisted.
+c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\layers\core\dense.py:88: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().__init__(activity_regularizer=activity_regularizer, **kwargs)
+Traceback (most recent call last):
+  File "c:\Users\ddc4k\OneDrive\Desktop\빅브라더\sample\sample2.py", line 80, in <module>
+    early_stopping, WandbCallback()], validation_data=test_dataset)
+NameError: name 'WandbCallback' is not defined
