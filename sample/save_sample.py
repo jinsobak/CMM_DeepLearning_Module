@@ -66,10 +66,10 @@ model.fit(train_dataset, epochs=100, callbacks=[early_stopping], validation_data
 loss, accuracy = model.evaluate(test_dataset)
 print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
 
-# 모델 저장
-model.save('trained_model.h5')
-print("모델이 'trained_model.h5' 파일로 저장되었습니다.")
+# 모델 저장 (새로운 Keras 형식 사용)
+model.save('trained_model.keras')
+print("모델이 'trained_model.keras' 파일로 저장되었습니다.")
 
 # 모델 로드 및 새로운 데이터 예측
-loaded_model = tf.keras.models.load_model('trained_model.h5')
-print("모델이 'trained_model.h5' 파일에서 로드되었습니다.")
+loaded_model = tf.keras.models.load_model('trained_model.keras')
+print("모델이 'trained_model.keras' 파일에서 로드되었습니다.")
