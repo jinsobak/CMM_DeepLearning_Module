@@ -14,7 +14,7 @@ def additional_sample_data(num_samples=10):
     측정값_원1_I_D = np.round(np.random.uniform(16.465, 16.509, num_samples), 3)
     기준값_원1_I_D = np.random.choice([16.48, 16.485], num_samples)
     상한공차_원1_I_D = np.full(num_samples, 0.03)
-    하한공차_원1_I_D = np.round(np.random.uniform(-0.01, 0, num_samples), 3)
+    하한공차_원1_I_D = np.random.choice([-0.01, 0], num_samples)
     편차_원1_I_D = 기준값_원1_I_D - 측정값_원1_I_D
 
     측정값_원2_I_D = np.round(np.random.uniform(16.457, 16.514, num_samples), 3)
