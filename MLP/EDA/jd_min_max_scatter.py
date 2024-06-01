@@ -49,27 +49,3 @@ if __name__=="__main__":
     makeFileInput = input("csv파일을 생성하시겠습니까?(y, n): ")
     if makeFileInput == 'y':
         des.makeFile(outputPath, min_max_dataFrame, "판정_min_max_with_NTC.csv", "")
-
-    ylim_under = -1
-    ylim_over = 1
-
-    # plt.figure("판정 산점도 NG", figsize=(15, 8))
-    # for i in range(0, dataFrame2.shape[0]):
-    #     plt.scatter(dataFrame2.columns, dataFrame2.iloc[i, :])
-    # plt.ylim(ylim_under, ylim_over)
-    # plt.title(f"판정 산점도 NG")
-    # plt.show()
-
-    # plt.figure("판정 산점도 OK", figsize=(15, 8))
-    # for i in range(0, dataFrame3.shape[0]):
-    #     plt.scatter(dataFrame3.columns, dataFrame3.iloc[i, :])
-    # plt.ylim(ylim_under, ylim_over)
-    # plt.title(f"판정 산점도 OK")
-    # plt.show()
-
-    # plt.figure("판정 산점도 NTC", figsize=(15, 8))
-    # for i in range(0, dataFrame4.shape[0]):
-    #     plt.scatter(dataFrame4.columns, dataFrame4.iloc[i, :])
-    # plt.ylim(ylim_under, ylim_over)
-    # plt.title(f"판정 산점도 NTC")
-    # plt.show()
