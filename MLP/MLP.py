@@ -74,7 +74,7 @@ if __name__ == "__main__":
     # 데이터 파일 경로
     #dataName = 'data_dv_hd.csv'
     #dataName = 'data_mv,sv,dv_hd.csv'
-    dataName = 'data_mv_sv_dv_ut_lt_hd.csv'
+    dataName = 'data_mv_sv_dv_ut_lt_hd_no_NTC.csv'
     #dataName = 'data_jd_2_hd.csv'
     
     csv_files = os.getcwd() + "\\MLP\\datas\\" + dataName
