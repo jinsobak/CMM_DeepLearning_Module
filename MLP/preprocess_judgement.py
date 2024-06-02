@@ -34,8 +34,8 @@ def modify_shape_name(dataFrame):
 
     return dataFrame
 
-def modify_judgement(labels, dataFrame):
-    name = dataFrame['품명'][0]
+def modify_judgement(labels, dataFrame, file):
+    name = file
     quality = dataFrame['품질상태'][0]
     dataFrame = dataFrame.assign(판정2=dataFrame['판정'])
     dataFrame.loc[dataFrame['판정'].isin(labels), '판정2'] = 0
@@ -45,10 +45,10 @@ def modify_judgement(labels, dataFrame):
     dataFrame = dataFrame.reset_index()
     dataFrame = dataFrame.drop('index', axis=1)
     dataFrame = dataFrame.astype(dtype='float64')
-    dataFrame.insert(0, '품명', name)
+    dataFrame.insert(0, '파일명', name)
     dataFrame = dataFrame.assign(품질상태=quality)
-    dataFrame = dataFrame.set_index('품명')
-    dataFrame.index.name = '품명'
+    dataFrame = dataFrame.set_index('파일명')
+    dataFrame.index.name = '파일명'
 
     return dataFrame
 
@@ -70,7 +70,7 @@ if __name__=="__main__":
         data = modify_shape_name(data)
         #data = modify_quality3(data)
         data = modify_quality2(data)
-        data = modify_judgement(labels=labels, dataFrame=data)
+        data = modify_judgement(labels=labels, dataFrame=data, file=file)
         dataFrame = pd.concat([dataFrame, data], ignore_index=False)
 
     for col in dataFrame.columns:
