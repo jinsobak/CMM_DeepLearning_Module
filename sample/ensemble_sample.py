@@ -1,162 +1,108 @@
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras import layers, models
+from tensorflow.keras import layers, models, Input
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from tensorflow.keras.callbacks import EarlyStopping
-from imblearn.over_sampling import SMOTE
-import wandb
-from wandb.integration.keras import WandbMetricsLogger
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
 
-# wandb 초기화
-wandb.init(project='Ensemble Example(Train)')
-wandb.run.name = 'ensemble wandb'
-wandb.run.save()
-
-
+# 데이터 전처리 및 준비
 def prepare_data(csv_file):
-    # CSV 파일을 읽어들여 DataFrame으로 변환
     all_data = pd.read_csv(csv_file, encoding='cp949')
-
-    # 특징 선택 (불필요한 열 제거 등)
-    selected_features = all_data.drop(
-        columns=['품질상태'])  # 품질상태와 품명을 제외한 특징 선택
-
-    # 딥러닝의 입력 데이터와 정답 데이터 생성
+    numeric_features = all_data.select_dtypes(include=[np.number])
+    selected_features = numeric_features.drop(columns=['품질상태'])  # 품질상태를 제외한 특징 선택
     X = selected_features.values  # 입력 데이터
     y = all_data['품질상태'].values  # 출력 데이터
+    encoder = OneHotEncoder(sparse_output=False)
+    y = encoder.fit_transform(y.reshape(-1, 1))
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    return X_train_scaled, X_test_scaled, y_train, y_test, scaler, encoder
 
-    # 클래스별로 데이터를 분리
-    normal_idx = np.where(y == 1)
-    abnormal_idx = np.where(y == 0)
-    unknown_idx = np.where(y == 2)
-
-    X_normal = X[normal_idx]
-    y_normal = y[normal_idx]
-    X_abnormal = X[abnormal_idx]
-    y_abnormal = y[abnormal_idx]
-    X_unknown = X[unknown_idx]
-    y_unknown = y[unknown_idx]
-
-    # 각각 테스트 데이터와 트레이닝 데이터로 분할
-    X_normal_train, X_normal_test, y_normal_train, y_normal_test = train_test_split(
-        X_normal, y_normal, test_size=0.2, random_state=42)
-    X_abnormal_train, X_abnormal_test, y_abnormal_train, y_abnormal_test = train_test_split(
-        X_abnormal, y_abnormal, test_size=0.2, random_state=42)
-    X_unknown_train, X_unknown_test, y_unknown_train, y_unknown_test = train_test_split(
-        X_unknown, y_unknown, test_size=0.2, random_state=42)
-
-    # 데이터 스케일링
-    scalar = StandardScaler()
-    X_normal_train_scaled = scalar.fit_transform(X_normal_train)
-    X_normal_test_scaled = scalar.transform(X_normal_test)
-    X_abnormal_train_scaled = scalar.fit_transform(X_abnormal_train)
-    X_abnormal_test_scaled = scalar.transform(X_abnormal_test)
-    X_unknown_train_scaled = scalar.fit_transform(X_unknown_train)
-    X_unknown_test_scaled = scalar.transform(X_unknown_test)
-
-    return (X_normal_train_scaled, X_normal_test_scaled, y_normal_train, y_normal_test), \
-           (X_abnormal_train_scaled, X_abnormal_test_scaled, y_abnormal_train, y_abnormal_test), \
-           (X_unknown_train_scaled, X_unknown_test_scaled,
-            y_unknown_train, y_unknown_test), scalar
-
-
-def build_and_train_model(X_train, y_train, X_test, y_test, class_weights):
-    # Early Stopping 설정
-    early_stopping = EarlyStopping(
-        min_delta=0.001,  # 최소한의 변화
-        patience=20,      # 몇 번 연속으로 개선이 없는지
-        restore_best_weights=True  # 최상의 가중치로 복원
-    )
-
-    # 딥러닝 모델 구성
+# 각 데이터셋에 대해 모델 학습
+def train_model(csv_file, loss, activation):
+    X_train, X_test, y_train, y_test, scaler, encoder = prepare_data(csv_file)
+    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)
+    test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)
+    early_stopping = EarlyStopping(min_delta=0.001, patience=20, restore_best_weights=True)
     model = models.Sequential([
-        layers.Dense(64, activation='relu',
-                     input_shape=(X_train.shape[1],)),  # 입력층
-        layers.Dense(32, activation='relu'),  # 은닉층
-        layers.Dense(16, activation='relu'),  # 은닉층 추가
-        layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
+        Input(shape=(X_train.shape[1],)),
+        layers.Dense(128, activation='relu'),
+        layers.Dropout(0.5),
+        layers.Dense(64, activation='relu'),
+        layers.Dropout(0.5),
+        layers.Dense(32, activation='relu'),
+        layers.Dense(1, activation=activation)  # 이진 분류를 위한 출력 레이어
     ])
-
-    # 모델 컴파일
-    model.compile(optimizer='adam', loss='binary_crossentropy',
-                  metrics=['accuracy', 'Precision', 'Recall'])
-
-    # 모델 학습
-    history = model.fit(
-        X_train, y_train,
-        epochs=100,
-        batch_size=32,
-        validation_data=(X_test, y_test),
-        class_weight=class_weights,
-        callbacks=[early_stopping, WandbMetricsLogger()]
-    )
-
-    # 모델 평가
-    loss, accuracy, precision, recall = model.evaluate(X_test)
-    print(
-        f'Test Loss: {loss}, Test Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}')
-
-    # wandb 설정 업데이트 및 로그 기록
-    wandb.config.update({
-        "epochs": 100,
-        "batch_size": 32
-    })
-
-    wandb.log({
-        "Test Loss": loss,
-        "Test Accuracy": accuracy,
-        "Test Precision": precision,
-        "Test Recall": recall
-    })
-
-    return model
-
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy'])
+    model.fit(train_dataset, epochs=100, callbacks=[early_stopping], validation_data=test_dataset, verbose=1)
+    loss, accuracy = model.evaluate(test_dataset)
+    print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
+    return model, scaler, encoder
 
 # CSV 파일 경로
-csv_file = "C:\\Users\\ddc4k\\Onedrive\\Desktop\\빅브라더\\sample\\data_dv_hd_with_NTC.csv"
+ng_csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_hd_only_NG.csv"
+ok_csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_hd_only_OK.csv"
+with_ntc_csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_hd_no_NTC.csv"
 
-# 데이터 전처리
-(normal_train, normal_test, abnormal_train, abnormal_test,
- unknown_train, unknown_test, scalar) = prepare_data(csv_file)
+# NG, OK 모델 학습
+ng_model, ng_scaler, ng_encoder = train_model(ng_csv_file, 'binary_crossentropy', 'sigmoid')
+ok_model, ok_scaler, ok_encoder = train_model(ok_csv_file, 'binary_crossentropy', 'sigmoid')
 
-# 클래스 가중치 계산
-normal_class_weights = compute_class_weight(
-    'balanced', classes=np.unique(normal_train[1]), y=normal_train[1])
-abnormal_class_weights = compute_class_weight(
-    'balanced', classes=np.unique(abnormal_train[1]), y=abnormal_train[1])
-unknown_class_weights = compute_class_weight(
-    'balanced', classes=np.unique(unknown_train[1]), y=unknown_train[1])
+# 기본 모델의 예측 결합
+def get_predictions(models, scalers, X):
+    predictions = []
+    for model, scaler in zip(models, scalers):
+        X_scaled = scaler.transform(X)
+        pred = model.predict(X_scaled)
+        predictions.append(pred)
+    return np.concatenate(predictions, axis=1)
 
-normal_class_weights = dict(enumerate(normal_class_weights))
-abnormal_class_weights = dict(enumerate(abnormal_class_weights))
-unknown_class_weights = dict(enumerate(unknown_class_weights))
+# 모든 클래스가 포함된 데이터셋 준비
+X_train_with_ntc, X_test_with_ntc, y_train_with_ntc, y_test_with_ntc, scaler_with_ntc, encoder_with_ntc = prepare_data(with_ntc_csv_file)
 
-# 모델 학습
-normal_model = build_and_train_model(
-    *normal_train, *normal_test, normal_class_weights)
-abnormal_model = build_and_train_model(
-    *abnormal_train, *abnormal_test, abnormal_class_weights)
-unknown_model = build_and_train_model(
-    *unknown_train, *unknown_test, unknown_class_weights)
+# 메타 모델 학습 데이터 생성
+train_meta = get_predictions([ng_model, ok_model], [ng_scaler, ok_scaler], X_train_with_ntc)
+test_meta = get_predictions([ng_model, ok_model], [ng_scaler, ok_scaler], X_test_with_ntc)
 
-# 예측 수행
-normal_preds = normal_model.predict(normal_test[0])
-abnormal_preds = abnormal_model.predict(abnormal_test[0])
-unknown_preds = unknown_model.predict(unknown_test[0])
+# 메타 모델 학습
+meta_model = LogisticRegression(max_iter=1000)
+meta_model.fit(train_meta, np.argmax(y_train_with_ntc, axis=1))
 
-# 예측 결과 결합 (앙상블)
-final_predictions = np.argmax(
-    np.array([normal_preds, abnormal_preds, unknown_preds]), axis=0)
+# 메타 모델 예측 및 평가
+meta_train_predictions = meta_model.predict(train_meta)
+meta_test_predictions = meta_model.predict(test_meta)
 
-# 예측 결과를 실제 라벨로 변환
-final_labels = np.where(final_predictions == 0, 1,
-                        np.where(final_predictions == 1, 0, 2))
+train_accuracy = accuracy_score(np.argmax(y_train_with_ntc, axis=1), meta_train_predictions)
+test_accuracy = accuracy_score(np.argmax(y_test_with_ntc, axis=1), meta_test_predictions)
 
-# 정확도 평가
-accuracy = accuracy_score(normal_test[1], final_labels)
-precision = precision_score(normal_test[1], final_labels, average='weighted')
-recall = recall_score(normal_test[1], final_labels, average='weighted')
-print(
-    f'Ensemble Model Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}')
+print(f"Meta Train Accuracy: {train_accuracy}")
+print(f"Meta Test Accuracy: {test_accuracy}")
+
+# 새로운 데이터 예측 함수
+def predict_new_data(models, scalers, meta_model, new_data):
+    base_predictions = get_predictions(models, scalers, new_data)
+    final_predictions = meta_model.predict(base_predictions)
+    return final_predictions
+
+# 불량 판별
+new_data = [
+    # 새로운 데이터셋을 리스트로 저장
+]
+
+if len(new_data) == 0:
+    print("새로운 데이터가 없습니다.")
+else:
+    new_data_scaled = scaler_with_ntc.transform(new_data)  # 새로운 데이터 전처리
+    predictions = predict_new_data([ng_model, ok_model], [ng_scaler, ok_scaler], meta_model, new_data_scaled)
+    for i, pred in enumerate(predictions):
+        if pred == 0:
+            print(f'데이터 {i + 1}은(는) 불량입니다.')
+        elif pred == 1:
+            print(f'데이터 {i + 1}은(는) 정상입니다.')
+        elif pred == 2:
+            print(f'데이터 {i + 1}은(는) 모름입니다.')

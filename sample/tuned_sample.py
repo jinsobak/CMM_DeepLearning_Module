@@ -36,7 +36,7 @@ def prepare_data(csv_file):
 
 
 # CSV 파일 경로
-csv_file = "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_hd_with_NTC.csv"
+csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_hd_no_NTC.csv"
 
 # 데이터 전처리
 X_train, X_test, y_train, y_test, scalar = prepare_data(csv_file)

@@ -7,15 +7,14 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from tensorflow.keras.callbacks import EarlyStopping
 
 # 데이터 전처리 및 준비
-
-
 def prepare_data(csv_file):
     # CSV 파일을 읽어들여 DataFrame으로 변환
     all_data = pd.read_csv(csv_file, encoding='cp949')
 
     # 특징 선택 (불필요한 열 제거 등)
-    selected_features = all_data.drop(
-        columns=['품질상태', '품명'])  # 품질상태와 품명을 제외한 특징 선택
+    # 숫자형 데이터만 선택
+    numeric_features = all_data.select_dtypes(include=[np.number])
+    selected_features = numeric_features.drop(columns=['품질상태'])  # 품질상태를 제외한 특징 선택
 
     # 딥러닝의 입력 데이터와 정답 데이터 생성
     X = selected_features.values  # 입력 데이터
@@ -30,18 +29,18 @@ def prepare_data(csv_file):
         X, y, test_size=0.2, random_state=42)
 
     # 데이터 스케일링
-    scalar = StandardScaler()
-    X_train_scaled = scalar.fit_transform(X_train)
-    X_test_scaled = scalar.transform(X_test)
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
 
-    return X_train_scaled, X_test_scaled, y_train, y_test, scalar, encoder
+    return X_train_scaled, X_test_scaled, y_train, y_test, scaler, encoder
 
 
 # CSV 파일 경로
-csv_file = "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\data_dv_hd.csv"
+csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\\data_mv,sv,dv_hd_with_NTC.csv"
 
 # 데이터 전처리
-X_train, X_test, y_train, y_test, scalar, encoder = prepare_data(csv_file)
+X_train, X_test, y_train, y_test, scaler, encoder = prepare_data(csv_file)
 
 # 클래스 수 확인
 num_classes = y_train.shape[1]
@@ -98,7 +97,7 @@ new_data = [
 if len(new_data) == 0:
     print("새로운 데이터가 없습니다.")
 else:
-    new_data_scaled = scalar.transform(new_data)  # 새로운 데이터 전처리
+    new_data_scaled = scaler.transform(new_data)  # 새로운 데이터 전처리
     predictions = model.predict(new_data_scaled)
     for i, pred in enumerate(predictions):
         predicted_class = np.argmax(pred)
