@@ -21,10 +21,10 @@ if __name__=="__main__":
     print(dataFrame2.shape)
 
     dataFrame2 = dataFrame2.loc[(
-        (dataFrame2['판정_점2 <- 점1의 되부름 <열전 관리치수(Spec : 116.6±0.1)>_X'] != 0) | 
-        (dataFrame2['판정_직선21 <우하 소재>_X/Y'] != 0) |
-        (dataFrame2['판정_점13 <- 점11와 점12의 중점 <열전관리_상>_X'] != 0) |
-        (dataFrame2['판정_점18 <- 점16와 점17의 중점 <열전관리_하>_X'] != 0)
+        (dataFrame2['판정_점2 <- 점1의 되부름 <열전 관리치수(Spec : 116.6±0.1)>_X'] != 0) 
+        & (dataFrame2['판정_직선21 <우하 소재>_X/Y'] != 0) 
+        # | (dataFrame2['판정_점13 <- 점11와 점12의 중점 <열전관리_상>_X'] != 0) 
+        # | (dataFrame2['판정_점18 <- 점16와 점17의 중점 <열전관리_하>_X'] != 0)
         )]
     print(dataFrame2.shape)
 
@@ -41,9 +41,9 @@ if __name__=="__main__":
     ylim_under = -0.15
     ylim_over = 0.15
     
-    # plt.figure("판정 선그래프 NG", figsize=(15, 8))
-    # for i in range(0, dataFrame2.shape[0]):
-    #     plt.plot(dataFrame2.iloc[i , :])
-    #     plt.ylim(ylim_under, ylim_over)
-    #     plt.title(f"{i}. {dataFrame2_fileName.iloc[i]} 판정 선그래프 NG")
-    #     plt.show()
+    for i in range(0, dataFrame2.shape[0]):
+        plt.figure("판정 선그래프", figsize=(15, 8))
+        plt.plot(dataFrame2.iloc[i , :])
+        plt.ylim(ylim_under, ylim_over)
+        plt.title(f"{i}. {dataFrame2_fileName.iloc[i]} 판정 선그래프")
+        plt.show()

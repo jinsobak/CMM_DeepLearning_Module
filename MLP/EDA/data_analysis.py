@@ -46,5 +46,5 @@ if __name__=="__main__":
     print(dataFrame['NG_Count'][dataFrame['품질'] == 1].value_counts())
     print(dataFrame['NG_Count'][dataFrame['품질'] == 0].value_counts())
     print(dataFrame['NG_Count'][dataFrame['품질'] == 2].value_counts())
-    print(dataFrame[(dataFrame['품질'] == 0) & (dataFrame['NG_Count'] == 3)])
+    print(dataFrame[(dataFrame['품질'] == 1) & (dataFrame['NG_Count'] == 13)])
     

@@ -74,8 +74,8 @@ if __name__ == "__main__":
     # 데이터 파일 경로
     #dataName = 'data_dv_hd.csv'
     #dataName = 'data_mv,sv,dv_hd.csv'
-    dataName = 'data_mv_sv_dv_ut_lt_hd_no_NTC.csv'
-    #dataName = 'data_jd_2_hd.csv'
+    #dataName = 'data_mv_sv_dv_ut_lt_hd_no_NTC.csv'
+    dataName = 'data_jd_no_NTC.csv'
     
     csv_files = os.getcwd() + "\\MLP\\datas\\" + dataName
     # 데이터 전처리 및 훈련, 검증, 시험 데이터 분리
