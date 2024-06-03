@@ -5,6 +5,7 @@ from tensorflow.keras import layers, models
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from tensorflow.keras.callbacks import EarlyStopping
+from sklearn.utils.class_weight import compute_class_weight
 
 # 데이터 전처리 및 준비
 
@@ -36,10 +37,15 @@ def prepare_data(csv_file):
 
 
 # CSV 파일 경로
-csv_file = "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_hd_with_NTC.csv"
+csv_file = "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\data_mv,sv,dv_hd_with_NTC.csv"
 
 # 데이터 전처리
 X_train, X_test, y_train, y_test, scalar = prepare_data(csv_file)
+
+# 클래스 가중치 계산
+class_weights = compute_class_weight(
+    'balanced', classes=np.unique(y_train), y=y_train)
+class_weights = dict(enumerate(class_weights))
 
 # 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
 train_dataset = tf.data.Dataset.from_tensor_slices(
@@ -60,16 +66,16 @@ model = models.Sequential([
                  input_shape=(X_train.shape[1],)),  # 입력층
     layers.Dense(32, activation='relu'),  # 은닉층
     layers.Dense(16, activation='relu'),  # 은닉층 추가
-    layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
+    layers.Dense(3, activation='softmax')  # 출력층 (다중 클래스 분류)
 ])
 
 # 모델 컴파일
-model.compile(optimizer='adam', loss='binary_crossentropy',
-              metrics=['accuracy'])
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # 모델 학습
 model.fit(train_dataset, epochs=100, callbacks=[
-          early_stopping], validation_data=test_dataset)
+          early_stopping], validation_data=test_dataset, class_weight=class_weights)
 
 # 모델 평가
 loss, accuracy = model.evaluate(test_dataset)
