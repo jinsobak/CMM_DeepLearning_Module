@@ -22,8 +22,8 @@ else:
     os.mkdir(output_path)
 
 for item in data_list:
-    dataFrame = extract_data_from_file(dataset_path + "\\" + item)
-    output_path2 = output_path + '\\' + str(dataFrame['품번'][0]) + '\\'
+    dataFrame = extract_data_from_file(file_path=dataset_path + "\\" + item, fileName=item)
+    output_path2 = output_path + '\\' + str(dataFrame['품번'][0]) + '2\\'
     if os.path.exists(output_path2) == True:
         pass
     else:
