@@ -28,5 +28,5 @@ for item in data_list:
         pass
     else:
         os.mkdir(output_path2)
-    dataFrame.to_csv(path_or_buf=output_path2 + item[:-4]+".csv", encoding="cp949")
+    #dataFrame.to_csv(path_or_buf=output_path2 + item[:-4]+".csv", encoding="cp949")
     print("done")

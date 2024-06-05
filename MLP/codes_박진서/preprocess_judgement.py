@@ -68,8 +68,8 @@ if __name__=="__main__":
         data = pd.read_csv(dataPath + "\\" + file, encoding='cp949')
         data = drop_null_judgement(data)
         data = modify_shape_name(data)
-        #data = modify_quality3(data)
-        data = modify_quality2(data)
+        data = modify_quality3(data)
+        #data = modify_quality2(data)
         data = modify_judgement(labels=labels, dataFrame=data, file=file)
         dataFrame = pd.concat([dataFrame, data], ignore_index=False)
 

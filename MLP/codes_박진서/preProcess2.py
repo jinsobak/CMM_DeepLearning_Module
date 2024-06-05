@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-def extract_data_from_file(file_path):
+def extract_data_from_file(file_path, fileName):
     with open(file_path, 'r', encoding="cp949") as f:
         lines = f.readlines()
         
@@ -16,8 +16,10 @@ def extract_data_from_file(file_path):
             "종믈검사": lines[3].split("_")[3].strip()+"물",
             "품질상태": ""
     }
-    feature = lines[3]
+    feature = lines[3].split(":")[1].strip()+".txt"
     print(feature)
+    print(fileName)
+    print(fileName == feature)
     print(header_info['품번'])
     if(len(feature.split('_')) < 6):
         header_info["품질상태"] = ''
@@ -29,6 +31,7 @@ def extract_data_from_file(file_path):
         
     print(header_info["품질상태"])
     print(len(lines))
+    print("")
 
     data = []
     
@@ -129,11 +132,11 @@ def extract_data_from_file(file_path):
     ])
 
     #print(df.head)
-
+    
     return df
 
 if __name__ == "__main__":
-    dataset_path = os.getcwd() + "\\datasets"
+    dataset_path = os.getcwd() + "\\dataset"
     data_list = os.listdir(dataset_path)
     print(data_list)
     
