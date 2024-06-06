@@ -51,20 +51,17 @@ class testClassifier:
 
         regularizer = tf.keras.regularizers.L2(0.01)
         activation_func_relu = tf.keras.activations.relu
-        hidden_layer1 = tf.keras.layers.Dense(units = 200, activation=activation_func_relu)(input_layer)
-        dropout1 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer1)
-        hidden_layer2 = tf.keras.layers.Dense(units = 100, activation=activation_func_relu)(dropout1)
-        dropout2 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer2)
-        hidden_layer3 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(dropout2)
-        dropout3 = tf.keras.layers.Dropout(rate=0.1)(hidden_layer3)
+        hidden_layer1 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(input_layer)
+        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(hidden_layer1)
+        #hidden_layer3 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(hidden_layer2)
 
         activation_func_sig = tf.keras.activations.sigmoid
-        output_layer = tf.keras.layers.Dense(units=self.output_dim, activation=activation_func_sig)(dropout3)
+        output_layer = tf.keras.layers.Dense(units=self.output_dim, activation=activation_func_sig)(hidden_layer2)
         classifier_model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
 
         print(classifier_model.summary())
 
-        optimize_alg = tf.keras.optimizers.Adam(learning_rate=0.001)
+        optimize_alg = tf.keras.optimizers.Adam(learning_rate=0.005)
         loss_func = tf.keras.losses.BinaryCrossentropy(from_logits=False)
         classifier_model.compile(optimizer=optimize_alg, loss=loss_func, metrics=['accuracy'])
 
