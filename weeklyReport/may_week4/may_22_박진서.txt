@@ -1,0 +1,6 @@
+편차 전체, OK, NG, NTC에 따른 describe 결과 csv파일 생성 완료
+
+편차 각 항목에 대한 전체, OK, NG, NTC에 따른 히스토그램 생성 완료
+
+scatter map 방식에 대해서는 y축을 어떤 수치로 처리할 지 고민중
+
