@@ -50,6 +50,16 @@ def modify_judgement(labels, dataFrame, file):
     dataFrame = dataFrame.set_index('파일명')
     dataFrame.index.name = '파일명'
 
+    #판정_원5(I)_Y는 대부분의 파일에 존재하지 않음 그러므로 열 삭제
+    if "판정_원5(I)_Y" in dataFrame.columns or "판정_원5(I)_D" in dataFrame.columns:
+        dataFrame = dataFrame.drop(columns=['판정_원5(I)_Y', '판정_원5(I)_D'])
+
+    #두번 측정해서 열이 평소보다 많은 데이터를 두번째 측정한 데이터를 사용하도록 만듦
+    if dataFrame.shape[1] > 63:
+        dataFrame = dataFrame.iloc[:, 62:dataFrame.shape[1]]
+    
+    dataFrame.columns = [col.replace("#2", "") for col in dataFrame.columns]
+
     return dataFrame
 
 if __name__=="__main__":
@@ -73,11 +83,11 @@ if __name__=="__main__":
         data = modify_judgement(labels=labels, dataFrame=data, file=file)
         dataFrame = pd.concat([dataFrame, data], ignore_index=False)
 
-    for col in dataFrame.columns:
-        nanRatio = dataFrame[col].isnull().sum() / dataFrame[col].shape[0]
-        #print(col + " " + str(nanRatio))
-        if(nanRatio >= 0.5):
-            dataFrame.drop(columns=[col], inplace=True)
+    # for col in dataFrame.columns:
+    #     nanRatio = dataFrame[col].isnull().sum() / dataFrame[col].shape[0]
+    #     #print(col + " " + str(nanRatio))
+    #     if(nanRatio >= 0.5):
+    #         dataFrame.drop(columns=[col], inplace=True)
 
     dataFrame = dataFrame.fillna(value=0)
     print(dataFrame.isnull().sum())
@@ -86,4 +96,4 @@ if __name__=="__main__":
     if os.path.exists(output_path) != True:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_jd_2_hd.csv", encoding='cp949')
+    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_jd_2_hd2.csv", encoding='cp949')
