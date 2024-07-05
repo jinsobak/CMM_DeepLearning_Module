@@ -81,19 +81,18 @@ if __name__=="__main__":
         data = modify_quality3(data)
         #data = modify_quality2(data)
         data = modify_judgement(labels=labels, dataFrame=data, file=file)
-        dataFrame = pd.concat([dataFrame, data], ignore_index=False)
+        if data.loc[:,'품질상태'].iloc[0] != 2:
+            dataFrame = pd.concat([dataFrame, data], ignore_index=False)
 
-    # for col in dataFrame.columns:
-    #     nanRatio = dataFrame[col].isnull().sum() / dataFrame[col].shape[0]
-    #     #print(col + " " + str(nanRatio))
-    #     if(nanRatio >= 0.5):
-    #         dataFrame.drop(columns=[col], inplace=True)
-
+    #
     dataFrame = dataFrame.fillna(value=0)
     print(dataFrame.isnull().sum())
-
+    
+    #'소재'라는 문자열이 들어간 열 제거
+    dataFrame = dataFrame.loc[:, ~dataFrame.columns.str.contains('소재')]
+    
     output_path = os.getcwd() + "\\MLP\\datas"
     if os.path.exists(output_path) != True:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_jd_2_hd2.csv", encoding='cp949')
+    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_jd_hd2_delete_material_no_NTC.csv", encoding='cp949')

@@ -12,7 +12,7 @@ def makeFile(output_path):
     dataFrame2.to_csv(path_or_buf=output_path + '\\' + "data_analysis.csv", encoding='cp949')
 
 if __name__=="__main__":
-    datasetPath = os.getcwd() + "\\MLP\\datas\\data_jd_hd.csv"
+    datasetPath = os.getcwd() + "\\MLP\\datas\\data_jd_hd2.csv"
     dataFrame = pd.read_csv(datasetPath, encoding='cp949')
 
     dataFrame_fileName = dataFrame['파일명']
@@ -44,5 +44,5 @@ if __name__=="__main__":
     print(dataFrame2['NG_Count'][dataFrame2['품질'] == 1].value_counts())
     print(dataFrame2['NG_Count'][dataFrame2['품질'] == 0].value_counts())
     print(dataFrame2['NG_Count'][dataFrame2['품질'] == 2].value_counts())
-    print(dataFrame2[(dataFrame2['품질'] == 0) & (dataFrame2['NG_Count'] == 3)])
+    print(dataFrame2[(dataFrame2['품질'] == 1) & (dataFrame2['NG_Count'] == 1)])
     

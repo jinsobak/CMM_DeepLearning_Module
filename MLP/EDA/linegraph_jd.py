@@ -10,26 +10,27 @@ if __name__=="__main__":
     pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
 
-    dataPath = os.getcwd() + "\\MLP\\datas\\data_jd_hd.csv"
+    dataPath = os.getcwd() + "\\MLP\\datas\\data_jd_hd2.csv"
     outputPath = os.getcwd() + "\\MLP\\EDA\\datas\\"
 
     dataFrame = pd.read_csv(dataPath, encoding='cp949')
     print(dataFrame.shape)
 
-    quality = 0
+    dataFrame['NG_Count'] = 0
+    for i in range(0, dataFrame.shape[0]):
+        count = 0
+        for j in range(1, 63):
+            if dataFrame.iloc[i , j] != 0:
+                count += 1
+        dataFrame.loc[i, "NG_Count"] = count
+           
+    quality = 1
     dataFrame2 = dataFrame.loc[dataFrame['품질상태'] == quality, :]
     print(dataFrame2.shape)
-
-
-    # dataFrame2 = dataFrame2.loc[~(
-    #     (dataFrame2['판정_평면3 <- 점21, 점22, 점23, ... , 점26의 측정점 병합 <마이크로미터로 측정 해볼 것 !!!!!!!!!!!!!!!!>_Z'] > 0.645)
-    #     & (abs(dataFrame2['판정_점2 <- 점1의 되부름 <열전 관리치수(Spec : 116.6±0.1)>_X']) > 0.007) 
-    #     & (abs(dataFrame2['판정_직선21 <우하 소재>_X/Y']) > 0.07)
-    # )]
-
-    # dataFrame2 = dataFrame2.loc[~(
-    #     (abs(dataFrame2['판정_점2 <- 점1의 되부름 <열전 관리치수(Spec : 116.6±0.1)>_X']) > 0.04)
-    #      & (dataFrame2['판정_평면3 <- 점21, 점22, 점23, ... , 점26의 측정점 병합 <마이크로미터로 측정 해볼 것 !!!!!!!!!!!!!!!!>_Z'] > 0.645)
+    
+    # dataFrame2 = dataFrame2.loc[(
+    #     (dataFrame2['판정_평면3 <- 점21, 점22, 점23, ... , 점26의 측정점 병합 <마이크로미터로 측정 해볼 것 !!!!!!!!!!!!!!!!>_Z'] > 0.635)
+    #     & (abs(dataFrame2['판정_점2 <- 점1의 되부름 <열전 관리치수(Spec : 116.6±0.1)>_X']) > 0.025) 
     # )]
 
     # dataFrame2 = dataFrame2.loc[(
@@ -38,17 +39,21 @@ if __name__=="__main__":
     #     #& (dataFrame2['판정_평면3 <- 점21, 점22, 점23, ... , 점26의 측정점 병합 <마이크로미터로 측정 해볼 것 !!!!!!!!!!!!!!!!>_Z'] >= 0.6)
     # )]
 
+    dataFrame2 = dataFrame2.loc[(
+        (dataFrame2['NG_Count'] == 13)
+    )]
+    
     print(dataFrame2.shape)
 
     dataFrame2_fileName = dataFrame2.iloc[:, 0]
     dataFrame2 = dataFrame2.iloc[:, 1:]
 
-    for i in range(0, dataFrame2.shape[1]):
-        count = 0
-        for j in range(0, dataFrame2.shape[0]):
-            if(dataFrame2.iloc[j, i] != 0):
-                count += 1
-        print(f"{dataFrame2.columns[i]}: {count}")
+    # for i in range(0, dataFrame2.shape[1]):
+    #     count = 0
+    #     for j in range(0, dataFrame2.shape[0]):
+    #         if(dataFrame2.iloc[j, i] != 0):
+    #             count += 1
+    #     print(f"{dataFrame2.columns[i]}: {count}")
     
     ylim_under = -0.15
     ylim_over = 0.7

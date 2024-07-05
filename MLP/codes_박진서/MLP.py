@@ -52,16 +52,19 @@ class testClassifier:
         regularizer = tf.keras.regularizers.L2(0.01)
         activation_func_relu = tf.keras.activations.relu
         hidden_layer1 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(input_layer)
-        hidden_layer2 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(hidden_layer1)
-        #hidden_layer3 = tf.keras.layers.Dense(units = 16, activation=activation_func_relu)(hidden_layer2)
+        #dropout1 = tf.keras.layers.Dropout(0.3)(hidden_layer1)
+        hidden_layer2 = tf.keras.layers.Dense(units = 8, activation=activation_func_relu)(hidden_layer1)
+        #dropout2 = tf.keras.layers.Dropout(0.3)(hidden_layer2)
+        hidden_layer3 = tf.keras.layers.Dense(units = 4, activation=activation_func_relu)(hidden_layer2)
 
+        
         activation_func_sig = tf.keras.activations.sigmoid
-        output_layer = tf.keras.layers.Dense(units=self.output_dim, activation=activation_func_sig)(hidden_layer2)
+        output_layer = tf.keras.layers.Dense(units=self.output_dim, activation=activation_func_sig)(hidden_layer3)
         classifier_model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
 
         print(classifier_model.summary())
 
-        optimize_alg = tf.keras.optimizers.Adam(learning_rate=0.005)
+        optimize_alg = tf.keras.optimizers.Adam(learning_rate=0.002)
         loss_func = tf.keras.losses.BinaryCrossentropy(from_logits=False)
         classifier_model.compile(optimizer=optimize_alg, loss=loss_func, metrics=['accuracy'])
 
@@ -72,7 +75,8 @@ if __name__ == "__main__":
     #dataName = 'data_dv_hd.csv'
     #dataName = 'data_mv,sv,dv_hd.csv'
     #dataName = 'data_mv_sv_dv_ut_lt_hd_no_NTC.csv'
-    dataName = 'data_jd_no_NTC.csv'
+    #dataName = 'data_jd_no_NTC.csv'
+    dataName = 'data_jd_hd2_delete_material_no_NTC.csv'
     
     csv_files = os.getcwd() + "\\MLP\\datas\\" + dataName
     # 데이터 전처리 및 훈련, 검증, 시험 데이터 분리
@@ -91,7 +95,10 @@ if __name__ == "__main__":
     #tensorboard --logdir=./MLP/log --port=6006
 
     # 모델 학습 및 콜백 함수 설정
-    early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True)
+    early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True, monitor=
+                                                         #'val_loss'
+                                                         'val_accuracy'
+                                                         )
     tensorboard_cb = tf.keras.callbacks.TensorBoard(log_dir)
     history = classifier.fit(X_train, y_train, num_epochs=100, batch_size=32, validation_data=(X_val, y_val), callbacks=[early_stopping_cb, tensorboard_cb])
 
