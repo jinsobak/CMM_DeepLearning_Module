@@ -1,10 +1,8 @@
 import pandas as pd
 import numpy as np
-import tensorflow as tf
-from tensorflow.keras import layers, models, Input
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
@@ -23,26 +21,17 @@ def prepare_data(csv_file):
     X_test_scaled = scaler.transform(X_test)
     return X_train_scaled, X_test_scaled, y_train, y_test, scaler, encoder
 
-# 각 데이터셋에 대해 모델 학습
-def train_model(csv_file, loss, activation):
+# 랜덤 포레스트 모델 학습
+def train_random_forest_model(csv_file):
     X_train, X_test, y_train, y_test, scaler, encoder = prepare_data(csv_file)
-    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)
-    test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)
-    early_stopping = EarlyStopping(min_delta=0.001, patience=20, restore_best_weights=True)
-    model = models.Sequential([
-        Input(shape=(X_train.shape[1],)),
-        layers.Dense(128, activation='relu'),
-        layers.Dropout(0.5),
-        layers.Dense(64, activation='relu'),
-        layers.Dropout(0.5),
-        layers.Dense(32, activation='relu'),
-        layers.Dense(1, activation=activation)  # 이진 분류를 위한 출력 레이어
-    ])
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy'])
-    model.fit(train_dataset, epochs=100, callbacks=[early_stopping], validation_data=test_dataset, verbose=1)
-    loss, accuracy = model.evaluate(test_dataset)
-    print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
-    return model, scaler, encoder
+    y_train_single = np.argmax(y_train, axis=1)  # OneHotEncoded 라벨을 단일 클래스 라벨로 변환
+    y_test_single = np.argmax(y_test, axis=1)
+    rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf_model.fit(X_train, y_train_single)
+    train_accuracy = rf_model.score(X_train, y_train_single)
+    test_accuracy = rf_model.score(X_test, y_test_single)
+    print(f'Train Accuracy: {train_accuracy}, Test Accuracy: {test_accuracy}')
+    return rf_model, scaler, encoder
 
 # CSV 파일 경로
 ng_csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_hd_only_NG_sampleing.csv"
@@ -50,15 +39,15 @@ ok_csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_
 with_ntc_csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_hd_no_NTC.csv"
 
 # NG, OK 모델 학습
-ng_model, ng_scaler, ng_encoder = train_model(ng_csv_file, 'binary_crossentropy', 'sigmoid')
-ok_model, ok_scaler, ok_encoder = train_model(ok_csv_file, 'binary_crossentropy', 'sigmoid')
+ng_model, ng_scaler, ng_encoder = train_random_forest_model(ng_csv_file)
+ok_model, ok_scaler, ok_encoder = train_random_forest_model(ok_csv_file)
 
 # 기본 모델의 예측 결합
 def get_predictions(models, scalers, X):
     predictions = []
     for model, scaler in zip(models, scalers):
         X_scaled = scaler.transform(X)
-        pred = model.predict(X_scaled)
+        pred = model.predict_proba(X_scaled)  # 예측 확률 사용
         predictions.append(pred)
     return np.concatenate(predictions, axis=1)
 
