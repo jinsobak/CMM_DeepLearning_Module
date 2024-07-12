@@ -1,8 +1,9 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
+from sklearn.feature_selection import SelectFromModel
 
 # 데이터 파일을 제대로 불러오기 위해 파일 경로와 인코딩을 확인합니다.
 df = pd.read_csv("C:/Users/win/Desktop/data_mv_sv_dv_ut_lt_hd_no_NTC.csv", encoding='cp949')
@@ -30,26 +31,20 @@ y = df['품질상태']
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 
+# 특성 선택: 랜덤 포레스트를 사용하여 중요한 특성 선택
+selector = RandomForestClassifier(n_estimators=100, random_state=42)
+selector.fit(X, y)
+sfm = SelectFromModel(selector, threshold='median')
+X_transformed = sfm.transform(X)
+
 # 학습 데이터와 평가 데이터로 분할합니다.
-train_x, test_x, train_y, test_y = train_test_split(X, y, test_size=0.2, random_state=42)
+train_x, test_x, train_y, test_y = train_test_split(X_transformed, y, test_size=0.2, random_state=42)
 print(train_x.shape, test_x.shape, train_y.shape, test_y.shape)  # 데이터 개수 확인
 
-# 랜덤 포레스트 분류기 하이퍼파라미터 튜닝
-param_grid = {
-    'n_estimators': [100, 200, 300],
-    'max_depth': [None, 10, 20, 30],
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4],
-    'bootstrap': [True, False]
-}
-
-clf = RandomForestClassifier(random_state=42)
-grid_search = GridSearchCV(estimator=clf, param_grid=param_grid, cv=3, n_jobs=-1, verbose=2)
-grid_search.fit(train_x, train_y)
-
-best_clf = grid_search.best_estimator_
+# 랜덤 포레스트 분류기를 생성하고 학습합니다.
+clf = RandomForestClassifier(n_estimators=100, max_depth=100, random_state=42)
+clf.fit(train_x, train_y)
 
 # 평가 데이터로 예측을 수행하고 정확도를 출력합니다.
-predict2 = best_clf.predict(test_x)
-print("Best parameters found: ", grid_search.best_params_)
+predict2 = clf.predict(test_x)
 print("Accuracy: ", accuracy_score(test_y, predict2))
