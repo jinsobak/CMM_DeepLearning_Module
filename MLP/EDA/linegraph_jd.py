@@ -11,6 +11,7 @@ if __name__=="__main__":
     pd.set_option('display.max_rows', None)
 
     dataPath = os.getcwd() + "\\MLP\\datas\\data_jd_hd2.csv"
+    dataPath = os.getcwd() + "\\MLP\\datas\\data_jd_hd2_delete_material_no_NTC.csv"
     outputPath = os.getcwd() + "\\MLP\\EDA\\datas\\"
 
     dataFrame = pd.read_csv(dataPath, encoding='cp949')
