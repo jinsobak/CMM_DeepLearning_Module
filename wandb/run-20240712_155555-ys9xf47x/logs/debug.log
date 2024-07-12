@@ -1,0 +1,35 @@
+2024-07-12 15:55:55,447 INFO    Thread-11 (_run_job):25164 [wandb_setup.py:_flush():76] Current SDK version is 0.17.4
+2024-07-12 15:55:55,447 INFO    Thread-11 (_run_job):25164 [wandb_setup.py:_flush():76] Configure stats pid to 25164
+2024-07-12 15:55:55,447 INFO    Thread-11 (_run_job):25164 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\.config\wandb\settings
+2024-07-12 15:55:55,447 INFO    Thread-11 (_run_job):25164 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\settings
+2024-07-12 15:55:55,447 INFO    Thread-11 (_run_job):25164 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'_require_core': 'true', 'project': 'my_project', 'entity': 'freeman99', 'root_dir': 'C:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ', 'sweep_id': 'qstp1hqs', 'run_id': 'ys9xf47x', 'sweep_param_path': 'C:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\wandb\\sweep-qstp1hqs\\config-ys9xf47x.yaml'}
+2024-07-12 15:55:55,447 INFO    Thread-11 (_run_job):25164 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-07-12 15:55:55,447 INFO    Thread-11 (_run_job):25164 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'sample\\wandbModel.py', 'program_abspath': 'c:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\sample\\wandbModel.py', 'program': 'c:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\sample\\wandbModel.py'}
+2024-07-12 15:55:55,447 INFO    Thread-11 (_run_job):25164 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-12 15:55:55,452 INFO    Thread-11 (_run_job):25164 [wandb_init.py:_log_setup():529] Logging user logs to C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\run-20240712_155555-ys9xf47x\logs\debug.log
+2024-07-12 15:55:55,452 INFO    Thread-11 (_run_job):25164 [wandb_init.py:_log_setup():530] Logging internal logs to C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\run-20240712_155555-ys9xf47x\logs\debug-internal.log
+2024-07-12 15:55:55,452 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():569] calling init triggers
+2024-07-12 15:55:55,452 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():576] wandb.init called with sweep_config: {'dense_layer_1': 1024, 'dense_layer_2': 256, 'dense_layer_3': 64, 'dense_layer_4': 64, 'dropout_rate': 0.3, 'epochs': 100, 'learning_rate': 0.001}
+config: {}
+2024-07-12 15:55:55,452 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():619] starting backend
+2024-07-12 15:55:55,452 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():623] setting up manager
+2024-07-12 15:55:55,463 INFO    Thread-11 (_run_job):25164 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn, using: spawn
+2024-07-12 15:55:55,470 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():631] backend started and connected
+2024-07-12 15:55:55,500 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_config_callback():1382] config_cb None None {'dense_layer_1': 1024, 'dense_layer_2': 256, 'dense_layer_3': 64, 'dense_layer_4': 64, 'dropout_rate': 0.3, 'epochs': 100, 'learning_rate': 0.001}
+2024-07-12 15:55:55,501 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():720] updated telemetry
+2024-07-12 15:55:55,667 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-07-12 15:55:56,089 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_on_init():2402] communicating current version
+2024-07-12 15:55:56,094 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_on_init():2411] got version response 
+2024-07-12 15:55:56,094 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():804] starting run threads in backend
+2024-07-12 15:55:56,430 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_console_start():2380] atexit reg
+2024-07-12 15:55:56,430 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_redirect():2235] redirect: wrap_raw
+2024-07-12 15:55:56,430 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_redirect():2300] Wrapping output streams.
+2024-07-12 15:55:56,430 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_redirect():2325] Redirects installed.
+2024-07-12 15:55:56,435 INFO    Thread-11 (_run_job):25164 [wandb_init.py:init():847] run started, returning control to user process
+2024-07-12 15:56:09,860 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_finish():2109] finishing run freeman99/my_project/ys9xf47x
+2024-07-12 15:56:09,860 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_atexit_cleanup():2349] got exitcode: 0
+2024-07-12 15:56:09,861 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_restore():2332] restore
+2024-07-12 15:56:09,861 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_restore():2338] restore done
+2024-07-12 15:56:14,223 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_footer_history_summary_info():3991] rendering history
+2024-07-12 15:56:14,223 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_footer_history_summary_info():4023] rendering summary
+2024-07-12 15:56:14,240 INFO    Thread-11 (_run_job):25164 [wandb_run.py:_footer_sync_info():3950] logging synced files

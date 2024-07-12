@@ -1,0 +1,14 @@
+{"time":"2024-07-12T15:56:26.1419537+09:00","level":"INFO","msg":"using version","core version":"0.17.4"}
+{"time":"2024-07-12T15:56:26.1419537+09:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\freeman\\Desktop\\빅브라더\\wandb\\run-20240712_155626-f5anxes9\\logs\\debug-core.log"}
+{"time":"2024-07-12T15:56:26.1562315+09:00","level":"INFO","msg":"created new stream","id":"f5anxes9"}
+{"time":"2024-07-12T15:56:26.1562315+09:00","level":"INFO","msg":"handler: started","stream_id":{"value":"f5anxes9"}}
+{"time":"2024-07-12T15:56:26.1562315+09:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"f5anxes9"}}
+{"time":"2024-07-12T15:56:26.1567549+09:00","level":"INFO","msg":"sender: started","stream_id":{"value":"f5anxes9"}}
+{"time":"2024-07-12T15:56:26.762058+09:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-07-12T15:56:26.764972+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-07-12T15:56:27.5920729+09:00","level":"WARN","msg":"sender: sendMetric: glob name is not supported in the backend","globName":"epoch/*"}
+{"time":"2024-07-12T15:56:43.7202944+09:00","level":"INFO","msg":"sender: getServerInfo: got server info","serverInfo":{"cliVersionInfo":{"max_cli_version":"0.17.2","min_cli_version":"0.8.20"},"latestLocalVersionInfo":null}}
+{"time":"2024-07-12T15:56:43.7222718+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-07-12T15:56:43.7222718+09:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-07-12T15:56:46.0554794+09:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"f5anxes9"}}
+{"time":"2024-07-12T15:56:46.0554794+09:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"f5anxes9"}}

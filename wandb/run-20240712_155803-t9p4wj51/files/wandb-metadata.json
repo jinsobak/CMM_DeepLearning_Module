@@ -1,0 +1,32 @@
+{
+  "os":  "Windows-10-10.0.22631-SP0",
+  "python":  "3.11.5",
+  "startedAt":  "2024-07-12T06:58:03.966954Z",
+  "program":  "c:\\Users\\freeman\\Desktop\\빅브라더\\sample\\wandbModel.py",
+  "codePath":  "sample\\wandbModel.py",
+  "git":  {
+    "remote":  "https://github.com/jinsobak/CMM_DeepLearning_Module.git",
+    "commit":  "09b16bd4ffb7e808cb707c124ca2638090818ad1"
+  },
+  "email":  "lyc3427@gmail.com",
+  "root":  "C:\\Users\\freeman\\Desktop\\빅브라더",
+  "host":  "DESKTOP-0H2SVOF",
+  "username":  "freeman",
+  "executable":  "c:\\Users\\freeman\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+  "codePathLocal":  "sample\\wandbModel.py",
+  "cpu_count":  6,
+  "cpu_count_logical":  12,
+  "disk":  {
+    "/":  {
+      "total":  "249873764352",
+      "used":  "200032739328"
+    }
+  },
+  "memory":  {
+    "total":  "7952003072"
+  },
+  "cpu":  {
+    "count":  6,
+    "countLogical":  12
+  }
+}

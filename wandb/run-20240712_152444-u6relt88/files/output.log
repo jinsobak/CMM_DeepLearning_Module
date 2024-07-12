@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "c:\Users\freeman\Desktop\빅브라더\sample\wandbModel.py", line 49, in <module>
+    X_train, X_test, y_train, y_test, scaler = prepare_data(csv_file)
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\freeman\Desktop\빅브라더\sample\wandbModel.py", line 19, in prepare_data
+    raise FileNotFoundError(f"File not found: {csv_file}")
+FileNotFoundError: File not found: /mnt/data/data_mv_sv_dv_ut_lt_hd_no_NTC.csv

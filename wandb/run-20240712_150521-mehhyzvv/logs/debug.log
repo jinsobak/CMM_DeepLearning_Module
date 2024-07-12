@@ -1,0 +1,30 @@
+2024-07-12 15:05:21,625 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Current SDK version is 0.17.4
+2024-07-12 15:05:21,625 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Configure stats pid to 15840
+2024-07-12 15:05:21,625 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\.config\wandb\settings
+2024-07-12 15:05:21,625 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\settings
+2024-07-12 15:05:21,626 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-07-12 15:05:21,626 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'sample\\wandbModel.py', 'program_abspath': 'c:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\sample\\wandbModel.py', 'program': 'c:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\sample\\wandbModel.py'}
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Applying login settings: {'api_key': '***REDACTED***'}
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Applying login settings: {'api_key': '***REDACTED***'}
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_init.py:_log_setup():529] Logging user logs to C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\run-20240712_150521-mehhyzvv\logs\debug.log
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_init.py:_log_setup():530] Logging internal logs to C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\run-20240712_150521-mehhyzvv\logs\debug-internal.log
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_init.py:init():569] calling init triggers
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_init.py:init():576] wandb.init called with sweep_config: {}
+config: {}
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_init.py:init():619] starting backend
+2024-07-12 15:05:21,627 INFO    MainThread:15840 [wandb_init.py:init():623] setting up manager
+2024-07-12 15:05:21,640 INFO    MainThread:15840 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn, using: spawn
+2024-07-12 15:05:21,649 INFO    MainThread:15840 [wandb_init.py:init():631] backend started and connected
+2024-07-12 15:05:21,667 INFO    MainThread:15840 [wandb_init.py:init():720] updated telemetry
+2024-07-12 15:05:21,828 INFO    MainThread:15840 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-07-12 15:05:23,027 ERROR   MainThread:15840 [wandb_init.py:init():779] encountered error: It appears that you do not have permission to access the requested resource. Please reach out to the project owner to grant you access. If you have the correct permissions, verify that there are no issues with your networking setup.(Error 403: Forbidden)
+2024-07-12 15:05:23,027 ERROR   MainThread:15840 [wandb_init.py:init():1191] error in wandb.init()
+Traceback (most recent call last):
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_init.py", line 1181, in init
+    return wi.init()
+           ^^^^^^^^^
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_init.py", line 785, in init
+    raise error
+wandb.errors.CommError: It appears that you do not have permission to access the requested resource. Please reach out to the project owner to grant you access. If you have the correct permissions, verify that there are no issues with your networking setup.(Error 403: Forbidden)
+2024-07-12 15:05:24,789 WARNING MsgRouterThr:15840 [router.py:message_loop():77] message_loop has been closed

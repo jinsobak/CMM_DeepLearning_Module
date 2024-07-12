@@ -38,7 +38,7 @@ def prepare_data(csv_file):
     return X_train_scaled, X_test_scaled, y_train_encoded, y_test_encoded, scalar
 
 # 데이터 전처리
-X_train, X_test, y_train, y_test, scalar = prepare_data('C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv,sv,dv_hd_with_NTC.csv')
+X_train, X_test, y_train, y_test, scalar = prepare_data('C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_jd_hd.csv')
 
 # 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
 train_dataset = tf.data.Dataset.from_tensor_slices(
