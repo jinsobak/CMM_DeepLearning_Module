@@ -86,7 +86,7 @@ sweep_config = {
     }
 }
 
-sweep_id = wandb.sweep(sweep_config, project="my_project")
+sweep_id = wandb.sweep(sweep_config, project="PCA_project")
 
 def train(config=None):
     with wandb.init(config=config):
@@ -126,6 +126,8 @@ def train(config=None):
         # 모델 평가
         loss, accuracy = model.evaluate(test_dataset)
         print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
+
+        wandb.log({"test_loss": loss, "test_accuracy":accuracy})
 
 # Sweep 실행
 wandb.agent(sweep_id, function=train, count=20)
