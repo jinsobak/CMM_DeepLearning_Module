@@ -1,0 +1,20 @@
+[34m[1mwandb[39m[22m: [33mWARNING[39m Calling wandb.run.save without any arguments is deprecated.Changes to attributes are automatically persisted.
+Traceback (most recent call last):
+  File "c:\Users\freeman\Desktop\빅브라더\sample\sample2.py", line 48, in <module>
+    X_train, X_test, y_train, y_test, scalar = prepare_data(csv_file)
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\freeman\Desktop\빅브라더\sample\sample2.py", line 25, in prepare_data
+    selected_features = all_data.drop(
+                        ^^^^^^^^^^^^^^
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\frame.py", line 5581, in drop
+    return super().drop(
+           ^^^^^^^^^^^^^
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\generic.py", line 4788, in drop
+    obj = obj._drop_axis(labels, axis, level=level, errors=errors)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\generic.py", line 4830, in _drop_axis
+    new_axis = axis.drop(labels, errors=errors)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 7070, in drop
+    raise KeyError(f"{labels[mask].tolist()} not found in axis")
+KeyError: "['품명'] not found in axis"

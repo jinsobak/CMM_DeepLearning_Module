@@ -1,0 +1,13 @@
+{"time":"2024-07-12T15:50:17.0311864+09:00","level":"INFO","msg":"using version","core version":"0.17.4"}
+{"time":"2024-07-12T15:50:17.0312506+09:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\freeman\\Desktop\\빅브라더\\wandb\\run-20240712_155016-l16bqt5c\\logs\\debug-core.log"}
+{"time":"2024-07-12T15:50:17.0453636+09:00","level":"INFO","msg":"created new stream","id":"l16bqt5c"}
+{"time":"2024-07-12T15:50:17.045981+09:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"l16bqt5c"}}
+{"time":"2024-07-12T15:50:17.045981+09:00","level":"INFO","msg":"sender: started","stream_id":{"value":"l16bqt5c"}}
+{"time":"2024-07-12T15:50:17.045981+09:00","level":"INFO","msg":"handler: started","stream_id":{"value":"l16bqt5c"}}
+{"time":"2024-07-12T15:50:17.6527212+09:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-07-12T15:50:17.6549484+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-07-12T15:50:19.3872855+09:00","level":"INFO","msg":"sender: getServerInfo: got server info","serverInfo":{"cliVersionInfo":{"max_cli_version":"0.17.2","min_cli_version":"0.8.20"},"latestLocalVersionInfo":null}}
+{"time":"2024-07-12T15:50:19.3889426+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-07-12T15:50:19.3889426+09:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-07-12T15:50:21.5701199+09:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"l16bqt5c"}}
+{"time":"2024-07-12T15:50:21.5701199+09:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"l16bqt5c"}}

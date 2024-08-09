@@ -1,0 +1,13 @@
+{"time":"2024-07-12T15:46:51.2782966+09:00","level":"INFO","msg":"using version","core version":"0.17.4"}
+{"time":"2024-07-12T15:46:51.2786378+09:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\freeman\\Desktop\\빅브라더\\wandb\\run-20240712_154651-3njjersv\\logs\\debug-core.log"}
+{"time":"2024-07-12T15:46:51.2938404+09:00","level":"INFO","msg":"created new stream","id":"3njjersv"}
+{"time":"2024-07-12T15:46:51.2944958+09:00","level":"INFO","msg":"sender: started","stream_id":{"value":"3njjersv"}}
+{"time":"2024-07-12T15:46:51.2944958+09:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"3njjersv"}}
+{"time":"2024-07-12T15:46:51.2944043+09:00","level":"INFO","msg":"handler: started","stream_id":{"value":"3njjersv"}}
+{"time":"2024-07-12T15:46:51.9006573+09:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-07-12T15:46:51.9073882+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-07-12T15:46:53.2689881+09:00","level":"INFO","msg":"sender: getServerInfo: got server info","serverInfo":{"cliVersionInfo":{"max_cli_version":"0.17.2","min_cli_version":"0.8.20"},"latestLocalVersionInfo":null}}
+{"time":"2024-07-12T15:46:53.2705153+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-07-12T15:46:53.2705153+09:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-07-12T15:46:55.5644778+09:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"3njjersv"}}
+{"time":"2024-07-12T15:46:55.5644778+09:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"3njjersv"}}
