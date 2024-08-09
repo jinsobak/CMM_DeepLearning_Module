@@ -35,7 +35,11 @@ def prepare_data(csv_file):
     return X_train_scaled, X_test_scaled, X_val_scaled, Y_train, Y_test, Y_val, scaler, selected_features.columns
 
 # CSV 파일 경로
+<<<<<<< HEAD
 csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_mv_sv_dv_ut_lt_pca_no_NTC.csv"
+=======
+csv_file = 'C:\\git_folder\\CMM_DeepLearning_Module\\MLP&ML\\datas\\data_jd_pca_no_NTC_3.csv'
+>>>>>>> 5ccecf2bc9bcc59b46b8910d01fee3fbc4d937a6
 
 # 데이터 전처리
 X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)

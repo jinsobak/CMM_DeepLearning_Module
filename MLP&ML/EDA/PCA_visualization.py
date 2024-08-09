@@ -36,10 +36,11 @@ if __name__=="__main__":
     be_visualize_2d = input("시각화 여부를 선택하세요(y, n)")
     be_makeFile = input("파일 생성 여부를 선택하세요(y, n)")
     
-    #dataPath = os.getcwd() + "\\MLP\\datas\\data_jd_no_NTC.csv"
-    dataPath = os.getcwd() + "\\MLP\\datas\\data_jd_hd2_delete_material_no_NTC.csv"
-    #dataPath = os.getcwd() + "\\MLP\\datas\\data_mv_sv_dv_ut_lt_hd_no_NTC.csv"
-    outputPath = os.getcwd() + "\\MLP\\datas\\"
+    #dataPath = os.getcwd() + "\\MLP&ML\\datas\\data_jd_no_NTC.csv"
+    dataPath = os.getcwd() + "\\MLP&ML\\datas\\data_jd_hd2_delete_material_no_NTC.csv"
+    #해당 데이터 기준 컴포넌트 4개: pca, 컴포넌트 7개: pca_2, 컴포넌트 17개: pca_3
+    #dataPath = os.getcwd() + "\\MLP&ML\\datas\\data_mv_sv_dv_ut_lt_hd_no_NTC.csv"
+    outputPath = os.getcwd() + "\\MLP&ML\\datas\\"
 
     dataFrame = pd.read_csv(dataPath, encoding='cp949')
     print(dataFrame.shape)

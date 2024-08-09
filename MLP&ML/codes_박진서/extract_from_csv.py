@@ -4,7 +4,7 @@ import os
 import csv
 
 if __name__=="__main__":
-    filePath = os.getcwd() + "\\MLP\\datas\\data_mv_sv_dv_ut_lt_hd_with_NTC.csv"
+    filePath = os.getcwd() + "\\MLP&ML\\datas\\data_mv_sv_dv_ut_lt_hd_with_NTC.csv"
 
     dataFrame = pd.read_csv(filePath, encoding='cp949')
 
@@ -21,7 +21,7 @@ if __name__=="__main__":
     else:
         quality = 'NTC'
 
-    output_path = os.getcwd() + "\\MLP\\datas"
+    output_path = os.getcwd() + "\\MLP&ML\\datas"
     if os.path.exists(output_path) == True:
         pass
     else:
