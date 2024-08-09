@@ -3,7 +3,7 @@ from tensorflow.keras import layers, models
 
 # 데이터셋 준비 및 전처리
 # 주어진 데이터셋을 특징(feature)과 레이블(label)로 나눕니다.
-features = [
+features = [ 
     # 각 데이터의 특징을 리스트로 저장 (편차삽입)
 ]
 labels = [

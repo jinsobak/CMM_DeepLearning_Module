@@ -1,0 +1,53 @@
+{
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.10.0",
+    "heartbeatAt": "2024-05-30T09:00:58.171583",
+    "startedAt": "2024-05-30T09:00:57.437579",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "c:\\Users\\ddc4k\\OneDrive\\Desktop\\\ube45\ube0c\ub77c\ub354\\sample\\sample2.py",
+    "codePathLocal": "sample\\sample2.py",
+    "codePath": "sample\\sample2.py",
+    "git": {
+        "remote": "https://github.com/jinsobak/CMM_DeepLearning_Module.git",
+        "commit": "9bbb3a55a1abf7a2952b3e2e82e72d821ba61a44"
+    },
+    "email": "freeman3427@gmail.com",
+    "root": "C:/Users/ddc4k/OneDrive/Desktop/\ube45\ube0c\ub77c\ub354",
+    "host": "DESKTOP-1IL2Q9Q",
+    "username": "ddc4k",
+    "executable": "c:\\Users\\ddc4k\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 3701.0,
+        "min": 0.0,
+        "max": 3701.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3701.0,
+            "min": 0.0,
+            "max": 3701.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 953.230655670166,
+            "used": 699.7908897399902
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3060 Ti",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060 Ti",
+            "memory_total": 8589934592
+        }
+    ],
+    "memory": {
+        "total": 15.885662078857422
+    }
+}

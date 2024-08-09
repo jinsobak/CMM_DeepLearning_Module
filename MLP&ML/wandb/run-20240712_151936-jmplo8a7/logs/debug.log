@@ -1,0 +1,40 @@
+2024-07-12 15:19:36,045 INFO    Thread-13 (_run_job):22428 [wandb_setup.py:_flush():76] Current SDK version is 0.17.4
+2024-07-12 15:19:36,045 INFO    Thread-13 (_run_job):22428 [wandb_setup.py:_flush():76] Configure stats pid to 22428
+2024-07-12 15:19:36,045 INFO    Thread-13 (_run_job):22428 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\.config\wandb\settings
+2024-07-12 15:19:36,049 INFO    Thread-13 (_run_job):22428 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\Desktop\빅브라더\wandb\settings
+2024-07-12 15:19:36,049 INFO    Thread-13 (_run_job):22428 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'project': 'my_project', 'entity': 'freeman99', 'root_dir': 'C:\\Users\\freeman\\Desktop\\빅브라더', 'sweep_id': 'bzg5efoh', 'run_id': 'jmplo8a7', 'sweep_param_path': 'C:\\Users\\freeman\\Desktop\\빅브라더\\wandb\\sweep-bzg5efoh\\config-jmplo8a7.yaml'}
+2024-07-12 15:19:36,051 INFO    Thread-13 (_run_job):22428 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-07-12 15:19:36,051 INFO    Thread-13 (_run_job):22428 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'sample\\wandbModel.py', 'program_abspath': 'c:\\Users\\freeman\\Desktop\\빅브라더\\sample\\wandbModel.py', 'program': 'c:\\Users\\freeman\\Desktop\\빅브라더\\sample\\wandbModel.py'}
+2024-07-12 15:19:36,051 INFO    Thread-13 (_run_job):22428 [wandb_init.py:_log_setup():529] Logging user logs to C:\Users\freeman\Desktop\빅브라더\wandb\run-20240712_151936-jmplo8a7\logs\debug.log
+2024-07-12 15:19:36,052 INFO    Thread-13 (_run_job):22428 [wandb_init.py:_log_setup():530] Logging internal logs to C:\Users\freeman\Desktop\빅브라더\wandb\run-20240712_151936-jmplo8a7\logs\debug-internal.log
+2024-07-12 15:19:36,052 INFO    Thread-13 (_run_job):22428 [wandb_init.py:init():569] calling init triggers
+2024-07-12 15:19:36,052 INFO    Thread-13 (_run_job):22428 [wandb_init.py:init():576] wandb.init called with sweep_config: {'dense_layer_1': 256, 'dense_layer_2': 512, 'dense_layer_3': 256, 'dense_layer_4': 128, 'dropout_rate': 0.4, 'epochs': 100, 'learning_rate': 0.0005}
+config: {}
+2024-07-12 15:19:36,052 INFO    Thread-13 (_run_job):22428 [wandb_init.py:init():614] wandb.init() called when a run is still active
+2024-07-12 15:19:36,052 ERROR   Thread-13 (_run_job):22428 [wandb_init.py:init():1191] error in wandb.init()
+Traceback (most recent call last):
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_init.py", line 1181, in init
+    return wi.init()
+           ^^^^^^^^^
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_init.py", line 615, in init
+    with telemetry.context() as tel:
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\telemetry.py", line 42, in __exit__
+    self._run._telemetry_callback(self._obj)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_run.py", line 798, in _telemetry_callback
+    self._telemetry_flush()
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_run.py", line 809, in _telemetry_flush
+    self._backend.interface._publish_telemetry(self._telemetry_obj)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\interface\interface_shared.py", line 101, in _publish_telemetry
+    self._publish(rec)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\interface\interface_sock.py", line 51, in _publish
+    self._sock_client.send_record_publish(record)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\sock_client.py", line 221, in send_record_publish
+    self.send_server_request(server_req)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\sock_client.py", line 155, in send_server_request
+    self._send_message(msg)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\sock_client.py", line 152, in _send_message
+    self._sendall_with_error_handle(header + data)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\sock_client.py", line 130, in _sendall_with_error_handle
+    sent = self._sock.send(data)
+           ^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다

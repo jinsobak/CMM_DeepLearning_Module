@@ -1,0 +1,69 @@
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_setup.py:_flush():76] Current SDK version is 0.17.4
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_setup.py:_flush():76] Configure stats pid to 9312
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\.config\wandb\settings
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\settings
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'sample\\wandbModel.py', 'program_abspath': 'c:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\sample\\wandbModel.py', 'program': 'c:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\sample\\wandbModel.py'}
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_init.py:_log_setup():529] Logging user logs to C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\run-20240712_153313-p468s1ye\logs\debug.log
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_init.py:_log_setup():530] Logging internal logs to C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\run-20240712_153313-p468s1ye\logs\debug-internal.log
+2024-07-12 15:33:13,792 INFO    MainThread:9312 [wandb_init.py:init():569] calling init triggers
+2024-07-12 15:33:13,800 INFO    MainThread:9312 [wandb_init.py:init():576] wandb.init called with sweep_config: {}
+config: {}
+2024-07-12 15:33:13,800 INFO    MainThread:9312 [wandb_init.py:init():619] starting backend
+2024-07-12 15:33:13,800 INFO    MainThread:9312 [wandb_init.py:init():623] setting up manager
+2024-07-12 15:33:13,812 INFO    MainThread:9312 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn, using: spawn
+2024-07-12 15:33:13,826 INFO    MainThread:9312 [wandb_init.py:init():631] backend started and connected
+2024-07-12 15:33:13,841 INFO    MainThread:9312 [wandb_init.py:init():720] updated telemetry
+2024-07-12 15:33:14,031 INFO    MainThread:9312 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-07-12 15:33:15,286 INFO    MainThread:9312 [wandb_run.py:_on_init():2402] communicating current version
+2024-07-12 15:33:16,832 INFO    MainThread:9312 [wandb_run.py:_on_init():2411] got version response 
+2024-07-12 15:33:16,832 INFO    MainThread:9312 [wandb_init.py:init():804] starting run threads in backend
+2024-07-12 15:33:17,447 INFO    MainThread:9312 [wandb_run.py:_console_start():2380] atexit reg
+2024-07-12 15:33:17,447 INFO    MainThread:9312 [wandb_run.py:_redirect():2235] redirect: wrap_raw
+2024-07-12 15:33:17,447 INFO    MainThread:9312 [wandb_run.py:_redirect():2300] Wrapping output streams.
+2024-07-12 15:33:17,453 INFO    MainThread:9312 [wandb_run.py:_redirect():2325] Redirects installed.
+2024-07-12 15:33:17,460 INFO    MainThread:9312 [wandb_init.py:init():847] run started, returning control to user process
+2024-07-12 15:33:32,014 INFO    MainThread:9312 [pyagent.py:run():323] Starting sweep agent: entity=None, project=None, count=20
+2024-07-12 15:33:41,213 WARNING MsgRouterThr:9312 [router.py:message_loop():77] message_loop has been closed
+2024-07-12 15:33:46,061 INFO    Thread-12 (_run_job):9312 [wandb_setup.py:_flush():76] Current SDK version is 0.17.4
+2024-07-12 15:33:46,061 INFO    Thread-12 (_run_job):9312 [wandb_setup.py:_flush():76] Configure stats pid to 9312
+2024-07-12 15:33:46,061 INFO    Thread-12 (_run_job):9312 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\.config\wandb\settings
+2024-07-12 15:33:46,061 INFO    Thread-12 (_run_job):9312 [wandb_setup.py:_flush():76] Loading settings from C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\settings
+2024-07-12 15:33:46,061 INFO    Thread-12 (_run_job):9312 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'project': 'my_project', 'entity': 'freeman99', 'root_dir': 'C:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ', 'sweep_id': '4bsufgt9', 'run_id': 'ncfj20pu', 'sweep_param_path': 'C:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\wandb\\sweep-4bsufgt9\\config-ncfj20pu.yaml'}
+2024-07-12 15:33:46,064 INFO    Thread-12 (_run_job):9312 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-07-12 15:33:46,064 INFO    Thread-12 (_run_job):9312 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'sample\\wandbModel.py', 'program_abspath': 'c:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\sample\\wandbModel.py', 'program': 'c:\\Users\\freeman\\Desktop\\ºòºê¶ó´õ\\sample\\wandbModel.py'}
+2024-07-12 15:33:46,065 INFO    Thread-12 (_run_job):9312 [wandb_init.py:_log_setup():529] Logging user logs to C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\run-20240712_153346-ncfj20pu\logs\debug.log
+2024-07-12 15:33:46,065 INFO    Thread-12 (_run_job):9312 [wandb_init.py:_log_setup():530] Logging internal logs to C:\Users\freeman\Desktop\ºòºê¶ó´õ\wandb\run-20240712_153346-ncfj20pu\logs\debug-internal.log
+2024-07-12 15:33:46,065 INFO    Thread-12 (_run_job):9312 [wandb_init.py:init():569] calling init triggers
+2024-07-12 15:33:46,065 INFO    Thread-12 (_run_job):9312 [wandb_init.py:init():576] wandb.init called with sweep_config: {'dense_layer_1': 512, 'dense_layer_2': 128, 'dense_layer_3': 256, 'dense_layer_4': 128, 'dropout_rate': 0.5, 'epochs': 50, 'learning_rate': 0.0005}
+config: {}
+2024-07-12 15:33:46,065 INFO    Thread-12 (_run_job):9312 [wandb_init.py:init():614] wandb.init() called when a run is still active
+2024-07-12 15:33:46,065 ERROR   Thread-12 (_run_job):9312 [wandb_init.py:init():1191] error in wandb.init()
+Traceback (most recent call last):
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_init.py", line 1181, in init
+    return wi.init()
+           ^^^^^^^^^
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_init.py", line 615, in init
+    with telemetry.context() as tel:
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\telemetry.py", line 42, in __exit__
+    self._run._telemetry_callback(self._obj)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_run.py", line 798, in _telemetry_callback
+    self._telemetry_flush()
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\wandb_run.py", line 809, in _telemetry_flush
+    self._backend.interface._publish_telemetry(self._telemetry_obj)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\interface\interface_shared.py", line 101, in _publish_telemetry
+    self._publish(rec)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\interface\interface_sock.py", line 51, in _publish
+    self._sock_client.send_record_publish(record)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\sock_client.py", line 221, in send_record_publish
+    self.send_server_request(server_req)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\sock_client.py", line 155, in send_server_request
+    self._send_message(msg)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\sock_client.py", line 152, in _send_message
+    self._sendall_with_error_handle(header + data)
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\sdk\lib\sock_client.py", line 130, in _sendall_with_error_handle
+    sent = self._sock.send(data)
+           ^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] ÇöÀç ¿¬°áÀº ¿ø°Ý È£½ºÆ®¿¡ ÀÇÇØ °­Á¦·Î ²÷°å½À´Ï´Ù

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "c:\Users\freeman\Desktop\빅브라더\sample\wandbModel.py", line 48, in <module>
+    X_train, X_test, y_train, y_test, scaler = prepare_data(csv_file)
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\freeman\Desktop\빅브라더\sample\wandbModel.py", line 17, in prepare_data
+    if not os.path.exists(csv_file):
+           ^^
+NameError: name 'os' is not defined

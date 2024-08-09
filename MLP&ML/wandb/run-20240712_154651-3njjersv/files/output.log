@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "c:\Users\freeman\Desktop\빅브라더\sample\wandbModel.py", line 120, in train
+    model.fit(train_dataset,
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\keras\src\utils\traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "c:\Users\freeman\AppData\Local\Programs\Python\Python311\Lib\site-packages\wandb\integration\keras\keras.py", line 555, in set_model
+    self.model = model
+    ^^^^^^^^^^
+AttributeError: property 'model' of 'WandbCallback' object has no setter

@@ -1,0 +1,19 @@
+wandb: WARNING Calling wandb.run.save without any arguments is deprecated.Changes to attributes are automatically persisted.
+Traceback (most recent call last):
+  File "c:\Users\ddc4k\OneDrive\Desktop\빅브라더\sample\sample2.py", line 46, in <module>
+    X_train, X_test, y_train, y_test, scalar = prepare_data(csv_file)
+  File "c:\Users\ddc4k\OneDrive\Desktop\빅브라더\sample\sample2.py", line 20, in prepare_data
+    all_data = pd.read_csv(csv_file, encoding='cp949')
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\util\_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py", line 680, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py", line 575, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py", line 933, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py", line 1217, in _make_engine
+    self.handles = get_handle(  # type: ignore[call-overload]
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\common.py", line 789, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_dv_ld.csv'

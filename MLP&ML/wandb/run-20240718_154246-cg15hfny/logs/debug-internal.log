@@ -1,0 +1,9 @@
+{"time":"2024-07-18T15:42:46.240914+09:00","level":"INFO","msg":"using version","core version":"0.17.4"}
+{"time":"2024-07-18T15:42:46.240914+09:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\freeman\\Desktop\\빅브라더\\wandb\\run-20240718_154246-cg15hfny\\logs\\debug-core.log"}
+{"time":"2024-07-18T15:42:46.2489014+09:00","level":"INFO","msg":"created new stream","id":"cg15hfny"}
+{"time":"2024-07-18T15:42:46.2489014+09:00","level":"INFO","msg":"handler: started","stream_id":{"value":"cg15hfny"}}
+{"time":"2024-07-18T15:42:46.2489014+09:00","level":"INFO","msg":"sender: started","stream_id":{"value":"cg15hfny"}}
+{"time":"2024-07-18T15:42:46.2489014+09:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"cg15hfny"}}
+{"time":"2024-07-18T15:42:47.061061+09:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-07-18T15:42:47.062674+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-07-18T15:42:47.7757867+09:00","level":"WARN","msg":"sender: sendMetric: glob name is not supported in the backend","globName":"epoch/*"}
