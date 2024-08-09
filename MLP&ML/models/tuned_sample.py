@@ -93,18 +93,4 @@ print(f'Precision: {precision}')
 print(f'Recall: {recall}')
 print(f'F1 Score: {f1}')
 
-# 예측한 값과 실제 값이 일치하는 데이터와 일치하지 않는 데이터를 출력합니다.
-correct_indices = np.where(y_test == y_pred.ravel())[0]
-incorrect_indices = np.where(y_test != y_pred.ravel())[0]
 
-print("\n맞춘 데이터 (정상/불량):")
-for i in correct_indices:
-    print(f"특징: {feature_columns}")
-    print(f"데이터: {X_test[i]}")
-    print(f"실제 값: {y_test[i]}, 예측 값: {y_pred[i]}")
-
-print("\n틀린 데이터 (정상/불량):")
-for i in incorrect_indices:
-    print(f"특징: {feature_columns}")
-    print(f"데이터: {X_test[i]}")
-    print(f"실제 값: {y_test[i]}, 예측 값: {y_pred[i]}")
