@@ -88,10 +88,10 @@ if __name__=="__main__":
     print(dataFrame.isnull().sum())
     
     #'소재'라는 문자열이 들어간 열 제거
-    dataFrame = dataFrame.loc[:, ~dataFrame.columns.str.contains('소재')]
+    #dataFrame = dataFrame.loc[:, ~dataFrame.columns.str.contains('소재')]
     
     output_path = os.getcwd() + "\\MLP&ML\\datas"
     if os.path.exists(output_path) != True:
         os.mkdir(output_path)
     
-    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_jd_hd2_delete_material_no_NTC.csv", encoding='cp949')
+    dataFrame.to_csv(path_or_buf=output_path + '\\' + "data_jd_hd_no_NTC.csv", encoding='cp949')
