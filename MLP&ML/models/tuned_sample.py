@@ -34,6 +34,7 @@ def prepare_data(csv_file):
 
     return X_train_scaled, X_test_scaled, X_val_scaled, Y_train, Y_test, Y_val, scaler, selected_features.columns
 
+=======
 # CSV 파일 경로
 csv_file = 'C:\\git_folder\\CMM_DeepLearning_Module\\MLP&ML\\datas\\data_jd_hd2_delete_material_no_NTC.csv'
 
