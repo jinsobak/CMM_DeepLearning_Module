@@ -71,8 +71,9 @@ class testClassifier:
 if __name__ == "__main__":
     # 데이터 파일 경로
     dataName = 'data_jd_pca_no_NTC_3.csv'
+    dataName = 'data_jd_hd2_delete_material_no_NTC.csv'
     
-    csv_files = os.getcwd() + "\\MLP\\datas\\" + dataName
+    csv_files = os.getcwd() + "\\MLP&ML\\datas\\" + dataName
     # 데이터 전처리 및 훈련, 검증, 시험 데이터 분리
     X_train, X_val, X_test, y_train, y_val, y_test = prepare_data(csv_files)
 
