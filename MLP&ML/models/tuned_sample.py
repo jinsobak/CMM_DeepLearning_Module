@@ -24,7 +24,7 @@ def prepare_data(csv_file):
 
     # 테스트 데이터와 트레이닝 데이터로 분할
     X_train, X_test_full, Y_train, Y_test_full = train_test_split(X, y, test_size=0.2, random_state=42)
-    X_test, X_val, Y_test, Y_val=train_test_split(X_test_full, Y_test_full, test_size=0.5, random_state=42)
+    X_test, X_val, Y_test, Y_val = train_test_split(X_test_full, Y_test_full, test_size=0.5, random_state=42)
 
     # 데이터 스케일링
     scaler = StandardScaler()
@@ -34,9 +34,9 @@ def prepare_data(csv_file):
 
     return X_train_scaled, X_test_scaled, X_val_scaled, Y_train, Y_test, Y_val, scaler, selected_features.columns
 
-# CSV 파일 경로, 경로 수정해서 실행
-csv_file = "C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_mv,sv,dv_hd.csv"
-
+=======
+# CSV 파일 경로
+csv_file = 'C:\\git_folder\\CMM_DeepLearning_Module\\MLP&ML\\datas\\data_jd_hd2_delete_material_no_NTC.csv'
 
 # 데이터 전처리
 X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)
@@ -55,15 +55,11 @@ early_stopping = EarlyStopping(
 
 # 딥러닝 모델 구성
 model = models.Sequential([
-    layers.Dense(512, activation='relu', input_shape=(X_train.shape[1],)),  # 첫 번째 은닉층
-    layers.Dropout(0.3),  # Dropout 레이어 추가
-    layers.Dense(256, activation='relu'),  # 두 번째 은닉층
-    layers.Dropout(0.3),  # Dropout 레이어 추가
-    layers.Dense(128, activation='relu'),  # 세 번째 은닉층
-    layers.Dropout(0.3),  # Dropout 레이어 추가
-    layers.Dense(64, activation='relu'),   # 네 번째 은닉층
-    layers.Dropout(0.3),  # Dropout 레이어 추가
-    layers.Dense(32, activation='relu'),   # 다섯 번째 은닉층
+    layers.Dense(8, activation='relu', input_shape=(X_train.shape[1],)),  # 첫 번째 은닉층
+    layers.Dense(8, activation='relu'),  # 두 번째 은닉층
+    layers.Dense(8, activation='relu'),  # 세 번째 은닉층
+    layers.Dense(8, activation='relu'),   # 네 번째 은닉층
+    layers.Dense(8, activation='relu'),   # 다섯 번째 은닉층
     layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
 ])
 
