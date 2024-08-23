@@ -200,8 +200,8 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4
     F1 Score: 0.9142857142857143
 </details>
 
-파일명:
-data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_26
+파일명:   
+data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_26   
 (모든 항목을 사용한 데이터, 컴포넌트 26개, 95%)
 ---
 <details>
@@ -247,8 +247,8 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_26
     F1 Score: 0.8235294117647058
 </details>
     
-파일명:
-data_jd_hd_no_NTC_pca_component_4
+파일명:   
+data_jd_hd_no_NTC_pca_component_4   
 (판정 항목 만을 사용, 컴포넌트 4개, 28%)
 ---
 - 시도1
