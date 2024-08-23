@@ -5,12 +5,12 @@
 MLP 모델 학습 및 예측 데이터.
 각 데이터에 대해 3번씩 학습 및 예측을 진행. 
 각 데이터는 판정이 없는 데이터를 제외한 데이터.
-=
+===
 
 파일명: 
 data_mv_sv_dv_ut_lt_hd_no_NTC 
 (판정을 제외한 모든 항목을 사용)
--
+---
 
 <details>
     <summary>시도1.</summary> 
@@ -26,9 +26,9 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     Recall: 1.0
     F1 Score: 0.8235294117647058
 </details>
-    
-- 시도2.
-    
+<details>
+    <summary>시도2</summary>
+
     Test Loss: 0.4584580361843109
     Test Accuracy: 0.7571428418159485
     
@@ -39,9 +39,10 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     Precision: 0.82
     Recall: 0.8367346938775511
     F1 Score: 0.8282828282828283
-    
-- 시도3
-    
+</details>
+<details>
+    <summary>시도3</summary>
+
     Test Loss: 0.5873710513114929
     Test Accuracy: 0.699999988079071
     
@@ -52,14 +53,15 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     Precision: 0.7
     Recall: 1.0
     F1 Score: 0.8235294117647058
-    
+</details>
 
-### 파일명:
+파일명:
 data_jd_hd_no_NTC 
 (판정 항목 만을 사용)
+---
+<details>
+    <summary>시도1</summary>
 
-- 시도1
-    
     Test Loss: 0.3098602890968323, 
     Test Accuracy: 0.8714285492897034
     
@@ -70,9 +72,10 @@ data_jd_hd_no_NTC
     Precision: 0.8703703703703703
     Recall: 0.9591836734693877
     F1 Score: 0.912621359223301
-    
-- 시도2
-    
+</details>
+<details>
+    <summary>시도2</summary>
+
     Test Loss: 0.2470361441373825, 
     Test Accuracy: 0.8714285492897034
     
@@ -83,9 +86,10 @@ data_jd_hd_no_NTC
     Precision: 0.8846153846153846
     Recall: 0.9387755102040817
     F1 Score: 0.9108910891089109
-    
-- 시도3
-    
+</details>
+<details>
+    <summary>시도3</summary>
+
     Test Loss: 0.6667794585227966, 
     Test Accuracy: 0.699999988079071
     
@@ -96,14 +100,15 @@ data_jd_hd_no_NTC
     Precision: 0.7
     Recall: 1.0
     F1 Score: 0.8235294117647058
-    
+</details>
 
-### 파일명:
+파일명:
 data_jd_hd_delete_material_no_NTC
 (판정 항목 만을 사용하되 소재라는 문자열이 들어간 요소를 삭제)
+---
+<details>
+    <summary>시도1</summary>
 
-- 시도1
-    
     Test Loss: 0.6681578159332275, 
     Test Accuracy: 0.699999988079071
     
@@ -114,8 +119,9 @@ data_jd_hd_delete_material_no_NTC
     Precision: 0.7
     Recall: 1.0
     F1 Score: 0.8235294117647058
-    
-- 시도2
+</details>
+<details>
+    <summary>시도2</summary>
     
     Test Loss: 0.22255265712738037, 
     Test Accuracy: 0.8999999761581421
@@ -127,9 +133,10 @@ data_jd_hd_delete_material_no_NTC
     Precision: 0.8888888888888888
     Recall: 0.9795918367346939
     F1 Score: 0.9320388349514563
-    
-- 시도3
-    
+</details>
+<details>
+    <summary>시도3</summary>
+
     Test Loss: 0.20000457763671875, 
     Test Accuracy: 0.9428571462631226
     
@@ -140,17 +147,19 @@ data_jd_hd_delete_material_no_NTC
     Precision: 0.9411764705882353
     Recall: 0.9795918367346939
     F1 Score: 0.96
-    
+</details>
 
-## 이후 PCA진행 데이터
+이후 PCA진행 데이터
 (데이터 설명, 컴포넌트 개수, explained variance ratio)
+---
 
-### 파일명:
+파일명:
 data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4
 (모든 항목을 사용한 데이터, 컴포넌트 4개, 49%)
+---
+<details>
+    <summary>시도1</summary>
 
-- 시도1
-    
     Test Loss: 0.2921641767024994, 
     Test Accuracy: 0.8714285492897034
     
@@ -161,9 +170,10 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4
     Precision: 0.8846153846153846
     Recall: 0.9387755102040817
     F1 Score: 0.9108910891089109
-    
-- 시도2
-    
+</details>
+<details>
+    <summary>시도2</summary>
+
     Test Loss: 0.3355987071990967, 
     Test Accuracy: 0.8285714387893677
     
@@ -174,9 +184,10 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4
     Precision: 0.8245614035087719
     Recall: 0.9591836734693877
     F1 Score: 0.8867924528301887
-    
-- 시도3
-    
+</details>
+<details>
+    <summary>시도3</summary>
+
     Test Loss: 0.3451468050479889, 
     Test Accuracy: 0.8714285492897034
     
@@ -187,14 +198,15 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4
     Precision: 0.8571428571428571
     Recall: 0.9795918367346939
     F1 Score: 0.9142857142857143
-    
+</details>
 
-### 파일명:
+파일명:
 data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_26
 (모든 항목을 사용한 데이터, 컴포넌트 26개, 95%)
+---
+<details>
+    <summary>시도1</summary>
 
-- 시도1
-    
     Test Loss: 0.645046055316925
     Test Accuracy: 0.699999988079071
     
@@ -205,9 +217,10 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_26
     Precision: 0.7
     Recall: 1.0
     F1 Score: 0.8235294117647058
-    
-- 시도2
-    
+</details>
+<details>
+    <summary>시도2</summary>
+
     Test Loss: 0.5980672836303711
     Test Accuracy: 0.699999988079071
     
@@ -218,9 +231,10 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_26
     Precision: 0.7
     Recall: 1.0
     F1 Score: 0.8235294117647058
-    
-- 시도3
-    
+</details>
+<details>
+    <summary>시도3</summary>
+
     Test Loss: 0.5498936176300049
     Test Accuracy: 0.699999988079071
     
@@ -231,12 +245,12 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_26
     Precision: 0.7
     Recall: 1.0
     F1 Score: 0.8235294117647058
+</details>
     
-
-### 파일명:
+파일명:
 data_jd_hd_no_NTC_pca_component_4
 (판정 항목 만을 사용, 컴포넌트 4개, 28%)
-
+---
 - 시도1
     
     Test Loss: 0.2770636975765228
