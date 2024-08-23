@@ -7,8 +7,8 @@ MLP 모델 학습 및 예측 데이터.
 각 데이터는 판정이 없는 데이터를 제외한 데이터.
 ===
 
-파일명: 
-data_mv_sv_dv_ut_lt_hd_no_NTC 
+파일명:   
+data_mv_sv_dv_ut_lt_hd_no_NTC   
 (판정을 제외한 모든 항목을 사용)
 ---
 
@@ -55,8 +55,8 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     F1 Score: 0.8235294117647058
 </details>
 
-파일명:
-data_jd_hd_no_NTC 
+파일명:   
+data_jd_hd_no_NTC   
 (판정 항목 만을 사용)
 ---
 <details>
@@ -102,8 +102,8 @@ data_jd_hd_no_NTC
     F1 Score: 0.8235294117647058
 </details>
 
-파일명:
-data_jd_hd_delete_material_no_NTC
+파일명:   
+data_jd_hd_delete_material_no_NTC   
 (판정 항목 만을 사용하되 소재라는 문자열이 들어간 요소를 삭제)
 ---
 <details>
@@ -149,12 +149,12 @@ data_jd_hd_delete_material_no_NTC
     F1 Score: 0.96
 </details>
 
-이후 PCA진행 데이터
+이후 PCA진행 데이터   
 (데이터 설명, 컴포넌트 개수, explained variance ratio)
 ---
 
-파일명:
-data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4
+파일명:   
+data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4   
 (모든 항목을 사용한 데이터, 컴포넌트 4개, 49%)
 ---
 <details>
