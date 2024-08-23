@@ -343,7 +343,7 @@ data_jd_hd_no_NTC_pca_component_26
 
 파일명:   
 data_jd_hd_delete_material_no_NTC_pca_component_4   
-(판정 항목 만을 사용하되 소재라는 문자열이 들어간 열 삭제,
+(판정 항목 만을 사용하되 소재라는 문자열이 들어간 열 삭제,   
 컴포넌트 4개, 43%)
 ---
 <details>
@@ -391,7 +391,7 @@ data_jd_hd_delete_material_no_NTC_pca_component_4
 
 파일명:   
 data_jd_hd_delete_material_no_NTC_pca_component_7   
-(판정 항목 만을 사용하되 소재라는 문자열이 들어간 열 삭제,
+(판정 항목 만을 사용하되 소재라는 문자열이 들어간 열 삭제,   
 컴포넌트 7개, 61%)
 ---
 <details>
@@ -439,7 +439,7 @@ data_jd_hd_delete_material_no_NTC_pca_component_7
 
 파일명   
 data_jd_hd_delete_material_no_NTC_pca_component_17   
-(판정 항목 만을 사용하되 소재라는 문자열이 들어간 열 삭제,
+(판정 항목 만을 사용하되 소재라는 문자열이 들어간 열 삭제,   
 컴포넌트 17개, 95%)
 ---
 <details>
