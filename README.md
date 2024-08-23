@@ -13,7 +13,8 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
 -
 
 <details>
-    <summary>시도1.</summary>    
+    <summary>시도1.</summary> 
+    
     ```
     Test Loss: 0.5478043556213379
     Test Accuracy: 0.699999988079071
