@@ -17,7 +17,11 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     * Test Loss: 0.5478043556213379   
       Test Accuracy: 0.699999988079071   
     
-      Confusion Matrix:   
+      Confusion Matrix:
+      `|Positive|Nagative|
+      |---|---|---
+      Positive|0|21|
+      Nagative|0|49| 
       [[ 0 21]   
       [ 0 49]]   
       Accuracy: 0.7   
