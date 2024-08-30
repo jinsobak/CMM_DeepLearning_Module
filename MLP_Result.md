@@ -16,17 +16,16 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
 
 
     + 시도1.
-    
-    * Test Loss: 0.5478043556213379
-      Test Accuracy: 0.699999988079071
-    
-      Confusion Matrix:
-      [[ 0 21]
-      [ 0 49]]
-      Accuracy: 0.7
-      Precision: 0.7
-      Recall: 1.0
-      F1 Score: 0.8235294117647058
+        * Test Loss: 0.5478043556213379
+          Test Accuracy: 0.699999988079071
+        
+          Confusion Matrix:
+          [[ 0 21]
+          [ 0 49]]
+          Accuracy: 0.7
+          Precision: 0.7
+          Recall: 1.0
+          F1 Score: 0.8235294117647058
 </details>
 <details>
     <summary>시도2</summary>
