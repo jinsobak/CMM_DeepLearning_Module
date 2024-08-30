@@ -19,11 +19,10 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     
       Confusion Matrix:
       `|Positive|Nagative|
-      |---|---|---
+      |---|---|---|
       Positive|0|21|
-      Nagative|0|49| 
-      [[ 0 21]   
-      [ 0 49]]   
+      Nagative|0|49|
+       
       Accuracy: 0.7   
       Precision: 0.7   
       Recall: 1.0   
