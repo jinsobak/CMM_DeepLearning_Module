@@ -18,7 +18,7 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
       Test Accuracy: 0.699999988079071   
     
       Confusion Matrix:
-      `|Positive|Nagative|
+      /|Positive|Nagative|
       |---|---|---|
       Positive|0|21|
       Nagative|0|49|
