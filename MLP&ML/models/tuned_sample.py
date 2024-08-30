@@ -23,24 +23,32 @@ def prepare_data(csv_file):
     y = all_data['품질상태'].values  # 출력 데이터
 
     # 테스트 데이터와 트레이닝 데이터로 분할
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test_full, Y_train, Y_test_full = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_test, X_val, Y_test, Y_val = train_test_split(X_test_full, Y_test_full, test_size=0.5, random_state=42)
 
     # 데이터 스케일링
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
+    X_val_scaled= scaler.transform(X_val)
 
-    return X_train_scaled, X_test_scaled, y_train, y_test, scaler, selected_features.columns
+    return X_train_scaled, X_test_scaled, X_val_scaled, Y_train, Y_test, Y_val, scaler, selected_features.columns
 
+=======
 # CSV 파일 경로
+<<<<<<< HEAD
 csv_file = "C:\git_folder\CMM_DeepLearning_Module\MLP&ML\datas\data_mv_sv_dv_ut_lt_pca_no_NTC.csv"
+=======
+csv_file = 'C:\\git_folder\\CMM_DeepLearning_Module\\MLP&ML\\datas\\data_jd_hd2_delete_material_no_NTC.csv'
+>>>>>>> 641464815006289af4fe547b5b76918147a96464
 
 # 데이터 전처리
-X_train, X_test, y_train, y_test, scaler, feature_columns = prepare_data(csv_file)
+X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)
 
 # 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
 train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)  # 배치 크기 조정
 test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)  # 배치 크기 조정
+val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(32)
 
 # Early Stopping 설정
 early_stopping = EarlyStopping(
@@ -51,15 +59,11 @@ early_stopping = EarlyStopping(
 
 # 딥러닝 모델 구성
 model = models.Sequential([
-    layers.Dense(512, activation='relu', input_shape=(X_train.shape[1],)),  # 첫 번째 은닉층
-    layers.Dropout(0.3),  # Dropout 레이어 추가
-    layers.Dense(256, activation='relu'),  # 두 번째 은닉층
-    layers.Dropout(0.3),  # Dropout 레이어 추가
-    layers.Dense(128, activation='relu'),  # 세 번째 은닉층
-    layers.Dropout(0.3),  # Dropout 레이어 추가
-    layers.Dense(64, activation='relu'),   # 네 번째 은닉층
-    layers.Dropout(0.3),  # Dropout 레이어 추가
-    layers.Dense(32, activation='relu'),   # 다섯 번째 은닉층
+    layers.Dense(8, activation='relu', input_shape=(X_train.shape[1],)),  # 첫 번째 은닉층
+    layers.Dense(8, activation='relu'),  # 두 번째 은닉층
+    layers.Dense(8, activation='relu'),  # 세 번째 은닉층
+    layers.Dense(8, activation='relu'),   # 네 번째 은닉층
+    layers.Dense(8, activation='relu'),   # 다섯 번째 은닉층
     layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
 ])
 
@@ -67,7 +71,7 @@ model = models.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # 모델 학습
-history = model.fit(train_dataset, epochs=100, callbacks=[early_stopping], validation_data=test_dataset)
+history = model.fit(train_dataset, epochs=100, callbacks=[early_stopping], validation_data=val_dataset)
 
 # 모델 평가
 loss, accuracy = model.evaluate(test_dataset)
