@@ -13,8 +13,7 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
 </summary>
 
 + 시도1.   
-   * 
-   Test Loss: 0.5478043556213379   
+   * Test Loss: 0.5478043556213379   
    Test Accuracy: 0.699999988079071   
    
    Confusion Matrix:
@@ -27,10 +26,9 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
    Precision: 0.7   
    Recall: 1.0   
    F1 Score: 0.8235294117647058   
-
+   
 + 시도2
-   * 
-   Test Loss: 0.4584580361843109   
+   * Test Loss: 0.4584580361843109   
    Test Accuracy: 0.7571428418159485   
    
    Confusion Matrix:
@@ -42,11 +40,10 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
    Accuracy: 0.7571428571428571   
    Precision: 0.82   
    Recall: 0.8367346938775511   
-   F1 Score: 0.8282828282828283
+   F1 Score: 0.8282828282828283 
     
 + 시도3
-   * 
-   Test Loss: 0.5873710513114929   
+   * Test Loss: 0.5873710513114929   
    Test Accuracy: 0.699999988079071   
    
    Confusion Matrix:
