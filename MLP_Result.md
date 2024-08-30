@@ -121,6 +121,7 @@ data_jd_hd_delete_material_no_NTC
 (판정 항목 만을 사용하되 소재라는 문자열이 들어간 요소를 삭제)
 ---
 </summary>
+
 + 시도1
     * Test Loss: 0.6681578159332275   
       Test Accuracy: 0.699999988079071   
