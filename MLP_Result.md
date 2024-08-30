@@ -29,7 +29,7 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
       F1 Score: 0.8235294117647058   
 
 + 시도2
-  * Test Loss: 0.4584580361843109   
+    * Test Loss: 0.4584580361843109   
     Test Accuracy: 0.7571428418159485   
     
     Confusion Matrix:
@@ -37,14 +37,14 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     |:---:|:---:|:---:|
     Positive|12|9|
     Nagative|8|41|
-
+    
     Accuracy: 0.7571428571428571   
     Precision: 0.82   
     Recall: 0.8367346938775511   
     F1 Score: 0.8282828282828283
     
 + 시도3
-  * Test Loss: 0.5873710513114929   
+    * Test Loss: 0.5873710513114929   
     Test Accuracy: 0.699999988079071   
     
     Confusion Matrix:
@@ -52,7 +52,7 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     |:---:|:---:|:---:|
     Positive|0|21|
     Nagative|0|49|
-  
+    
     Accuracy: 0.7   
     Precision: 0.7   
     Recall: 1.0   
@@ -86,30 +86,33 @@ data_jd_hd_no_NTC
       
 + 시도2
     * Test Loss: 0.2470361441373825   
-    Test Accuracy: 0.8714285492897034   
+      Test Accuracy: 0.8714285492897034   
     
-    Confusion Matrix:
-    /|Positive|Nagative|
-    |:---:|:---:|:---:|
-    Positive|15|6|
-    Nagative|3|46|
-
-    Accuracy: 0.8714285714285714   
-    Precision: 0.8846153846153846   
-    Recall: 0.9387755102040817   
-    F1 Score: 0.9108910891089109   
+      Confusion Matrix:
+      /|Positive|Nagative|
+      |:---:|:---:|:---:|
+      Positive|15|6|
+      Nagative|3|46|
+    
+      Accuracy: 0.8714285714285714   
+      Precision: 0.8846153846153846   
+      Recall: 0.9387755102040817   
+      F1 Score: 0.9108910891089109   
 
 + 시도3
-    Test Loss: 0.6667794585227966, 
-    Test Accuracy: 0.699999988079071
+    * Test Loss: 0.6667794585227966, 
+      Test Accuracy: 0.699999988079071
     
-    Confusion Matrix:
-    [[ 0 21]
-    [ 0 49]]
-    Accuracy: 0.7
-    Precision: 0.7
-    Recall: 1.0
-    F1 Score: 0.8235294117647058
+      Confusion Matrix:
+      /|Positive|Nagative|
+      |:---:|:---:|:---:|
+      Positive|0|21|
+      Nagative|0|49|
+
+      Accuracy: 0.7
+      Precision: 0.7
+      Recall: 1.0
+      F1 Score: 0.8235294117647058
 </details>
 
 파일명:   
