@@ -172,51 +172,61 @@ data_jd_hd_delete_material_no_NTC
 (데이터 설명, 컴포넌트 개수, explained variance ratio)
 ---
 
+<details>
+<summary>
+
 파일명:   
 data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4   
 (모든 항목을 사용한 데이터, 컴포넌트 4개, 49%)
 ---
-<details>
-    <summary>시도1</summary>
+</summary>
+   
++ 시도1
+    * Test Loss: 0.2921641767024994   
+      Test Accuracy: 0.8714285492897034   
+   
+      Confusion Matrix:
+      /|Positive|Nagative|
+      |:---:|:---:|:---:|
+      Positive|15|6|
+      Nagative|3|46|
 
-    Test Loss: 0.2921641767024994, 
-    Test Accuracy: 0.8714285492897034
-    
-    Confusion Matrix:
-    [[15  6]
-    [ 3 46]]
-    Accuracy: 0.8714285714285714
-    Precision: 0.8846153846153846
-    Recall: 0.9387755102040817
-    F1 Score: 0.9108910891089109
-</details>
-<details>
-    <summary>시도2</summary>
+      Accuracy: 0.8714285714285714   
+      Precision: 0.8846153846153846   
+      Recall: 0.9387755102040817   
+      F1 Score: 0.9108910891089109   
 
-    Test Loss: 0.3355987071990967, 
-    Test Accuracy: 0.8285714387893677
-    
-    Confusion Matrix:
-    [[11 10]
-    [ 2 47]]
-    Accuracy: 0.8285714285714286
-    Precision: 0.8245614035087719
-    Recall: 0.9591836734693877
-    F1 Score: 0.8867924528301887
-</details>
-<details>
-    <summary>시도3</summary>
++ 시도2
+   *
+   Test Loss: 0.3355987071990967   
+   Test Accuracy: 0.8285714387893677   
+   
+   Confusion Matrix:
+   /|Positive|Nagative|
+   |:---:|:---:|:---:|
+   Positive|11|10|
+   Nagative|2|47|
 
-    Test Loss: 0.3451468050479889, 
-    Test Accuracy: 0.8714285492897034
-    
-    Confusion Matrix:
-    [[13  8]
-    [ 1 48]]
-    Accuracy: 0.8714285714285714
-    Precision: 0.8571428571428571
-    Recall: 0.9795918367346939
-    F1 Score: 0.9142857142857143
+   Accuracy: 0.8285714285714286   
+   Precision: 0.8245614035087719   
+   Recall: 0.9591836734693877   
+   F1 Score: 0.8867924528301887   
+
++ 시도3
+   *
+   Test Loss: 0.3451468050479889   
+   Test Accuracy: 0.8714285492897034   
+   
+   Confusion Matrix:
+   /|Positive|Nagative|
+   |:---:|:---:|:---:|
+   Positive|13|8|
+   Nagative|1|48|
+
+   Accuracy: 0.8714285714285714   
+   Precision: 0.8571428571428571   
+   Recall: 0.9795918367346939   
+   F1 Score: 0.9142857142857143   
 </details>
 
 파일명:   
