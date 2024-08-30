@@ -4,7 +4,6 @@ MLP 모델 학습 및 예측 데이터.
 ===
 
 <details>
-    
 <summary>
 
 파일명:   
@@ -60,7 +59,6 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
 </details>
 
 <details>
-
 <summary>
     
 파일명:   
@@ -100,8 +98,8 @@ data_jd_hd_no_NTC
       F1 Score: 0.9108910891089109   
 
 + 시도3
-    * Test Loss: 0.6667794585227966, 
-      Test Accuracy: 0.699999988079071
+    * Test Loss: 0.6667794585227966   
+      Test Accuracy: 0.699999988079071   
     
       Confusion Matrix:
       /|Positive|Nagative|
@@ -109,57 +107,64 @@ data_jd_hd_no_NTC
       Positive|0|21|
       Nagative|0|49|
 
-      Accuracy: 0.7
-      Precision: 0.7
-      Recall: 1.0
-      F1 Score: 0.8235294117647058
+      Accuracy: 0.7   
+      Precision: 0.7   
+      Recall: 1.0   
+      F1 Score: 0.8235294117647058   
 </details>
+
+<details>
+<summary>
 
 파일명:   
 data_jd_hd_delete_material_no_NTC   
 (판정 항목 만을 사용하되 소재라는 문자열이 들어간 요소를 삭제)
 ---
-<details>
-    <summary>시도1</summary>
+</summary>
++ 시도1
+    * Test Loss: 0.6681578159332275   
+      Test Accuracy: 0.699999988079071   
+    
+      Confusion Matrix:   
+      /|Positive|Nagative|
+      |:---:|:---:|:---:|
+      Positive|0|21|
+      Nagative|0|49|
 
-    Test Loss: 0.6681578159332275, 
-    Test Accuracy: 0.699999988079071
+      Accuracy: 0.7   
+      Precision: 0.7   
+      Recall: 1.0   
+      F1 Score: 0.8235294117647058   
+      
++ 시도2
+    * Test Loss: 0.22255265712738037   
+      Test Accuracy: 0.8999999761581421   
     
-    Confusion Matrix:
-    [[ 0 21]
-    [ 0 49]]
-    Accuracy: 0.7
-    Precision: 0.7
-    Recall: 1.0
-    F1 Score: 0.8235294117647058
-</details>
-<details>
-    <summary>시도2</summary>
-    
-    Test Loss: 0.22255265712738037, 
-    Test Accuracy: 0.8999999761581421
-    
-    Confusion Matrix:
-    [[15  6]
-    [ 1 48]]
-    Accuracy: 0.9
-    Precision: 0.8888888888888888
-    Recall: 0.9795918367346939
-    F1 Score: 0.9320388349514563
-</details>
-<details>
-    <summary>시도3</summary>
+      Confusion Matrix:
+      /|Positive|Nagative|
+      |:---:|:---:|:---:|
+      Positive|15|6|
+      Nagative|1|48|
 
-    Test Loss: 0.20000457763671875, 
-    Test Accuracy: 0.9428571462631226
+      Accuracy: 0.9   
+      Precision: 0.8888888888888888   
+      Recall: 0.9795918367346939   
+      F1 Score: 0.9320388349514563
+      
++ 시도3
+    * Test Loss: 0.20000457763671875   
+      Test Accuracy: 0.9428571462631226   
     
-    Confusion Matrix:
-    [[18  3]
-    [ 1 48]]
-    Accuracy: 0.9428571428571428
-    Precision: 0.9411764705882353
-    Recall: 0.9795918367346939
-    F1 Score: 0.96
+      Confusion Matrix:
+      /|Positive|Nagative|
+      |:---:|:---:|:---:|
+      Positive|18|3|
+      Nagative|1|48|
+
+      Accuracy: 0.9428571428571428   
+      Precision: 0.9411764705882353   
+      Recall: 0.9795918367346939   
+      F1 Score: 0.96   
 </details>
 
 이후 PCA진행 데이터   
