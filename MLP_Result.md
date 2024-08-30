@@ -436,7 +436,6 @@ data_jd_hd_delete_material_no_NTC_pca_component_7
 컴포넌트 7개, 61%)
 ---
 </summary>
-</details>
 
 + 시도1
 
@@ -487,7 +486,6 @@ data_jd_hd_delete_material_no_NTC_pca_component_17
 컴포넌트 17개, 95%)
 ---
 </summary>
-</details>
 
 + 시도1
 
