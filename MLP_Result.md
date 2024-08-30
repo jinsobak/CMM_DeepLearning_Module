@@ -41,9 +41,9 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     Accuracy: 0.7571428571428571   
     Precision: 0.82   
     Recall: 0.8367346938775511   
-    F1 Score: 0.8282828282828283   
+    F1 Score: 0.8282828282828283
+    
 + 시도3
-
   * Test Loss: 0.5873710513114929   
     Test Accuracy: 0.699999988079071   
     
@@ -59,41 +59,47 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     F1 Score: 0.8235294117647058   
 </details>
 
+<details>
+
+<summary>
+    
 파일명:   
 data_jd_hd_no_NTC   
 (판정 항목 만을 사용)
 ---
-<details>
-    <summary>시도1</summary>
+</summary>   
 
-    Test Loss: 0.3098602890968323, 
-    Test Accuracy: 0.8714285492897034
++ 시도1
+    * Test Loss: 0.3098602890968323   
+      Test Accuracy: 0.8714285492897034   
+        
+      Confusion Matrix:   
+      /|Positive|Nagative|
+      |:---:|:---:|:---:|
+      Positive|14|7|
+      Nagative|2|47|
+
+      Accuracy: 0.8714285714285714    
+      Precision: 0.8703703703703703   
+      Recall: 0.9591836734693877   
+      F1 Score: 0.912621359223301   
+      
++ 시도2
+    * Test Loss: 0.2470361441373825   
+    Test Accuracy: 0.8714285492897034   
     
     Confusion Matrix:
-    [[14  7]
-    [ 2 47]]
-    Accuracy: 0.8714285714285714
-    Precision: 0.8703703703703703
-    Recall: 0.9591836734693877
-    F1 Score: 0.912621359223301
-</details>
-<details>
-    <summary>시도2</summary>
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|15|6|
+    Nagative|3|46|
 
-    Test Loss: 0.2470361441373825, 
-    Test Accuracy: 0.8714285492897034
-    
-    Confusion Matrix:
-    [[15  6]
-    [ 3 46]]
-    Accuracy: 0.8714285714285714
-    Precision: 0.8846153846153846
-    Recall: 0.9387755102040817
-    F1 Score: 0.9108910891089109
-</details>
-<details>
-    <summary>시도3</summary>
+    Accuracy: 0.8714285714285714   
+    Precision: 0.8846153846153846   
+    Recall: 0.9387755102040817   
+    F1 Score: 0.9108910891089109   
 
++ 시도3
     Test Loss: 0.6667794585227966, 
     Test Accuracy: 0.699999988079071
     
