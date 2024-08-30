@@ -13,9 +13,9 @@ CMM을 통해 제품의 각종 수치를 측정 -> 측정실 작업자가 측정
 # 모델 및 데이터에 따른 정확도 구분
 
 
-### [MLP모델(MLP_Result.md)](https://www.notion.so/MLP_Result.md)
+### [MLP모델(MLP_Result.md)](MLP_Result.md)
 
-머신러닝모델(***Machine_learning_Result.md)***
+### [머신러닝모델(Machine_learning_Result.md)]()
 
 # 각 모델 결과에 대한 시각화
 
