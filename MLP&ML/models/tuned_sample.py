@@ -36,7 +36,11 @@ def prepare_data(csv_file):
 
 =======
 # CSV 파일 경로
+<<<<<<< HEAD
+csv_file = "C:\git_folder\CMM_DeepLearning_Module\MLP&ML\datas\data_mv_sv_dv_ut_lt_pca_no_NTC.csv"
+=======
 csv_file = 'C:\\git_folder\\CMM_DeepLearning_Module\\MLP&ML\\datas\\data_jd_hd2_delete_material_no_NTC.csv'
+>>>>>>> 641464815006289af4fe547b5b76918147a96464
 
 # 데이터 전처리
 X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)
