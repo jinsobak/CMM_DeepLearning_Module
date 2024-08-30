@@ -32,9 +32,12 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
   * Test Loss: 0.4584580361843109   
     Test Accuracy: 0.7571428418159485   
     
-    Confusion Matrix:   
-    [[12  9]    
-    [ 8 41]]   
+    Confusion Matrix:
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|12|9|
+    Nagative|8|41|
+
     Accuracy: 0.7571428571428571   
     Precision: 0.82   
     Recall: 0.8367346938775511   
@@ -44,9 +47,12 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
   * Test Loss: 0.5873710513114929   
     Test Accuracy: 0.699999988079071   
     
-    Confusion Matrix:   
-    [[ 0 21]   
-    [ 0 49]]   
+    Confusion Matrix:
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|0|21|
+    Nagative|0|49|
+  
     Accuracy: 0.7   
     Precision: 0.7   
     Recall: 1.0   
