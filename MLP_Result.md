@@ -296,8 +296,11 @@ data_jd_hd_no_NTC_pca_component_4
     Test Accuracy: 0.8999999761581421
     
     Confusion Matrix:
-    [[17  4]
-    [ 3 46]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|17|4|
+    Nagative|3|46|
+
     Accuracy: 0.9
     Precision: 0.92
     Recall: 0.9387755102040817
@@ -308,8 +311,11 @@ data_jd_hd_no_NTC_pca_component_4
     Test Accuracy: 0.8999999761581421
     
     Confusion Matrix:
-    [[15  6]
-    [ 1 48]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|15|6|
+    Nagative|1|48|
+
     Accuracy: 0.9
     Precision: 0.8888888888888888
     Recall: 0.9795918367346939
@@ -320,8 +326,11 @@ data_jd_hd_no_NTC_pca_component_4
     Test Accuracy: 0.9142857193946838
     
     Confusion Matrix:
-    [[18  3]
-    [ 3 46]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|18|3|
+    Nagative|3|46|
+
     Accuracy: 0.9142857142857143
     Precision: 0.9387755102040817
     Recall: 0.9387755102040817
@@ -338,39 +347,45 @@ data_jd_hd_no_NTC_pca_component_26
 </summary>
 
 + 시도1
-
-    Test Loss: 0.6786163449287415
+  * Test Loss: 0.6786163449287415
     Test Accuracy: 0.699999988079071
     
     Confusion Matrix:
-    [[ 3 18]
-    [ 3 46]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|3|18|
+    Nagative|3|46|
+
     Accuracy: 0.7
     Precision: 0.71875
     Recall: 0.9387755102040817
     F1 Score: 0.8141592920353983
 
 + 시도2
-
-    Test Loss: 0.24743257462978363
+  * Test Loss: 0.24743257462978363
     Test Accuracy: 0.8714285492897034
     
     Confusion Matrix:
-    [[15  6]
-    [ 3 46]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|15|6|
+    Nagative|3|46|
+
     Accuracy: 0.8714285714285714
     Precision: 0.8846153846153846
     Recall: 0.9387755102040817
     F1 Score: 0.9108910891089109
 
 + 시도3
-
-    Test Loss: 0.52480149269104
+  * Test Loss: 0.52480149269104
     Test Accuracy: 0.7142857313156128
     
     Confusion Matrix:
-    [[ 1 20]
-    [ 0 49]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|1|20|
+    Nagative|0|49|
+
     Accuracy: 0.7142857142857143
     Precision: 0.7101449275362319
     Recall: 1.0
@@ -388,39 +403,45 @@ data_jd_hd_delete_material_no_NTC_pca_component_4
 </summary>
 
 + 시도1
-
-    Test Loss: 0.14326536655426025
+  * Test Loss: 0.14326536655426025
     Test Accuracy: 0.9428571462631226
     
     Confusion Matrix:
-    [[17  4]
-    [ 0 49]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|17|4|
+    Nagative|0|49|
+
     Accuracy: 0.9428571428571428
     Precision: 0.9245283018867925
     Recall: 1.0
     F1 Score: 0.9607843137254902
 
 + 시도2
-
-    Test Loss: 0.16238410770893097
+  * Test Loss: 0.16238410770893097
     Test Accuracy: 0.9142857193946838
     
     Confusion Matrix:
-    [[17  4]
-    [ 2 47]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|17|4|
+    Nagative|2|47|
+
     Accuracy: 0.9142857142857143
     Precision: 0.9215686274509803
     Recall: 0.9591836734693877
     F1 Score: 0.94
 
 + 시도3
-
-    Test Loss: 0.14559824764728546
+  * Test Loss: 0.14559824764728546
     Test Accuracy: 0.9142857193946838
     
     Confusion Matrix:
-    [[16  5]
-    [ 1 48]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|16|5|
+    Nagative|1|48|
+
     Accuracy: 0.9142857142857143
     Precision: 0.9056603773584906
     Recall: 0.9795918367346939
@@ -438,39 +459,45 @@ data_jd_hd_delete_material_no_NTC_pca_component_7
 </summary>
 
 + 시도1
-
-    Test Loss: 0.26741448044776917
+  * Test Loss: 0.26741448044776917
     Test Accuracy: 0.9142857193946838
     
     Confusion Matrix:
-    [[16  5]
-    [ 1 48]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|16|5|
+    Nagative|1|48|
+
     Accuracy: 0.9142857142857143
     Precision: 0.9056603773584906
     Recall: 0.9795918367346939
     F1 Score: 0.9411764705882353
 
 + 시도2
-
-    Test Loss: 0.20400142669677734
+  * Test Loss: 0.20400142669677734
     Test Accuracy: 0.9571428298950195
     
     Confusion Matrix:
-    [[18  3]
-    [ 0 49]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|18|3|
+    Nagative|0|49|
+
     Accuracy: 0.9571428571428572
     Precision: 0.9423076923076923
     Recall: 1.0
     F1 Score: 0.9702970297029703
 
 + 시도3
-
-    Test Loss: 0.15940316021442413
+  * Test Loss: 0.15940316021442413
     Test Accuracy: 0.9285714030265808
     
     Confusion Matrix:
-    [[18  3]
-    [ 2 47]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|18|3|
+    Nagative|2|47|
+
     Accuracy: 0.9285714285714286
     Precision: 0.94
     Recall: 0.9591836734693877
@@ -488,39 +515,45 @@ data_jd_hd_delete_material_no_NTC_pca_component_17
 </summary>
 
 + 시도1
-
-    Test Loss: 0.2762243449687958
+  * Test Loss: 0.2762243449687958
     Test Accuracy: 0.9142857193946838
     
     Confusion Matrix:
-    [[15  6]
-    [ 0 49]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|15|6|
+    Nagative|0|49|
+
     Accuracy: 0.9142857142857143
     Precision: 0.8909090909090909
     Recall: 1.0
     F1 Score: 0.9423076923076923
 
 + 시도2
-
-    Test Loss: 0.1931239515542984
+  * Test Loss: 0.1931239515542984
     Test Accuracy: 0.9428571462631226
     
     Confusion Matrix:
-    [[18  3]
-    [ 1 48]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|18|3|
+    Nagative|1|48|
+
     Accuracy: 0.9428571428571428
     Precision: 0.9411764705882353
     Recall: 0.9795918367346939
     F1 Score: 0.96
 
 + 시도3
-
-    Test Loss: 0.654637336730957
+  * Test Loss: 0.654637336730957
     Test Accuracy: 0.699999988079071
     
     Confusion Matrix:
-    [[ 0 21]
-    [ 0 49]]
+    /|Positive|Nagative|
+    |:---:|:---:|:---:|
+    Positive|0|21|
+    Nagative|0|49|
+
     Accuracy: 0.7
     Precision: 0.7
     Recall: 1.0
