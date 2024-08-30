@@ -14,14 +14,12 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
 
 + 시도1.   
    * Test Loss: 0.5478043556213379   
-   Test Accuracy: 0.699999988079071   
-      
+   Test Accuracy: 0.699999988079071     
    Confusion Matrix:
    /|Positive|Nagative|
    |:---:|:---:|:---:|
    Positive|0|21|
    Nagative|0|49|
-      
    Accuracy: 0.7   
    Precision: 0.7   
    Recall: 1.0   
