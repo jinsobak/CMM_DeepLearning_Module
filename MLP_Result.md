@@ -19,7 +19,7 @@ data_mv_sv_dv_ut_lt_hd_no_NTC
     
       Confusion Matrix:
       /|Positive|Nagative|
-      |---|---|---|
+      |:---:|:---:|:---:|
       Positive|0|21|
       Nagative|0|49|
        
