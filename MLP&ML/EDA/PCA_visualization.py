@@ -63,20 +63,6 @@ if __name__=="__main__":
     df_pca = make_pca_dataFrame(data_scaled=df_scaled, num_components=num_components)
     
     if be_visualize_2d == 'y':
-        
-        # #target 별 분리
-        # df_pca_0 = df_pca[df_pca['품질상태'] == 0]
-        # df_pca_1 = df_pca[df_pca['품질상태'] == 1]
-
-        # #target 별 시각화
-        # plt.figure(figsize=[10, 6])
-        # plt.scatter(df_pca_0['component_0'], df_pca_0['component_1'], color = 'blue', alpha=1, label = 0)
-        # plt.scatter(df_pca_1['component_0'], df_pca_1['component_1'], color = 'yellow', alpha=1, label = 1)
-        # plt.xlabel('component_0')
-        # plt.ylabel('component_1')
-        # plt.legend()
-        # plt.show()
-        
         tsne = TSNE(n_components=2).fit_transform(df_pca)
         print(tsne.shape)
         
