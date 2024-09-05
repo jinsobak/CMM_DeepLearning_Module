@@ -18,6 +18,7 @@ data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_4.csv
 5. 모든 항목을 사용한 데이터(26개, 95%)
 data_mv_sv_dv_ut_lt_hd_no_NTC_pca_component_26.csv
 
+
 6. 판정을 사용한 데이터(4개, 28%)
 data_jd_hd_no_NTC_pca_component_4.csv
 
