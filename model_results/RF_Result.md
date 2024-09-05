@@ -201,3 +201,53 @@ data_jd_hd_delete_material_no_NTC_pca_component_4
    F1-Score:  0.8888888888888888   
    ROC-AUC:  0.9174375578168363      
 </details>
+
+<details>
+<summary>
+
+파일명:   
+data_jd_hd_delete_material_no_NTC_pca_component_7   
+(판정 항목 만을 사용하되 소재라는 문자열이 들어간 열 삭제,   
+컴포넌트 7개, 61%)
+---
+</summary>
+ 
+ * Test Accuracy: 0.8571428571428571      
+   Test Loss: 0.5727501903121676     
+   
+   Confusion Matrix:
+   /|Positive|Nagative|
+   |:---:|:---:|:---:|
+   Positive|31|15|
+   Nagative|5|89|
+     
+   Precision:  0.8557692307692307    
+   Recall:  0.9468085106382979   
+   F1-Score:  0.898989898989899   
+   ROC-AUC:  0.9179000925069382      
+</details>
+
+<details>
+<summary>
+
+파일명:   
+data_jd_hd_delete_material_no_NTC_pca_component_17   
+(판정 항목 만을 사용하되 소재라는 문자열이 들어간 열 삭제,   
+컴포넌트 17개, 95%)
+---
+</summary>
+ 
+ * Test Accuracy: 0.8571428571428571      
+   Test Loss: 0.3130116237292688     
+   
+   Confusion Matrix:
+   /|Positive|Nagative|
+   |:---:|:---:|:---:|
+   Positive|29|17|
+   Nagative|3|91|
+     
+   Precision:  0.8425925925925926    
+   Recall:  0.9680851063829787   
+   F1-Score:  0.900990099009901   
+   ROC-AUC:  0.9330481036077706      
+</details>
