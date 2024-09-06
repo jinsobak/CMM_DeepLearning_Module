@@ -1,12 +1,13 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import accuracy_score, log_loss, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import SelectFromModel
+import matplotlib.pyplot as plt
 
 # 데이터 파일을 제대로 불러오기 위해 파일 경로와 인코딩을 확인합니다.
-df = pd.read_csv("C:\\Users\\freeman\\Desktop\\빅브라더\\sample\\data_mv_sv_dv_ut_lt_pca_no_NTC.csv", encoding='cp949')
+df = pd.read_csv("C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_17.csv", encoding='cp949')
 
 # 데이터의 구조를 확인하기 위해 처음 몇 줄을 출력합니다.
 print(df.head())
@@ -48,9 +49,26 @@ clf.fit(train_x, train_y)
 # 평가 데이터로 예측을 수행하고 정확도를 출력합니다.
 predict2 = clf.predict(test_x)
 accuracy = accuracy_score(test_y, predict2)
+
 print("Accuracy: ", accuracy)
+
 
 # 로스 값을 계산하고 출력합니다.
 predict_proba = clf.predict_proba(test_x)
 loss = log_loss(test_y, predict_proba)
 print("Log Loss: ", loss)
+
+# 추가 성능 지표 계산 및 출력
+precision = precision_score(test_y, predict2)
+recall = recall_score(test_y, predict2)
+f1 = f1_score(test_y, predict2)
+roc_auc = roc_auc_score(test_y, predict_proba[:, 1])
+
+print("Precision: ", precision)
+print("Recall: ", recall)
+print("F1-Score: ", f1)
+print("ROC-AUC: ", roc_auc)
+
+# 컨퓨전 메트릭스 계산
+conf_matrix = confusion_matrix(test_y, predict2)
+print(conf_matrix)

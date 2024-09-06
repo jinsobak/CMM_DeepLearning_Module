@@ -1,7 +1,7 @@
 -기본적으로 ntc가 포함된 데이터는 사용하지 않음
 
 1. 판정외의 모든 항목을 사용한 데이터
-data_mv_sv_dv_lt_hd_no_NTC.csv
+data_mv_sv_dv_ut_lt_hd_no_NTC.csv
 
 2. 판정을 사용한 데이터
 data_jd_hd_no_NTC.csv
