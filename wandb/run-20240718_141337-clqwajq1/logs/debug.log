@@ -1,0 +1,80 @@
+2024-07-18 14:13:37,074 INFO    Thread-11 (_run_job):29344 [wandb_setup.py:_flush():76] Current SDK version is 0.17.0
+2024-07-18 14:13:37,074 INFO    Thread-11 (_run_job):29344 [wandb_setup.py:_flush():76] Configure stats pid to 29344
+2024-07-18 14:13:37,074 INFO    Thread-11 (_run_job):29344 [wandb_setup.py:_flush():76] Loading settings from C:\Users\ddc4k\.config\wandb\settings
+2024-07-18 14:13:37,074 INFO    Thread-11 (_run_job):29344 [wandb_setup.py:_flush():76] Loading settings from C:\Users\ddc4k\OneDrive\Desktop\빅브라더\wandb\settings
+2024-07-18 14:13:37,074 INFO    Thread-11 (_run_job):29344 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'_require_core': 'true', 'project': 'my_project', 'entity': 'freeman99', 'root_dir': 'C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더', 'sweep_id': 'y9dr81hh', 'run_id': 'clqwajq1', 'sweep_param_path': 'C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\wandb\\sweep-y9dr81hh\\config-clqwajq1.yaml'}
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'sample\\wandbModel.py', 'program_abspath': 'c:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\wandbModel.py', 'program': 'c:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\sample\\wandbModel.py'}
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_init.py:_log_setup():520] Logging user logs to C:\Users\ddc4k\OneDrive\Desktop\빅브라더\wandb\run-20240718_141337-clqwajq1\logs\debug.log
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_init.py:_log_setup():521] Logging internal logs to C:\Users\ddc4k\OneDrive\Desktop\빅브라더\wandb\run-20240718_141337-clqwajq1\logs\debug-internal.log
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_init.py:init():560] calling init triggers
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_init.py:init():567] wandb.init called with sweep_config: {'dense_layer_1': 1024, 'dense_layer_2': 512, 'dense_layer_3': 128, 'dense_layer_4': 128, 'dropout_rate': 0.4, 'epochs': 100, 'learning_rate': 0.001}
+config: {}
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_init.py:init():610] starting backend
+2024-07-18 14:13:37,075 INFO    Thread-11 (_run_job):29344 [wandb_init.py:init():614] setting up manager
+2024-07-18 14:13:37,081 INFO    Thread-11 (_run_job):29344 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn, using: spawn
+2024-07-18 14:13:37,083 INFO    Thread-11 (_run_job):29344 [wandb_init.py:init():622] backend started and connected
+2024-07-18 14:13:37,092 INFO    Thread-11 (_run_job):29344 [wandb_run.py:_config_callback():1376] config_cb None None {'dense_layer_1': 1024, 'dense_layer_2': 512, 'dense_layer_3': 128, 'dense_layer_4': 128, 'dropout_rate': 0.4, 'epochs': 100, 'learning_rate': 0.001}
+2024-07-18 14:13:37,092 INFO    Thread-11 (_run_job):29344 [wandb_init.py:init():711] updated telemetry
+2024-07-18 14:13:37,094 WARNING MsgRouterThr:29344 [router.py:message_loop():77] message_loop has been closed
+2024-07-18 14:13:37,125 INFO    Thread-11 (_run_job):29344 [wandb_init.py:init():744] communicating run to backend with 90.0 second timeout
+2024-07-18 14:13:37,125 ERROR   Thread-11 (_run_job):29344 [wandb_init.py:init():1174] error in wandb.init()
+Traceback (most recent call last):
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\wandb_init.py", line 1164, in init
+    return wi.init()
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\wandb_init.py", line 746, in init
+    run_init_handle = backend.interface.deliver_run(run)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\interface\interface.py", line 810, in deliver_run
+    return self._deliver_run(run_record)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\interface\interface_shared.py", line 458, in _deliver_run
+    return self._deliver_record(record)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\interface\interface_shared.py", line 453, in _deliver_record
+    handle = mailbox._deliver_record(record, interface=self)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\mailbox.py", line 455, in _deliver_record
+    interface._publish(record)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\interface\interface_sock.py", line 51, in _publish
+    self._sock_client.send_record_publish(record)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\sock_client.py", line 221, in send_record_publish
+    self.send_server_request(server_req)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\sock_client.py", line 155, in send_server_request
+    self._send_message(msg)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\sock_client.py", line 152, in _send_message
+    self._sendall_with_error_handle(header + data)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\sock_client.py", line 130, in _sendall_with_error_handle
+    sent = self._sock.send(data)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+2024-07-18 14:13:37,218 ERROR   MainThread:29344 [pyagent.py:_run_jobs_from_queue():235] Run clqwajq1 errored:
+Traceback (most recent call last):
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\agents\pyagent.py", line 307, in _run_job
+    self._function()
+  File "c:\Users\ddc4k\OneDrive\Desktop\빅브라더\sample\wandbModel.py", line 98, in train
+    with wandb.init(config=config):
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\wandb_init.py", line 1178, in init
+    wandb._sentry.reraise(e)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\analytics\sentry.py", line 155, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\wandb_init.py", line 1164, in init
+    return wi.init()
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\wandb_init.py", line 746, in init
+    run_init_handle = backend.interface.deliver_run(run)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\interface\interface.py", line 810, in deliver_run
+    return self._deliver_run(run_record)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\interface\interface_shared.py", line 458, in _deliver_run
+    return self._deliver_record(record)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\interface\interface_shared.py", line 453, in _deliver_record
+    handle = mailbox._deliver_record(record, interface=self)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\mailbox.py", line 455, in _deliver_record
+    interface._publish(record)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\interface\interface_sock.py", line 51, in _publish
+    self._sock_client.send_record_publish(record)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\sock_client.py", line 221, in send_record_publish
+    self.send_server_request(server_req)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\sock_client.py", line 155, in send_server_request
+    self._send_message(msg)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\sock_client.py", line 152, in _send_message
+    self._sendall_with_error_handle(header + data)
+  File "c:\Users\ddc4k\AppData\Local\Programs\Python\Python310\lib\site-packages\wandb\sdk\lib\sock_client.py", line 130, in _sendall_with_error_handle
+    sent = self._sock.send(data)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+
