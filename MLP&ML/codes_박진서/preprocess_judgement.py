@@ -60,7 +60,19 @@ def modify_judgement(labels, dataFrame, file):
     
     dataFrame.columns = [col.replace("#2", "") for col in dataFrame.columns]
 
+    #'소재'라는 문자열이 들어간 열 제거
+    #dataFrame = dataFrame.loc[:, ~dataFrame.columns.str.contains('소재')]
+    
     return dataFrame
+
+def DFtoModifiedDF(dataFrame, fileName, labels):
+    data = drop_null_judgement(dataFrame)
+    data = modify_shape_name(data)
+    data = modify_quality3(data)
+    data = modify_judgement(labels=labels, dataFrame=data, file=fileName)
+    data = data.fillna(value=0)
+    
+    return data
 
 if __name__=="__main__":
     pd.set_option('display.max_columns', None)
@@ -76,19 +88,11 @@ if __name__=="__main__":
     for index, file in enumerate(dataList):
         print(f"index: {index}, file: {file}")
         data = pd.read_csv(dataPath + "\\" + file, encoding='cp949')
-        data = drop_null_judgement(data)
-        data = modify_shape_name(data)
-        data = modify_quality3(data)
-        data = modify_judgement(labels=labels, dataFrame=data, file=file)
+        data = DFtoModifiedDF(dataFrame=data, fileName=file)
         if data.loc[:,'품질상태'].iloc[0] != 2:
             dataFrame = pd.concat([dataFrame, data], ignore_index=False)
 
-    #
-    dataFrame = dataFrame.fillna(value=0)
     print(dataFrame.isnull().sum())
-    
-    #'소재'라는 문자열이 들어간 열 제거
-    #dataFrame = dataFrame.loc[:, ~dataFrame.columns.str.contains('소재')]
     
     output_path = os.getcwd() + "\\MLP&ML\\datas"
     if os.path.exists(output_path) != True:

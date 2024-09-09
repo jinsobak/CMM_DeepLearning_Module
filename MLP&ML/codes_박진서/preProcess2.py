@@ -17,10 +17,10 @@ def extract_data_from_file(file_path, fileName):
             "품질상태": ""
     }
     feature = lines[3].split(":")[1].strip()+".txt"
-    print(feature)
-    print(fileName)
-    print(fileName == feature)
-    print(header_info['품번'])
+    #print(feature)
+    #print(fileName)
+    #print(fileName == feature)
+    #print(header_info['품번'])
     if(len(feature.split('_')) < 6):
         header_info["품질상태"] = ''
     else:
@@ -29,9 +29,9 @@ def extract_data_from_file(file_path, fileName):
     if header_info["품질상태"] == '':
         header_info["품질상태"] = "NTC"
         
-    print(header_info["품질상태"])
-    print(len(lines))
-    print("")
+    #print(header_info["품질상태"])
+    #print(len(lines))
+    #print("")
 
     data = []
     
