@@ -35,7 +35,7 @@ def prepare_data(csv_file):
     return X_train_scaled, X_test_scaled, X_val_scaled, Y_train, Y_test, Y_val, scaler, selected_features.columns
 
 # CSV 파일 경로
-csv_file = 'C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_17.csv'
+csv_file = 'C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_7.csv'
 # C:\Users\freeman\Desktop\빅브라더\MLP&ML\datas
 
 # 데이터 전처리
