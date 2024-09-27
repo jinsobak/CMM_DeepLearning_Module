@@ -39,26 +39,27 @@ def prepare_data(csv_file):
 
     return X_train_scaled, X_test_scaled, X_val_scaled, Y_train, Y_test, Y_val, scaler, selected_features.columns
 
-# CSV 파일 경로
-csv_file = 'C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_7.csv'
+def main():
+    # CSV 파일 경로
+    csv_file = 'C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_7.csv'
 
-# 데이터 전처리
-X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)
+    # 데이터 전처리
+    X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)
 
-# 특징과 레이블을 TensorFlow Dataset으로 변환
-train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)
-test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)
-val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(32)
+    # 특징과 레이블을 TensorFlow Dataset으로 변환
+    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)
+    test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)
+    val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(32)
 
-# Early Stopping 설정
-early_stopping = EarlyStopping(
+    # Early Stopping 설정
+    early_stopping = EarlyStopping(
     min_delta=0.001,  # 최소한의 변화
     patience=50,      # 몇 번 연속으로 개선이 없는지
     restore_best_weights=True  # 최상의 가중치로 복원
-)
+    )
 
-# CNN 모델 구성
-model = models.Sequential([
+    # CNN 모델 구성
+    model = models.Sequential([
     layers.Conv2D(16, (2, 1), activation='relu', input_shape=(X_train.shape[1], 1, 1)),  # 첫 번째 합성곱층
     layers.MaxPooling2D(pool_size=(2, 1)),  # 풀링층
     layers.Conv2D(32, (2, 1), activation='relu'),  # 두 번째 합성곱층
@@ -66,34 +67,39 @@ model = models.Sequential([
     layers.Flatten(),  # 1D 벡터로 변환
     layers.Dense(16, activation='relu'),  # 완전 연결층
     layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
-])
+    ])
 
-# 모델 컴파일
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    # 모델 컴파일
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-# 모델 학습
-history = model.fit(train_dataset, epochs=100, callbacks=[early_stopping], validation_data=val_dataset)
+    # 모델 학습
+    history = model.fit(train_dataset, epochs=100, callbacks=[early_stopping], validation_data=val_dataset)
 
-# 모델 평가
-loss, accuracy = model.evaluate(test_dataset)
-print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
+    # 모델 평가
+    loss, accuracy = model.evaluate(test_dataset)
+    print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
 
-# 예측 결과
-y_pred_prob = model.predict(X_test)
-y_pred = (y_pred_prob > 0.5).astype(int)
+    # 예측 결과
+    y_pred_prob = model.predict(X_test)
+    y_pred = (y_pred_prob > 0.5).astype(int)
 
-# Confusion Matrix
-cm = confusion_matrix(y_test, y_pred)
-print("Confusion Matrix:")
-print(cm)
+    # Confusion Matrix
+    cm = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix:")
+    print(cm)
 
-# 성능 지표
-acc = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
-f1 = f1_score(y_test, y_pred)
+    # 성능 지표
+    acc = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
 
-print(f'Accuracy: {acc}')
-print(f'Precision: {precision}')
-print(f'Recall: {recall}')
-print(f'F1 Score: {f1}')
+    print(f'Accuracy: {acc}')
+    print(f'Precision: {precision}')
+    print(f'Recall: {recall}')
+    print(f'F1 Score: {f1}')
+
+
+# main 함수 실행
+if __name__ == "__main__":
+    main()

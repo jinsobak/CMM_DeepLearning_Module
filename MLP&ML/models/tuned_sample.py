@@ -4,10 +4,10 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 
-# 데이터 전처리 및 준비
+# 데이터 전처리 및 준비 함수
 def prepare_data(csv_file):
     # CSV 파일을 읽어들여 DataFrame으로 변환
     all_data = pd.read_csv(csv_file, encoding='cp949')
@@ -30,67 +30,83 @@ def prepare_data(csv_file):
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
-    X_val_scaled= scaler.transform(X_val)
+    X_val_scaled = scaler.transform(X_val)
 
     return X_train_scaled, X_test_scaled, X_val_scaled, Y_train, Y_test, Y_val, scaler, selected_features.columns
 
-# CSV 파일 경로
-csv_file = 'C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_7.csv'
-# C:\Users\freeman\Desktop\빅브라더\MLP&ML\datas
+# 메인 함수
+def main():
+    # CSV 파일 경로
+    csv_file = 'C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_7.csv'
+    
+    # 데이터 전처리
+    X_train, X_test, X_val, y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)
 
-# 데이터 전처리
-X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)
+    # 특징과 레이블을 TensorFlow Dataset으로 변환
+    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)  # 배치 크기 조정
+    test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)  # 배치 크기 조정
+    val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(32)
 
-# 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
-train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)  # 배치 크기 조정
-test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)  # 배치 크기 조정
-val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(32)
+    # Early Stopping 설정
+    early_stopping = EarlyStopping(
+        min_delta=0.001,  # 최소한의 변화
+        patience=50,      # 몇 번 연속으로 개선이 없는지
+        restore_best_weights=True  # 최상의 가중치로 복원
+    )
 
-# Early Stopping 설정
-early_stopping = EarlyStopping(
-    min_delta=0.001,  # 최소한의 변화
-    patience=50,      # 몇 번 연속으로 개선이 없는지
-    restore_best_weights=True  # 최상의 가중치로 복원
-)
+    # 학습률 감소 설정
+    lr_scheduler = ReduceLROnPlateau(
+        monitor='val_loss',  # 검증 손실을 기준으로 학습률 조정
+        factor=0.5,          # 학습률 감소 비율 (예: 0.001에서 0.0005로 감소)
+        patience=10,         # 10번의 에폭 동안 성능이 향상되지 않으면 학습률 감소
+        min_lr=1e-6          # 학습률의 최솟값
+    )
 
-# 딥러닝 모델 구성
-model = models.Sequential([
-    layers.Dense(8, activation='relu', input_shape=(X_train.shape[1],)),  # 첫 번째 은닉층
-    layers.Dense(8, activation='relu'),  # 두 번째 은닉층
-    layers.Dense(8, activation='relu'),  # 세 번째 은닉층
-    layers.Dense(8, activation='relu'),   # 네 번째 은닉층
-    layers.Dense(8, activation='relu'),   # 다섯 번째 은닉층
-    layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
-])
+    # 딥러닝 모델 구성
+    model = models.Sequential([
+        layers.Dense(8, activation='relu', input_shape=(X_train.shape[1],)),  # 첫 번째 은닉층
+        layers.Dense(8, activation='relu'),  # 두 번째 은닉층
+        layers.Dense(8, activation='relu'),  # 세 번째 은닉층
+        layers.Dense(8, activation='relu'),   # 네 번째 은닉층
+        layers.Dense(8, activation='relu'),   # 다섯 번째 은닉층
+        layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
+    ])
 
-# 모델 컴파일
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    # 모델 컴파일
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-# 모델 학습
-history = model.fit(train_dataset, epochs=100, callbacks=[early_stopping], validation_data=val_dataset)
+    # 모델 학습
+    history = model.fit(
+        train_dataset, 
+        epochs=100, 
+        callbacks=[early_stopping, lr_scheduler],  # EarlyStopping과 Learning Rate Scheduler 추가
+        validation_data=val_dataset
+    )
 
-# 모델 평가
-loss, accuracy = model.evaluate(test_dataset)
-print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
+    # 모델 평가
+    loss, accuracy = model.evaluate(test_dataset)
+    print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
 
-# 예측 결과
-y_pred_prob = model.predict(X_test)
-y_pred = (y_pred_prob > 0.5).astype(int)
+    # 예측 결과
+    y_pred_prob = model.predict(X_test)
+    y_pred = (y_pred_prob > 0.5).astype(int)
 
-# Confusion Matrix
-cm = confusion_matrix(y_test, y_pred)
-print("Confusion Matrix:")
-print(cm)
+    # Confusion Matrix
+    cm = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix:")
+    print(cm)
 
-# 성능 지표
-acc = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
-f1 = f1_score(y_test, y_pred)
+    # 성능 지표
+    acc = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
 
-print(f'Accuracy: {acc}')
-print(f'Precision: {precision}')
-print(f'Recall: {recall}')
-print(f'F1 Score: {f1}')
+    print(f'Accuracy: {acc}')
+    print(f'Precision: {precision}')
+    print(f'Recall: {recall}')
+    print(f'F1 Score: {f1}')
 
-
+# main 함수 실행
+if __name__ == "__main__":
+    main()
