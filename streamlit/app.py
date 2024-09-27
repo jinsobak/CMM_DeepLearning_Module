@@ -1,4 +1,4 @@
-####  cmd에서 이렇게 넣어서 실행해야함  streamlit run c:/git_folder/CMM_DeepLearning_Module/streamlit/app.pys
+####  cmd에서 이렇게 넣어서 실행해야함  streamlit run c:/git_folder/CMM_DeepLearning_Module/streamlit/app.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 # Streamlit 앱 설정
 st.title('딥러닝 품질 상태 예측')
-st.write('CSV 파일을 업로드하여 품질 상태를 예측합니다.')
+st.write('CSV 파일을 업로드하여 품질 상태를 예측.')
 
 # 데이터 전처리 및 준비
 def prepare_data(csv_file):
@@ -147,4 +147,4 @@ if uploaded_file is not None:
 
     plot_history(history)
 else:
-    st.write("CSV 파일을 업로드해주세요.")
+    st.write("CSV 파일 업로드")
