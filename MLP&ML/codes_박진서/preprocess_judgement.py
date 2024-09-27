@@ -61,7 +61,7 @@ def modify_judgement(labels, dataFrame, file):
     dataFrame.columns = [col.replace("#2", "") for col in dataFrame.columns]
 
     #'소재'라는 문자열이 들어간 열 제거
-    #dataFrame = dataFrame.loc[:, ~dataFrame.columns.str.contains('소재')]
+    dataFrame = dataFrame.loc[:, ~dataFrame.columns.str.contains('소재')]
     
     return dataFrame
 
@@ -88,7 +88,7 @@ if __name__=="__main__":
     for index, file in enumerate(dataList):
         print(f"index: {index}, file: {file}")
         data = pd.read_csv(dataPath + "\\" + file, encoding='cp949')
-        data = DFtoModifiedDF(dataFrame=data, fileName=file)
+        data = DFtoModifiedDF(dataFrame=data, fileName=file, labels=labels)
         if data.loc[:,'품질상태'].iloc[0] != 2:
             dataFrame = pd.concat([dataFrame, data], ignore_index=False)
 
