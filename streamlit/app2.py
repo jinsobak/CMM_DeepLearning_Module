@@ -1,3 +1,4 @@
+###  cmd에서 이렇게 넣어서 실행해야함  streamlit run c:/git_folder/CMM_DeepLearning_Module/streamlit/app2.py
 import streamlit as st
 import pandas as pd
 import numpy as np
