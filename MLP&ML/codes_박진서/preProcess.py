@@ -7,7 +7,7 @@ def txtToDFPiplineOne(dataPath):
 
     dataframe = extract_data_from_file(file_path = dataPath + "\\" + txtFileList[0], fileName=txtFileList[0])
         
-    return dataframe, txtFileList[0][0:-4] + ".txt"
+    return dataframe, txtFileList[0]
 
 if __name__ == "__main__":
     dataset_path = os.getcwd() + "\\txt_datas_hd"
