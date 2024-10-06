@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 
 # 데이터 파일을 제대로 불러오기 위해 파일 경로와 인코딩을 확인합니다.
 df = pd.read_csv(
-    "C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_17.csv", encoding='cp949')
+    "C:\\Users\\ddc4k\\OneDrive\\Desktop\\빅브라더\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_17.csv", encoding='cp949')
+
 
 # 데이터의 구조를 확인하기 위해 처음 몇 줄을 출력합니다.
 print(df.head())
