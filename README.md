@@ -15,7 +15,7 @@ CMM을 통해 제품의 각종 수치를 측정 -> 측정실 작업자가 측정
 
 ### [MLP모델(MLP_Result.md)](model_results/MLP_Result.md)
 
-### [머신러닝모델(RF_Result.md)](model_results/RF_Result.md)
+### [랜덤포레스트모델(RF_Result.md)](model_results/RF_Result.md)
 
 # 각 모델 결과에 대한 시각화
 
