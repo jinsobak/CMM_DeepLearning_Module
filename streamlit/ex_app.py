@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models, callbacks
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -12,11 +13,34 @@ import sys
 import joblib
 
 # txtToDFPipline.py의 경로 추가
-sys.path.append('C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\codes_박진서')
-
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 import txtDatasToDFPipline as pipLineOne
-from EDA import PCA_visualization as pca
+
+def prepare_deepLearning_data(dataFrame):
+    all_data = dataFrame
+
+    # 특징 선택 (불필요한 열 제거 등)
+    selected_features = all_data.drop(columns=['품질상태'])  # 품질상태를 제외한 특징 선택
+
+    # 숫자 데이터만 선택
+    numeric_features = selected_features.select_dtypes(include=[np.number])
+
+    # 딥러닝의 입력 데이터와 정답 데이터 생성
+    X = numeric_features.values  # 입력 데이터
+    y = all_data['품질상태'].values  # 출력 데이터
+
+    # 테스트 데이터와 트레이닝 데이터로 분할
+    X_train, X_test_full, Y_train, Y_test_full = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_test, X_val, Y_test, Y_val = train_test_split(X_test_full, Y_test_full, test_size=0.5, random_state=42)
+
+    # 데이터 스케일링
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    X_val_scaled= scaler.transform(X_val)
+
+    return X_train_scaled, X_test_scaled, X_val_scaled, Y_train, Y_test, Y_val, scaler, selected_features.columns
 
 # 임시 디렉토리 생성 함수
 def create_temp_dir():
@@ -95,12 +119,12 @@ def display_metrics(model, X_test, y_test):
 # 모델 구성 함수
 def build_model(input_shape):
     model = models.Sequential([
-        layers.Dense(8, activation='relu', input_shape=(input_shape,)),
-        layers.Dense(8, activation='relu'),
-        layers.Dense(8, activation='relu'),
-        layers.Dense(8, activation='relu'),
-        layers.Dense(8, activation='relu'),
-        layers.Dense(1, activation='sigmoid')
+        layers.Dense(8, activation='relu', input_shape=(X_train.shape[1],)),  # 첫 번째 은닉층
+        layers.Dense(8, activation='relu'),  # 두 번째 은닉층
+        layers.Dense(8, activation='relu'),  # 세 번째 은닉층
+        layers.Dense(8, activation='relu'),   # 네 번째 은닉층
+        layers.Dense(8, activation='relu'),   # 다섯 번째 은닉층
+        layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
     ])
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     return model
@@ -120,14 +144,12 @@ if menu == "학습데이터 업로드":
 
     if uploaded_files:
         temp_dir = create_temp_dir()  # 임시 디렉토리 생성
-        #print(uploaded_files[0])
-        st.text(uploaded_files[0])
         data_frames = []
         data_frames = pipLineOne.makePreprocessedDf(txtFileList=uploaded_files)
 
-        if data_frames:
+        if data_frames is not None:
             # PCA 적용 및 학습 준비
-            num_pca_components = 7
+            num_pca_components = 17
             pca_df_target, pca_df_fileName, pca_df_datas = pipLineOne.pca.distributeDataFrame(dataFrame=data_frames)
 
             pca_scalar_model = pipLineOne.pca.performStandScalar(df_datas=pca_df_datas)
@@ -154,17 +176,27 @@ if menu == "학습데이터 업로드":
             df_pca = pipLineOne.pca.make_pca_dataFrame(data_scaled=df_scaled, data_target=pca_df_target, data_fileName=pca_df_fileName, num_components=pca_num_components, pca_model= pca_model)
 
             # 학습용 데이터와 테스트 데이터를 분리
-            X_train, X_test, y_train, y_test = train_test_split(
-                df_pca.values[:, :-1], df_pca.values[:, -1], test_size=0.2, random_state=42)
+            X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_deepLearning_data(df_pca)
+
+            # 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
+            train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)  # 배치 크기 조정
+            test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)  # 배치 크기 조정
+            val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(32)
 
             model = build_model(X_train.shape[1])
 
             # 모델 학습
-            early_stopping = callbacks.EarlyStopping(min_delta=0.001, patience=50, restore_best_weights=True)
+            # Early Stopping 설정
+            early_stopping = callbacks.EarlyStopping(
+                min_delta=0.001,  # 최소한의 변화
+                patience=50,      # 몇 번 연속으로 개선이 없는지
+                restore_best_weights=True  # 최상의 가중치로 복원
+            )
             reduce_lr = callbacks.ReduceLROnPlateau(factor=0.5, patience=10, min_lr=1e-6)
 
             with st.spinner('모델을 학습 중입니다...'):
-                history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, callbacks=[early_stopping, reduce_lr], verbose=0)
+                history = model.fit(train_dataset, epochs=100, callbacks=[early_stopping, reduce_lr], validation_data=val_dataset, verbose=0)
+                #history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, callbacks=[early_stopping, reduce_lr], verbose=0)
 
             # 학습 결과 및 성능 지표 표시
             plot_history(history)
