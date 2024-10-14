@@ -2,6 +2,8 @@ import os
 import sys
 import pandas as pd
 import joblib
+import streamlit as st
+import tempfile
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
@@ -9,10 +11,15 @@ from preProcess2 import extract_data_from_file
 from preprocess_judgement import DFtoModifiedDF
 from EDA import PCA_visualization as pca
 
-def CheckFileNum(dataPath, fileName):
-    dataFrame1 = extract_data_from_file(file_path = dataPath + "\\" + fileName, fileName=fileName)
+def CheckFileNum(file):
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as temp_file:
+        temp_file.write(file.read())
+        temp_file_path = temp_file.name  # 임시 파일 경로
+        
+    dataFrame1 = extract_data_from_file(file_path = temp_file_path, fileName=file.name)
     #품번검사 후 품번이 맞지 않을 시 넘기기
     if dataFrame1['품번'][0] != '45926-4G100':
+        st.write(f"파일 이름: {file.name} 품번: {dataFrame1['품번'][0]}")
         # print(f"파일 이름: {fileName}")
         # print(f"필요품번: 45926-4G100")
         # print(f"품번: {dataFrame1['품번'][0]}")
@@ -32,9 +39,10 @@ def makePreprocessedDf(txtFileList):
     dataFrame = pd.DataFrame()
     
     for index, item in enumerate(txtFileList):
-        dataFrame1 = CheckFileNum(dataPath=dataPath, fileName=item)
+        #st.write(item)
+        dataFrame1 = CheckFileNum(file=item)
         if dataFrame1 is not None:
-            dataFrame2 = ModifyEarlyPreprocessedDF(dataFrame=dataFrame1, fileName=item)
+            dataFrame2 = ModifyEarlyPreprocessedDF(dataFrame=dataFrame1, fileName=item.name)
             if dataFrame2.loc[:,'품질상태'].iloc[0] != 2:
                 dataFrame = pd.concat([dataFrame, dataFrame2], ignore_index=False)
     dataFrameNaFilled = dataFrame.fillna(value=0)            

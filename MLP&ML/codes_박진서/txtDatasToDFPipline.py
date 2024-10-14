@@ -10,7 +10,7 @@ from preprocess_judgement import DFtoModifiedDF
 from EDA import PCA_visualization as pca
 
 def CheckFileNum(dataPath, fileName):
-    dataFrame1 = extract_data_from_file(file_path = dataPath + "\\" + fileName, fileName=fileName)
+    dataFrame1 = extract_data_from_file(file_path = dataPath, fileName=fileName)
     #품번검사 후 품번이 맞지 않을 시 넘기기
     if dataFrame1['품번'][0] != '45926-4G100':
         # print(f"파일 이름: {fileName}")
@@ -32,7 +32,7 @@ def makePreprocessedDf(txtFileList):
     dataFrame = pd.DataFrame()
     
     for index, item in enumerate(txtFileList):
-        dataFrame1 = CheckFileNum(dataPath=dataPath, fileName=item)
+        dataFrame1 = CheckFileNum(dataPath=item, fileName=item.name)
         if dataFrame1 is not None:
             dataFrame2 = ModifyEarlyPreprocessedDF(dataFrame=dataFrame1, fileName=item)
             if dataFrame2.loc[:,'품질상태'].iloc[0] != 2:
