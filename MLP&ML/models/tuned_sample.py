@@ -8,7 +8,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 
 # 데이터 전처리 및 준비
-def prepare_data(csv_file):
+def prepare_deepLearning_data(csv_file):
     # CSV 파일을 읽어들여 DataFrame으로 변환
     all_data = pd.read_csv(csv_file, encoding='cp949')
 
@@ -38,7 +38,7 @@ def prepare_data(csv_file):
 csv_file = 'C:\\git_folder\\CMM_DeepLearning_Module\\MLP&ML\\datas\\data_jd_hd_delete_material_no_NTC_pca_component_7.csv'
 
 # 데이터 전처리
-X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_data(csv_file)
+X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_deepLearning_data(csv_file)
 
 # 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
 train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)  # 배치 크기 조정
