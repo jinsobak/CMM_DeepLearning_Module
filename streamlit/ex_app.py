@@ -125,20 +125,20 @@ def display_metrics(model, X_test, y_test):
 def objective(trial, X_train, X_val, y_train, Y_val):
     # 하이퍼파라미터 샘플링
     num_layers = trial.suggest_int('num_layers', 1, 5)  # 은닉층 수
-    units = trial.suggest_int('units', 8, 128, log=True)  # 유닛 수
+    units = trial.suggest_int('units', 8, 64, log=True)  # 유닛 수
     learning_rate = trial.suggest_float('learning_rate', 1e-5, 1e-2, log=True)  # 학습률
     dropout_rate = trial.suggest_float('dropout_rate', 0.0, 0.5)  # 드롭아웃 비율
     batch_size = trial.suggest_categorical('batch_size', [16, 32, 64, 128])  # 배치 사이즈
-    epochs = trial.suggest_int('epochs', 10, 100)  # 에포크 수
+    epochs = 100
 
     # 모델 구성
     model = models.Sequential()
     model.add(layers.Dense(units, activation='relu', input_shape=(X_train.shape[1],)))
-    model.add(layers.Dropout(dropout_rate))
+    #model.add(layers.Dropout(dropout_rate))
     
     for _ in range(num_layers - 1):
         model.add(layers.Dense(units, activation='relu'))
-        model.add(layers.Dropout(dropout_rate))
+        #model.add(layers.Dropout(dropout_rate))
 
     model.add(layers.Dense(1, activation='sigmoid'))
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate), 
@@ -155,7 +155,7 @@ def objective(trial, X_train, X_val, y_train, Y_val):
     model.fit(train_dataset, epochs=epochs, validation_data=val_dataset, callbacks=[early_stopping], verbose=0)
 
     val_loss, val_accuracy = model.evaluate(val_dataset, verbose=0)
-    return val_loss
+    return val_accuracy
 
 
 # Streamlit 앱 설정
@@ -170,35 +170,53 @@ if menu == "학습데이터 업로드":
     st.title("학습데이터 업로드")
     uploaded_files = st.file_uploader(
         "여러 txt 파일을 선택하세요", type=["txt"], accept_multiple_files=True)
-
+    
     make_standardScalar_model_button = st.checkbox("정규화 모델을 저장하시겠습니까?")
     make_pca_model_button = st.checkbox("PCA 모델을 저장하시겠습니까?")
+    hyperParamOptimizeNum = st.number_input("하이퍼파라미터 최적화 횟수를 입력하세요", min_value=1)
     
-    if uploaded_files:
+    do_learning_button = st.button("학습 시작")
+    
+    data_modified = False
+    if uploaded_files and do_learning_button:
         temp_dir = create_temp_dir()  # 임시 디렉토리 생성
-        data_frames = txtFilesPipLine.makePreprocessedDf(txtFileList=uploaded_files)
+        with st.spinner("데이터를 변환하는 중입니다..."):
+            data_frames = txtFilesPipLine.makePreprocessedDf(txtFileList=uploaded_files)
 
-        if data_frames is not None:
-            # PCA 적용 및 학습 준비
-            num_pca_components = 7
-            pca_df_target, pca_df_fileName, pca_df_datas = pca.distributeDataFrame(dataFrame=data_frames)
+            if data_frames is not None:
+                # PCA 적용 및 학습 준비
+                st.session_state.pca_num_components = 7
+                pca_df_target, pca_df_fileName, pca_df_datas = pca.distributeDataFrame(dataFrame=data_frames)
 
-            scaler_model = pca.Make_StandScalar_model(df_datas=pca_df_datas)
-            df_scaled = scaler_model.transform(pca_df_datas)
-            df_scaled = pd.DataFrame(df_scaled, columns=pca_df_datas.columns)
+                scalar_model = pca.Make_StandScalar_model(df_datas=pca_df_datas)
+                if make_standardScalar_model_button:
+                    scalar_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Scalar"
+                    scalar_model_name = "scalar_model"
+                    pca.save_model(scalar_model, scalar_model_save_path, scalar_model_name)
+                            
+                df_scaled = scalar_model.transform(pca_df_datas)
+                df_scaled = pd.DataFrame(df_scaled, columns=pca_df_datas.columns)
 
-            df_pca = pca.make_pca_dataFrame(data_scaled=df_scaled, data_target=pca_df_target, 
-                                            data_fileName=pca_df_fileName, num_components=num_pca_components, 
-                                            pca_model=pca.Make_pca_model(df_scaled, num_components=num_pca_components))
+                pca_model = pca.Make_pca_model(data_scaled = df_scaled, num_components = st.session_state.pca_num_components) 
+                if make_pca_model_button:   
+                    pca_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Pca"
+                    pca_model_name = f"pca_model" 
+                    pca.save_model(pca_model, pca_model_save_path, pca_model_name)
+                
+                df_pca = pca.make_pca_dataFrame(data_scaled=df_scaled, data_target=pca_df_target, 
+                                                data_fileName=pca_df_fileName, num_components=st.session_state.pca_num_components, 
+                                                pca_model=pca_model)
+                
+                X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_deepLearning_data(df_pca)
 
-            X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_deepLearning_data(df_pca)
-
+                data_modified = True
+                st.write("데이터 변환이 완료되었습니다.\n")
+            
+        if data_modified:
             # Optuna를 사용한 하이퍼파라미터 튜닝
-            st.write("하이퍼파라미터 튜닝을 진행 중입니다...")
-
-            with st.spinner('하이퍼파라미터를 탐색하는 중입니다...'):
-                study = optuna.create_study(direction='minimize')
-                study.optimize(lambda trial: objective(trial, X_train, X_val, y_train, Y_val), n_trials=10)
+            with st.spinner('최적의 하이퍼파라미터를 탐색하는 중입니다...'):
+                study = optuna.create_study(direction='maximize')
+                study.optimize(lambda trial: objective(trial, X_train, X_val, y_train, Y_val), n_trials=hyperParamOptimizeNum)
 
             best_trial = study.best_trial
             st.write(f"최적의 하이퍼파라미터: {best_trial.params}")
@@ -209,7 +227,6 @@ if menu == "학습데이터 업로드":
             best_learning_rate = best_trial.params['learning_rate']
             best_dropout_rate = best_trial.params['dropout_rate']
             best_batch_size = best_trial.params['batch_size']
-            best_epochs = best_trial.params['epochs']
 
             model = models.Sequential()
             model.add(layers.Dense(best_units, activation='relu', input_shape=(X_train.shape[1],)))
@@ -221,16 +238,19 @@ if menu == "학습데이터 업로드":
 
             model.add(layers.Dense(1, activation='sigmoid'))
             model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=best_learning_rate), 
-                          loss='binary_crossentropy', metrics=['accuracy'])
+                        loss='binary_crossentropy', metrics=['accuracy'])
 
             early_stopping = callbacks.EarlyStopping(min_delta=0.001, patience=10, restore_best_weights=True)
 
             train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(best_batch_size)
             test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(best_batch_size)
+            val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(best_batch_size)
 
             with st.spinner('최적의 하이퍼파라미터로 학습 중입니다...'):
-                history = model.fit(train_dataset, epochs=best_epochs, validation_data=test_dataset, callbacks=[early_stopping], verbose=0)
+                history = model.fit(train_dataset, epochs=100, validation_data=val_dataset, callbacks=[early_stopping], verbose=0)
 
+            st.session_state.model = model
+            
             # 학습 결과 및 성능 지표 표시
             plot_history(history)
             display_metrics(model, X_test, y_test)
@@ -244,7 +264,9 @@ if menu == "예측데이터 업로드":
     new_file = st.file_uploader(
         "예측할 txt 파일을 업로드하세요", type=["txt"])
 
-    if new_file is not None:
+    do_predict_button = st.button("예측 시작")
+    
+    if new_file is not None and do_predict_button:
         temp_dir = create_temp_dir()  # 임시 디렉토리 생성
         txt_file_path = os.path.join(temp_dir, new_file.name)
         with open(txt_file_path, 'wb') as f:
@@ -275,5 +297,8 @@ if menu == "예측데이터 업로드":
             y_new_pred_prob = st.session_state.model.predict(df_predict)
             y_new_pred = (y_new_pred_prob > 0.5).astype(int).flatten()
 
-            st.write(f"**정상일 확률:** {y_new_pred_prob}")
-            st.write(f"**예측 결과:** {y_new_pred[0]}")
+            st.write(f"해당 부품이 정상일 확률: **{y_new_pred_prob[0][0]:.3f}**")
+            if y_new_pred == 1:
+                st.write(f"예측 결과: 해당 부품은 **정상**입니다.")
+            else:
+                st.write(f"예측 결과: 해당 부품은 **불량**입니다.")
