@@ -19,7 +19,7 @@ def CheckFileNum(file):
     dataFrame1 = extract_data_from_file(file_path = temp_file_path, fileName=file.name)
     #품번검사 후 품번이 맞지 않을 시 넘기기
     if dataFrame1['품번'][0] != '45926-4G100':
-        st.write(f"파일 이름: {file.name} 품번: {dataFrame1['품번'][0]}")
+        #st.write(f"파일 이름: {file.name} 품번: {dataFrame1['품번'][0]}")
         # print(f"파일 이름: {fileName}")
         # print(f"필요품번: 45926-4G100")
         # print(f"품번: {dataFrame1['품번'][0]}")
