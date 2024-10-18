@@ -15,7 +15,9 @@ import joblib
 # txtToDFPipline.py의 경로 추가
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
-import txtDatasToDFPipline as pipLineOne
+import txtDatasToDFPipline as txtFilesPipLine
+import txtToDFPipline as txtOnepipLine
+import PCA_visualization as pca
 
 def prepare_deepLearning_data(dataFrame):
     all_data = dataFrame
@@ -145,14 +147,14 @@ if menu == "학습데이터 업로드":
     if uploaded_files:
         temp_dir = create_temp_dir()  # 임시 디렉토리 생성
         data_frames = []
-        data_frames = pipLineOne.makePreprocessedDf(txtFileList=uploaded_files)
+        data_frames = txtFilesPipLine.makePreprocessedDf(txtFileList=uploaded_files)
 
         if data_frames is not None:
             # PCA 적용 및 학습 준비
             num_pca_components = 17
-            pca_df_target, pca_df_fileName, pca_df_datas = pipLineOne.pca.distributeDataFrame(dataFrame=data_frames)
+            pca_df_target, pca_df_fileName, pca_df_datas = pca.distributeDataFrame(dataFrame=data_frames)
 
-            pca_scalar_model = pipLineOne.pca.performStandScalar(df_datas=pca_df_datas)
+            pca_scalar_model = pca.Make_StandScalar_model(df_datas=pca_df_datas)
             df_scaled = pca_scalar_model.transform(pca_df_datas)
             df_scaled = pd.DataFrame(df_scaled, columns=pca_df_datas.columns)
 
@@ -162,18 +164,21 @@ if menu == "학습데이터 업로드":
             if be_scalar_model_save == 'y':
                 scalar_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Scalar"
                 scalar_model_name = "scalar_model"
-                pipLineOne.pca.save_model(pca_scalar_model, scalar_model_save_path, scalar_model_name)
+                pca.save_model(pca_scalar_model, scalar_model_save_path, scalar_model_name)
 
             pca_num_components = 7
-    
-            pca_model = pipLineOne.pca.make_pca_model(data_scaled = df_scaled, num_components = pca_num_components)
+            st.session_state.pca_num_components = pca_num_components
+
+            pca_model = pca.Make_pca_model(data_scaled = df_scaled, num_components = pca_num_components)
             
             if be_pcaModel_save == 'y':
                 pca_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Pca"
-                pca_model_name = f"pca_model_{pca_num_components}" 
-                pipLineOne.pca.save_model(pca_model, pca_model_save_path, pca_model_name)
+                pca_model_name = f"pca_model" 
+                pca.save_model(pca_model, pca_model_save_path, pca_model_name)
             
-            df_pca = pipLineOne.pca.make_pca_dataFrame(data_scaled=df_scaled, data_target=pca_df_target, data_fileName=pca_df_fileName, num_components=pca_num_components, pca_model= pca_model)
+            df_pca = pca.make_pca_dataFrame(data_scaled=df_scaled, data_target=pca_df_target, 
+                                            data_fileName=pca_df_fileName, num_components=pca_num_components, 
+                                            pca_model= pca_model)
 
             # 학습용 데이터와 테스트 데이터를 분리
             X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_deepLearning_data(df_pca)
@@ -218,16 +223,29 @@ if menu == "예측데이터 업로드":
             f.write(new_file.getbuffer())
         
         # 데이터 전처리
-        dataFrame2 = prepare_data(txt_file_path, new_file.name)
+        dataFrame_predict = txtOnepipLine.MakePreprocessedDf(new_file)
 
-        if dataFrame2 is not None:
-            pca_df_target, pca_df_fileName, pca_df_datas = pipLineOne.pca.distributeDataFrame(dataFrame=dataFrame2)
-            pca_scalar_model = joblib.load("C:\\Users\\freeman\\Desktop\\빅브라더\\MLP&ML\\Skl_models\\Scalar\\scalar_model.pkl")
+        if dataFrame_predict is not None:
+            pca_df_target, pca_df_fileName, pca_df_datas = pca.distributeDataFrame(dataFrame=dataFrame_predict)
+            pca_scalar_model = joblib.load(os.getcwd() +"\\MLP&ML\\Skl_models\\Scalar\\scalar_model.pkl")
             pca_df_scaled = pca_scalar_model.transform(pca_df_datas)
+
+            #저장되어 있는 PCA모델을 통해 정규화된 예측용 데이터프레임에 PCA기법 수행
+            pca_model = joblib.load(os.getcwd() + f"\\MLP&ML\\Skl_models\\Pca\\pca_model.pkl")
+            pca_dataFrame = pca.make_pca_dataFrame(data_scaled = pca_df_scaled, data_target = pca_df_target, 
+                                                   data_fileName = pca_df_fileName, num_components = st.session_state.pca_num_components,
+                                                   pca_model = pca_model)
+
+            df_predict = pca_dataFrame.drop(columns=['품질상태'])
 
             # 예측 수행
             model = st.session_state.model
-            y_new_pred_prob = model.predict(pca_df_scaled)
+
+            print(st.session_state.model.summary())
+            print(df_predict.shape)
+
+            y_new_pred_prob = st.session_state.model.predict(df_predict)
             y_new_pred = (y_new_pred_prob > 0.5).astype(int).flatten()
 
-            st.write(f"**예측 결과:** {y_new_pred}")
+            st.write(f"**정상일 확률:** {y_new_pred_prob}")
+            st.write(f"**예측 결과:** {y_new_pred[0]}")

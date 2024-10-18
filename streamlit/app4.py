@@ -80,7 +80,7 @@ def display_metrics(model, X_test, y_test):
     st.write(f'**Recall:** {recall:.4f}')
     st.write(f'**F1 Score:** {f1:.4f}')
 
-# 메뉴 1: CSV 파일을 업로드하여 품질 상태를 예측
+# 메뉴 1: TXT 파일들을 업로드하여 품질 상태를 예측
 if menu == "학습데이터 업로드":
     st.title("학습데이터 업로드")
     uploaded_file = st.file_uploader("(학습용)", type=["csv"], key="first_file")

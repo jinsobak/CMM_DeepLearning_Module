@@ -114,7 +114,7 @@ if __name__=="__main__":
     
     if be_pcaModel_save == 'y':
         pca_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Pca"
-        pca_model_name = f"pca_model_{num_components}" 
+        pca_model_name = f"pca_model" 
         save_model(pca_model, pca_model_save_path, pca_model_name)
     
     if be_makeFile == 'y':
