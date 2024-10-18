@@ -144,6 +144,9 @@ if menu == "학습데이터 업로드":
     uploaded_files = st.file_uploader(
         "여러 txt 파일을 선택하세요", type=["txt"], accept_multiple_files=True)
 
+    make_standardScalar_model_button = st.checkbox("정규화 모델을 저장하시겠습니까?")
+    make_pca_model_button = st.checkbox("PCA 모델을 저장하시겠습니까?")
+    
     if uploaded_files:
         temp_dir = create_temp_dir()  # 임시 디렉토리 생성
         data_frames = []
@@ -157,11 +160,8 @@ if menu == "학습데이터 업로드":
             pca_scalar_model = pca.Make_StandScalar_model(df_datas=pca_df_datas)
             df_scaled = pca_scalar_model.transform(pca_df_datas)
             df_scaled = pd.DataFrame(df_scaled, columns=pca_df_datas.columns)
-
-            be_scalar_model_save = input("StandardScalar 모델을 저장하시겠습니까? ")
-            be_pcaModel_save = input("pca 모델을 저장하시겠습니까? ")
             
-            if be_scalar_model_save == 'y':
+            if make_standardScalar_model_button:
                 scalar_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Scalar"
                 scalar_model_name = "scalar_model"
                 pca.save_model(pca_scalar_model, scalar_model_save_path, scalar_model_name)
@@ -171,7 +171,7 @@ if menu == "학습데이터 업로드":
 
             pca_model = pca.Make_pca_model(data_scaled = df_scaled, num_components = pca_num_components)
             
-            if be_pcaModel_save == 'y':
+            if make_pca_model_button:
                 pca_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Pca"
                 pca_model_name = f"pca_model" 
                 pca.save_model(pca_model, pca_model_save_path, pca_model_name)
@@ -202,12 +202,14 @@ if menu == "학습데이터 업로드":
             with st.spinner('모델을 학습 중입니다...'):
                 history = model.fit(train_dataset, epochs=100, callbacks=[early_stopping, reduce_lr], validation_data=val_dataset, verbose=0)
                 #history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, callbacks=[early_stopping, reduce_lr], verbose=0)
-
-            # 학습 결과 및 성능 지표 표시
-            plot_history(history)
-            display_metrics(model, X_test, y_test)
+                
             st.session_state.model = model
             st.session_state.history = history
+            
+            # 학습 결과 및 성능 지표 표시
+            plot_history(st.session_state.history)
+            display_metrics(st.session_state.model, X_test, y_test)
+
             st.success("학습 완료.")
 
 # 메뉴 2: 예측 데이터 업로드
