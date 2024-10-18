@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import os
 import sys
 import joblib
+import optuna
 
 # txtToDFPipline.py의 경로 추가
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -77,6 +78,8 @@ def plot_history(history):
         ax.set_title('Training and Validation Loss')
         st.pyplot(fig)
 
+
+
 # 성능 지표 출력 함수
 def display_metrics(model, X_test, y_test):
     loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
@@ -118,18 +121,42 @@ def display_metrics(model, X_test, y_test):
         st.metric("Recall", f"{recall*100:.2f}%")
         st.metric("F1 Score", f"{f1*100:.2f}%")
 
-# 모델 구성 함수
-def build_model(input_shape):
-    model = models.Sequential([
-        layers.Dense(8, activation='relu', input_shape=(X_train.shape[1],)),  # 첫 번째 은닉층
-        layers.Dense(8, activation='relu'),  # 두 번째 은닉층
-        layers.Dense(8, activation='relu'),  # 세 번째 은닉층
-        layers.Dense(8, activation='relu'),   # 네 번째 은닉층
-        layers.Dense(8, activation='relu'),   # 다섯 번째 은닉층
-        layers.Dense(1, activation='sigmoid')  # 출력층 (이진 분류)
-    ])
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-    return model
+# Optuna의 objective 함수 정의
+def objective(trial, X_train, X_val, y_train, Y_val):
+    # 하이퍼파라미터 샘플링
+    num_layers = trial.suggest_int('num_layers', 1, 5)  # 은닉층 수
+    units = trial.suggest_int('units', 8, 128, log=True)  # 유닛 수
+    learning_rate = trial.suggest_float('learning_rate', 1e-5, 1e-2, log=True)  # 학습률
+    dropout_rate = trial.suggest_float('dropout_rate', 0.0, 0.5)  # 드롭아웃 비율
+    batch_size = trial.suggest_categorical('batch_size', [16, 32, 64, 128])  # 배치 사이즈
+    epochs = trial.suggest_int('epochs', 10, 100)  # 에포크 수
+
+    # 모델 구성
+    model = models.Sequential()
+    model.add(layers.Dense(units, activation='relu', input_shape=(X_train.shape[1],)))
+    model.add(layers.Dropout(dropout_rate))
+    
+    for _ in range(num_layers - 1):
+        model.add(layers.Dense(units, activation='relu'))
+        model.add(layers.Dropout(dropout_rate))
+
+    model.add(layers.Dense(1, activation='sigmoid'))
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate), 
+                  loss='binary_crossentropy', metrics=['accuracy'])
+
+    # EarlyStopping 설정
+    early_stopping = callbacks.EarlyStopping(
+        min_delta=0.001, patience=10, restore_best_weights=True)
+
+    train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(batch_size)
+    val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(batch_size)
+
+    # 모델 학습
+    model.fit(train_dataset, epochs=epochs, validation_data=val_dataset, callbacks=[early_stopping], verbose=0)
+
+    val_loss, val_accuracy = model.evaluate(val_dataset, verbose=0)
+    return val_loss
+
 
 # Streamlit 앱 설정
 st.set_page_config(page_title="딥러닝 품질 상태 예측", layout="wide")
@@ -149,68 +176,67 @@ if menu == "학습데이터 업로드":
     
     if uploaded_files:
         temp_dir = create_temp_dir()  # 임시 디렉토리 생성
-        data_frames = []
         data_frames = txtFilesPipLine.makePreprocessedDf(txtFileList=uploaded_files)
 
         if data_frames is not None:
             # PCA 적용 및 학습 준비
-            num_pca_components = 17
+            num_pca_components = 7
             pca_df_target, pca_df_fileName, pca_df_datas = pca.distributeDataFrame(dataFrame=data_frames)
 
-            pca_scalar_model = pca.Make_StandScalar_model(df_datas=pca_df_datas)
-            df_scaled = pca_scalar_model.transform(pca_df_datas)
+            scaler_model = pca.Make_StandScalar_model(df_datas=pca_df_datas)
+            df_scaled = scaler_model.transform(pca_df_datas)
             df_scaled = pd.DataFrame(df_scaled, columns=pca_df_datas.columns)
-            
-            if make_standardScalar_model_button:
-                scalar_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Scalar"
-                scalar_model_name = "scalar_model"
-                pca.save_model(pca_scalar_model, scalar_model_save_path, scalar_model_name)
 
-            pca_num_components = 7
-            st.session_state.pca_num_components = pca_num_components
-
-            pca_model = pca.Make_pca_model(data_scaled = df_scaled, num_components = pca_num_components)
-            
-            if make_pca_model_button:
-                pca_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Pca"
-                pca_model_name = f"pca_model" 
-                pca.save_model(pca_model, pca_model_save_path, pca_model_name)
-            
             df_pca = pca.make_pca_dataFrame(data_scaled=df_scaled, data_target=pca_df_target, 
-                                            data_fileName=pca_df_fileName, num_components=pca_num_components, 
-                                            pca_model= pca_model)
+                                            data_fileName=pca_df_fileName, num_components=num_pca_components, 
+                                            pca_model=pca.Make_pca_model(df_scaled, num_components=num_pca_components))
 
-            # 학습용 데이터와 테스트 데이터를 분리
             X_train, X_test, X_val , y_train, y_test, Y_val, scaler, feature_columns = prepare_deepLearning_data(df_pca)
 
-            # 특징과 레이블을 TensorFlow Dataset으로 변환합니다.
-            train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(32)  # 배치 크기 조정
-            test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(32)  # 배치 크기 조정
-            val_dataset = tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(32)
+            # Optuna를 사용한 하이퍼파라미터 튜닝
+            st.write("하이퍼파라미터 튜닝을 진행 중입니다...")
 
-            model = build_model(X_train.shape[1])
+            with st.spinner('하이퍼파라미터를 탐색하는 중입니다...'):
+                study = optuna.create_study(direction='minimize')
+                study.optimize(lambda trial: objective(trial, X_train, X_val, y_train, Y_val), n_trials=10)
 
-            # 모델 학습
-            # Early Stopping 설정
-            early_stopping = callbacks.EarlyStopping(
-                min_delta=0.001,  # 최소한의 변화
-                patience=50,      # 몇 번 연속으로 개선이 없는지
-                restore_best_weights=True  # 최상의 가중치로 복원
-            )
-            reduce_lr = callbacks.ReduceLROnPlateau(factor=0.5, patience=10, min_lr=1e-6)
+            best_trial = study.best_trial
+            st.write(f"최적의 하이퍼파라미터: {best_trial.params}")
 
-            with st.spinner('모델을 학습 중입니다...'):
-                history = model.fit(train_dataset, epochs=100, callbacks=[early_stopping, reduce_lr], validation_data=val_dataset, verbose=0)
-                #history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, callbacks=[early_stopping, reduce_lr], verbose=0)
-                
-            st.session_state.model = model
-            st.session_state.history = history
-            
+            # 최적의 하이퍼파라미터로 학습
+            best_units = best_trial.params['units']
+            best_layers = best_trial.params['num_layers']
+            best_learning_rate = best_trial.params['learning_rate']
+            best_dropout_rate = best_trial.params['dropout_rate']
+            best_batch_size = best_trial.params['batch_size']
+            best_epochs = best_trial.params['epochs']
+
+            model = models.Sequential()
+            model.add(layers.Dense(best_units, activation='relu', input_shape=(X_train.shape[1],)))
+            model.add(layers.Dropout(best_dropout_rate))
+
+            for _ in range(best_layers - 1):
+                model.add(layers.Dense(best_units, activation='relu'))
+                model.add(layers.Dropout(best_dropout_rate))
+
+            model.add(layers.Dense(1, activation='sigmoid'))
+            model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=best_learning_rate), 
+                          loss='binary_crossentropy', metrics=['accuracy'])
+
+            early_stopping = callbacks.EarlyStopping(min_delta=0.001, patience=10, restore_best_weights=True)
+
+            train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).shuffle(len(X_train)).batch(best_batch_size)
+            test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(best_batch_size)
+
+            with st.spinner('최적의 하이퍼파라미터로 학습 중입니다...'):
+                history = model.fit(train_dataset, epochs=best_epochs, validation_data=test_dataset, callbacks=[early_stopping], verbose=0)
+
             # 학습 결과 및 성능 지표 표시
-            plot_history(st.session_state.history)
-            display_metrics(st.session_state.model, X_test, y_test)
+            plot_history(history)
+            display_metrics(model, X_test, y_test)
 
             st.success("학습 완료.")
+
 
 # 메뉴 2: 예측 데이터 업로드
 if menu == "예측데이터 업로드":
