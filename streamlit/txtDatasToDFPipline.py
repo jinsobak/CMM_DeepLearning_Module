@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from preProcess2 import extract_data_from_file
 from preprocess_judgement import DFtoModifiedDF
-from EDA import PCA_visualization as pca
+import PCA_visualization as pca
 
 def CheckFileNum(file):
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as temp_file:
@@ -45,7 +45,7 @@ def makePreprocessedDf(txtFileList):
             dataFrame2 = ModifyEarlyPreprocessedDF(dataFrame=dataFrame1, fileName=item.name)
             if dataFrame2.loc[:,'품질상태'].iloc[0] != 2:
                 dataFrame = pd.concat([dataFrame, dataFrame2], ignore_index=False)
-    dataFrameNaFilled = dataFrame.fillna(value=0)            
+    dataFrameNaFilled = dataFrame.fillna(value=0)
     dataFrameResetIndex = dataFrameNaFilled.reset_index()
     dataFrameResetIndex.drop(columns=['index'], inplace=True)
     
@@ -73,7 +73,7 @@ if __name__ == "__main__":
         os.mkdir(output_path)
     pca_df_datas.to_csv(path_or_buf=output_path + '\\' + "pca_datas_test.csv", encoding='cp949')
     
-    pca_scalar_model = pca.performStandScalar(df_datas=pca_df_datas)
+    pca_scalar_model = pca.Make_StandScalar_model(df_datas=pca_df_datas)
     df_scaled = pca_scalar_model.transform(pca_df_datas)
     df_scaled = pd.DataFrame(df_scaled, columns=pca_df_datas.columns)
     
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     
     pca_num_components = 7
     
-    pca_model = pca.make_pca_model(data_scaled = df_scaled, num_components = pca_num_components)
+    pca_model = pca.Make_pca_model(data_scaled = df_scaled, num_components = pca_num_components)
     
     if be_pcaModel_save == 'y':
         pca_model_save_path = os.getcwd() + "\\MLP&ML\\Skl_models\\Pca"
