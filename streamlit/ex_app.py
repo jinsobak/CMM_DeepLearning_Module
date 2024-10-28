@@ -12,6 +12,7 @@ import os
 import sys
 import joblib
 import optuna
+import tempfile
 
 # txtToDFPipline.py의 경로 추가
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -171,6 +172,14 @@ def learning_button_click():
     print("learningButtonClicked")
     st.session_state.piplineStep = 1
 
+def SavePredictSessionStates():
+    if 'predictStep' not in st.session_state:
+        st.session_state.predictStep = 0
+        
+def Predict_button_click():
+    print("predictButtonClicked")
+    st.session_state.predictStep = 1
+
 # Streamlit 앱 설정
 st.set_page_config(page_title="딥러닝 품질 상태 예측", layout="wide")
 
@@ -294,75 +303,86 @@ if menu == "학습데이터 업로드":
 if menu == "예측데이터 업로드":
     st.title("예측데이터 업로드")
 
-    be_mulitple_datas = st.radio("여러 데이터 한번에 예측 여부: ", ('여러 데이터 한번에 예측', '하나의 데이터만 예측'))
-
-    if be_mulitple_datas == '여러 데이터 한번에 예측':
-        new_file = st.file_uploader(
-            "예측할 txt 파일을 업로드하세요", type=["txt"], accept_multiple_files=True)
-    elif be_mulitple_datas == '하나의 데이터만 예측':
-        new_file = st.file_uploader(
-            "예측할 txt 파일을 업로드하세요", type=["txt"])
-
-    do_predict_button = st.button("예측 시작")
+    SavePredictSessionStates()
     
-    if new_file is not None and do_predict_button:
+    new_file = st.file_uploader(
+        "예측할 txt 파일을 업로드하세요", type=["txt"], accept_multiple_files=True)
+    
+    do_predict_button = st.button("예측 시작", on_click=Predict_button_click)
+    
+    if new_file is not None:
+        #print(st.session_state.predictStep)
         temp_dir = create_temp_dir()  # 임시 디렉토리 생성
-        # txt_file_path = os.path.join(temp_dir, new_file.name)
-        # with open(txt_file_path, 'wb') as f:
-        #     f.write(new_file.getbuffer())
         
-        # 데이터 전처리
-        dataFrame_predict = txtFilesPipLine.makePreprocessedDf(new_file)
+        if st.session_state.predictStep == 1:
+            # 데이터 전처리
+            dataFrame_predict = txtFilesPipLine.makePreprocessedDf(new_file)
 
-        if dataFrame_predict is not None:
-            pca_df_target, pca_df_fileName, pca_df_datas = pca.distributeDataFrame(dataFrame=dataFrame_predict)
+            if dataFrame_predict is not None:
+                pca_df_target, pca_df_fileName, pca_df_datas = pca.distributeDataFrame(dataFrame=dataFrame_predict)
 
-            #저장되어 있는 정규화 모델을 통해 정규화 실시
-            pca_scalar_model = joblib.load(os.getcwd() +"\\MLP&ML\\Skl_models\\Scalar\\scalar_model.pkl")
-            pca_df_scaled = pca_scalar_model.transform(pca_df_datas)
+                #저장되어 있는 정규화 모델을 통해 정규화 실시
+                pca_scalar_model = joblib.load(os.getcwd() +"\\MLP&ML\\Skl_models\\Scalar\\scalar_model.pkl")
+                pca_df_scaled = pca_scalar_model.transform(pca_df_datas)
 
-            #저장되어 있는 PCA모델을 통해 정규화된 예측용 데이터프레임에 PCA기법 수행
-            pca_model = joblib.load(os.getcwd() + f"\\MLP&ML\\Skl_models\\Pca\\pca_model.pkl")
-            pca_dataFrame = pca.make_pca_dataFrame(data_scaled = pca_df_scaled, data_target = pca_df_target, 
-                                                   data_fileName = pca_df_fileName, pca_model = pca_model)
+                #저장되어 있는 PCA모델을 통해 정규화된 예측용 데이터프레임에 PCA기법 수행
+                pca_model = joblib.load(os.getcwd() + f"\\MLP&ML\\Skl_models\\Pca\\pca_model.pkl")
+                pca_dataFrame = pca.make_pca_dataFrame(data_scaled = pca_df_scaled, data_target = pca_df_target, 
+                                                    data_fileName = pca_df_fileName, pca_model = pca_model)
 
-            df_predict = pca_dataFrame.drop(columns=['품질상태'])
+                df_predict = pca_dataFrame.drop(columns=['품질상태'])
 
-            # 예측 수행
-            #model = st.session_state.model
-            model = models.load_model(os.getcwd() + "\\DeepLearningModels\\MLPModel.keras")
+                # 예측 수행
+                model = models.load_model(os.getcwd() + "\\DeepLearningModels\\MLPModel.keras")
 
-            y_new_pred_prob = model.predict(df_predict)
-            # y_new_pred = (y_new_pred_prob > 0.5).astype(int).flatten()
+                y_new_pred_prob = model.predict(df_predict)
 
-            # st.write(f"해당 부품이 정상일 확률: **{y_new_pred_prob[0][0]:.3f}**")
-            # if y_new_pred == 1:
-            #     st.write(f"예측 결과: 해당 부품은 **정상**입니다.")
-            # else:
-            #     st.write(f"예측 결과: 해당 부품은 **불량**입니다.")
+                zipped = zip(pca_df_fileName, y_new_pred_prob)
+                y_new_pred = (y_new_pred_prob > 0.5).astype(int).flatten()
+                
+                df_result = pd.DataFrame()
+                for fileName, predict in zipped:
+                    verdict = lambda x : "**정상**" if x >= 0.5 else "**불량**"
+                    df_verdict = pd.DataFrame([[fileName, predict, verdict(predict)]], columns = ["파일명", "예측확률", "예측결과"])
+                    print(df_verdict)
+                    df_result = pd.concat([df_result, df_verdict], ignore_index = False)
+                    #st.write(f"부품이 정상일 확률: %.3f 판정: %s" %(predict, verdict(predict)))
+                df_result.reset_index(inplace=True)
+                df_result.drop(columns=['index'], inplace=True)
+                
+                st.session_state.df_result = df_result
+                st.session_state.predictStep = 2
 
-            zipped = zip(pca_df_fileName, y_new_pred_prob)
-            y_new_pred = (y_new_pred_prob > 0.5).astype(int).flatten()
-            prd_ok = 0
-            prd_ng = 0
+        if st.session_state.predictStep == 2:
+            df_result = st.session_state.df_result
             
-            df_result = pd.DataFrame()
-            for fileName, predict in zipped:
-                verdict = lambda x : "**정상**" if x >= 0.5 else "**불량**"
-                df_verdict = pd.DataFrame([[fileName, predict, verdict(predict)]], columns = ["파일명", "예측확률", "예측결과"])
-                print(df_verdict)
-                df_result = pd.concat([df_result, df_verdict], ignore_index = False)
-                #st.write(f"부품이 정상일 확률: %.3f 판정: %s" %(predict, verdict(predict)))
-            df_result.reset_index(inplace=True)
-            df_result.drop(columns=['index'], inplace=True)
-
             col1, col2 = st.columns(2)
-
+            
             with col1:
-                st.dataframe(df_result, 
+                predicted_datas = st.dataframe(df_result, 
                             column_config={
                                 "파일명": st.column_config.Column(
                                     width="large"
                                 )
                             }, 
-                            selection_mode="single-row")
+                            selection_mode="single-row",
+                            on_select="rerun")
+            
+            selected_row = predicted_datas.selection.rows
+            
+            with col2:
+                if len(selected_row) > 0:
+                    file = new_file[selected_row[0]]
+                    
+                    with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as temp_file:
+                        temp_file.write(file.read())
+                        temp_file_path = temp_file.name  # 임시 파일 경로
+                    
+                    df_arrangedTxtData = txtOnepipLine.extract_data_from_file(file_path = temp_file_path, fileName=file.name)
+                    
+                    st.write(f"파일명: {df_result.iloc[selected_row].loc[:, '파일명'].to_string().split(' ')[4]}")
+                    st.write(f"품명: {df_arrangedTxtData['품명'][0]}")
+                    st.write(f"측정 시간: {df_arrangedTxtData['측정시간'][0]}")
+                    st.write(f"측정자: {df_arrangedTxtData['측정자'][0]}")
+                    st.dataframe(df_arrangedTxtData.loc[:, '번호':])
+                
