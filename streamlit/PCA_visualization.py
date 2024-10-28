@@ -25,10 +25,10 @@ def Make_pca_model(data_scaled, num_components):
     
     return pca_model
 
-def make_pca_dataFrame(data_scaled, data_target, data_fileName, num_components, pca_model = None):
+def make_pca_dataFrame(data_scaled, data_target, data_fileName, pca_model = None):
     #PCA진행
     pca = pca_model.transform(data_scaled)
-    df_pca_column_names = [f'component_{i}' for i in range(0, num_components)]
+    df_pca_column_names = [f'component_{i}' for i in range(0, pca.shape[1])]
     df_pca = pd.DataFrame(pca, columns = df_pca_column_names)
     df_pca['품질상태'] = data_target
     df_pca['파일명'] = data_fileName
