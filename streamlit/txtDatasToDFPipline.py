@@ -26,7 +26,7 @@ def CheckFileNum(file):
         # print("품번이 맞지 않습니다.")
         return None
     return dataFrame1
-    
+
 def ModifyEarlyPreprocessedDF(dataFrame, fileName):
     labels = ['----|', '---|', '--|', '-|', '>|<', '|+', '|++', '|+++', '|++++']
 
@@ -43,6 +43,7 @@ def makePreprocessedDf(txtFileList):
         dataFrame1 = CheckFileNum(file=item)
         if dataFrame1 is not None:
             dataFrame2 = ModifyEarlyPreprocessedDF(dataFrame=dataFrame1, fileName=item.name)
+            dataFrame2['번호'] = index
             if dataFrame2.loc[:,'품질상태'].iloc[0] != 2:
                 dataFrame = pd.concat([dataFrame, dataFrame2], ignore_index=False)
     dataFrameNaFilled = dataFrame.fillna(value=0)
@@ -50,6 +51,22 @@ def makePreprocessedDf(txtFileList):
     dataFrameResetIndex.drop(columns=['index'], inplace=True)
     
     return dataFrameResetIndex
+    
+def makePreprocessedDfForPredict(txtFileList):
+    dataFrame = pd.DataFrame()
+    
+    for index, item in enumerate(txtFileList):
+        #st.write(item)
+        dataFrame1 = CheckFileNum(file=item)
+        if dataFrame1 is not None:
+            dataFrame2 = ModifyEarlyPreprocessedDF(dataFrame=dataFrame1, fileName=item.name)
+            dataFrame2['번호'] = index
+            dataFrame = pd.concat([dataFrame, dataFrame2], ignore_index=False)
+    dataFrameNaFilled = dataFrame.fillna(value=0)
+    dataFrameResetIndex = dataFrameNaFilled.reset_index()
+    dataFrameResetIndex.drop(columns=['index'], inplace=True)
+    
+    return dataFrameResetIndex    
     
 if __name__ == "__main__":
     #txt 파일들의 경로
