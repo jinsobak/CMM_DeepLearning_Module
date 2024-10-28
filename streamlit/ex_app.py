@@ -232,7 +232,7 @@ if menu == "학습데이터 업로드":
                         pca.save_model(pca_model, pca_model_save_path, pca_model_name)
                     
                     st.session_state.df_pca = pca.make_pca_dataFrame(data_scaled=df_scaled, data_target=pca_df_target, 
-                                                    data_fileName=pca_df_fileName, num_components=st.session_state.pca_num_components, 
+                                                    data_fileName=pca_df_fileName,
                                                     pca_model=pca_model)
 
                     st.session_state.piplineStep = 2
