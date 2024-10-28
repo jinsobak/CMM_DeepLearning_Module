@@ -316,8 +316,10 @@ if menu == "예측데이터 업로드":
         
         if st.session_state.predictStep == 1:
             # 데이터 전처리
-            dataFrame_predict = txtFilesPipLine.makePreprocessedDf(new_file)
-
+            dataFrame_predict = txtFilesPipLine.makePreprocessedDfForPredict(new_file)
+            dataFrame_number = dataFrame_predict['번호']
+            st.dataframe(dataFrame_number)
+            dataFrame_predict = dataFrame_predict.drop(columns=['번호'])
             if dataFrame_predict is not None:
                 pca_df_target, pca_df_fileName, pca_df_datas = pca.distributeDataFrame(dataFrame=dataFrame_predict)
 
@@ -349,6 +351,7 @@ if menu == "예측데이터 업로드":
                     #st.write(f"부품이 정상일 확률: %.3f 판정: %s" %(predict, verdict(predict)))
                 df_result.reset_index(inplace=True)
                 df_result.drop(columns=['index'], inplace=True)
+                df_result = pd.concat([df_result, dataFrame_number], axis=1)
                 
                 st.session_state.df_result = df_result
                 st.session_state.predictStep = 2
@@ -372,7 +375,7 @@ if menu == "예측데이터 업로드":
             
             with col2:
                 if len(selected_row) > 0:
-                    file = new_file[selected_row[0]]
+                    file = new_file[df_result.iloc[selected_row[0]]['번호']]
                     
                     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as temp_file:
                         temp_file.write(file.read())
